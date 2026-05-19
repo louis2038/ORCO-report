@@ -1,7 +1,7 @@
 // #import "@local/tool-box-louis:1.0.0": book, corollary, definition, lemma, proof, proposition, remark
 #import "template.typ": book, corollary, definition, lemma, proof, proposition, remark
 
-#import "@preview/physica:0.9.8": *
+// s#import "@preview/physica:0.9.8": *
 
 #import "title.typ": title-page-report
 
@@ -228,12 +228,6 @@ This report uses this standard idea in a discrete form. Instead of starting from
 
 In the following, we will use the same notation that in @Abramsky_Brandenburger_2011. We will add our theory on the top of this formalisze and we will discuss how consider discrete contextuality with this notation.
 
-Before introducing the sheaf-theoretic notation, we fix the dynamic viewpoint used later in the report. An observable event is the smallest visible record produced by an experiment. In a one-party situation it can be written $e = (a | x)$, where $x$ is an input or measurement choice and $a$ is the corresponding output. In a bipartite Bell situation it is written $e = (a b | x y)$. If $Sigma$ denotes the finite alphabet of such events, a trace is a finite word $tau = e_1 dots e_n in Sigma^*$. The trace is more informative than the final table, because it still remembers order and repetition.
-
-The passage from traces to count vectors is given by the Parikh map $Psi : Sigma^* arrow.r NN^Sigma$, where $Psi(tau)_e = |{ i | e_i = e }|$. This compression forgets the order of events and keeps only their multiplicities. The count tables studied below should be understood as such compressed observations. Thus the basic chain is $text("hidden run") arrow.r text("trace") arrow.r text("count vector")$.
-
-A hidden dynamic explanation may be represented by a finite automaton $A = (Sigma,S,s_0,delta,E)$, where $S$ is a finite set of hidden states, $s_0 in S$ is an initial state, $delta subset.eq S times S$ is a transition relation, and $E : S arrow.r 2^Sigma$ specifies which visible events are compatible with each hidden state. A trace $tau = e_1 dots e_n$ is explainable by $A$ if there are states $s_1,dots,s_n$ with $(s_0,s_1) in delta$, $(s_(i-1),s_i) in delta$ for $2 <= i <= n$, and $e_i in E(s_i)$ for all $i$. A count vector $N in NN^Sigma$ is explainable by $A$ when $N in Psi(L(A))$. Since $L(A)$ is regular, Parikh's theorem implies that $Psi(L(A))$ is semilinear. This is the bridge between hidden dynamics and the affine semigroups introduced below.
-
 The goal is to model the experiment itself, rather than only the final
 probability distribution. We consider one or several laboratories
 equipped with measurement devices. Let $X$ denote the set of available
@@ -269,6 +263,8 @@ In this sense, the scenario specifies not only which outcomes may be
 observed, but also which observations can coexist in a single
 experimental run.
 
+The technical point of this section is the following. A context table is only local data. A genuine empirical model is obtained only when all context tables can be compared on overlaps and when they have a common level. Therefore we must distinguish three objects: a local counting $N_C$, a family $N = (N_C)_(C in cal(M))$, and the corresponding vector $N in NN^V$ indexed by visible contextual events. The notation is intentionally the same, but the type of the object changes with the context.
+
 
 #let Set = $sans("Set")$
 #definition[
@@ -278,20 +274,21 @@ experimental run.
   If $U ⊆ V ⊆ X$, the restriction map $cal(E)(V) -> cal(E)(U)$ sends a joint assignment $s : V -> O$  to its restriction $s|_U : U -> O$.
   Thus, an element $s in cal(E)(U)$ is a local assignment of outcomes to all measurements in $U$. In particular, for a *context* $C in cal(M)$, an element $s in cal(E)(C)$ represents a possible joint outcome for the measurements in $C$.
   \
-  We also define the distribution functor $𝒟_R : "Set" -> "Set"$ by
+  Let $R$ be a semiring. For any finite set $Y$, we define
   $
-    𝒟_R (S) = { d : S -> R | "supp"(d) "is finite" }
+    𝒟_R (Y) := { d : Y -> R | "supp"(d) "is finite" }.
   $
-  where $R$ is a semiring, typically $R = RR_+$
-  for probabilistic models or $R = NN$ for counting models.
+  Here $Y$ is only the set on which the distribution is defined; it is not a level. The support is $"supp"(d) = { y in Y | d(y) != 0 }$. In this report, $R = RR_(>=0)$ gives ordinary non-negative weights, while $R = NN$ gives integer countings.
   \
-  For a fixed total weight $t in R$, we write
+  The *total weight* of $d$ is $|d| := sum_(y in Y) d(y)$. For a fixed level $t in R$, we write
   $
-    𝒟^t_R (S) = { d in 𝒟_R (S) | sum_(s in S) d(s) = t }.
+    𝒟_R^t (Y) := { d in 𝒟_R (Y) | |d| = t }.
   $
-  In the usual probabilistic case, one takes $t = 1$.
-  In our integer-counting setting, one takes $R = NN$ and keeps $t in NN$
-  as the level, i.e. the number of counted trials.
+  We also use the graded object
+  $
+    𝒟_R^∙(Y) := union_(t in R) 𝒟_R^t (Y).
+  $
+  Thus the superscript is the level: $𝒟_R^t$ means exact level $t$, while $𝒟_R^∙$ means that the level is not fixed. The argument $Y$ is the underlying set of outcomes. In the probabilistic case one usually fixes $R = RR_(>=0)$ and $t = 1$. In the discrete setting one takes $R = NN$ and keeps $t in NN$ as the number of counted trials.
 ]
 
 
@@ -301,44 +298,127 @@ The event presheaf $ℰ$ describes which local outcome assignments are available
 $
   (𝒟_R ∘ ℰ)(U) = 𝒟_R (ℰ(U)).
 $
-An element $d_U ∈ 𝒟_R (ℰ(U))$ assigns a weight to each local section $s : U → O$.
+An element $d_U in 𝒟_R (ℰ(U))$ assigns a weight to each local section $s : U -> O$. In particular, a local counting over a context $C$ is an element $N_C in 𝒟_NN^∙ (ℰ(C))$. This means only that $N_C$ has some integer level. If $N_C in 𝒟_NN^t (ℰ(C))$, then the context $C$ has exact level $t$.
 
-In the usual probabilistic case, one takes $R = ℝ_(≥0)$ and restricts to total weight $1$. In the discrete experimental case considered here, one takes $R = ℕ$ and keeps the total weight as an integer level $t ∈ ℕ$, interpreted as the number of counted trials.
+In the usual probabilistic case, one takes $R = RR_(>=0)$ and restricts each context to level $1$. In the discrete experimental case considered here, one takes $R = NN$ and keeps the integer level explicit. This matters because a raw family $(N_C)_(C in cal(M))$ may initially have different local levels $t_C := |N_C|$. Such a raw family is not yet a discrete empirical model of level $t$ unless all $t_C$ are equal to the same integer $t$.
 
-In all the following we will suppose that $ℳ$ is *measurement cover*, that means $∪_(C ∈ ℳ) C = X$ and $ℳ$ is anti-chain, i.e. $∀ C, C′ ∈ M, C ⊆ C′ ⇒ C = C′$ (any context is strictly contain in a other one).
+In all the following we suppose that $cal(M)$ is a *measurement cover*, meaning $union_(C in cal(M)) C = X$, and that it is an antichain, meaning $C subset.eq D$ with $C,D in cal(M)$ implies $C = D$.
 
 #definition[
-  An *empirical model* over $⟨X, ℳ, O⟩$ is a family $e = (e_C)_(C ∈ ℳ)$ with $e_C ∈ 𝒟_R (ℰ(C))$, satisfying compatibility on overlaps. Namely, for all contexts $C,D ∈ ℳ$, the restrictions of $e_C$ and $e_D$ to $C ∩ D$ must agree:
+  An *empirical model* over $chevron.l X, cal(M), O chevron.r$ is a family $e = (e_C)_(C in cal(M))$ with $e_C in 𝒟_R (ℰ(C))$, satisfying compatibility on overlaps. Namely, for all contexts $C,D in cal(M)$, the restrictions of $e_C$ and $e_D$ to $C inter D$ must agree:
   $
-    e_C|_(C ∩ D) = e_D|_(C ∩ D).
+    e_C|_(C inter D) = e_D|_(C inter D).
   $
 ]<def:empirical_model>
 In the probabilistic case, this says that the marginal distributions coincide. In the counting case, it says that the marginal count vectors coincide exactly.
 
 #definition[
-  A *discrete empirical model of level* $t$ is a family $N = (N_C)_(C ∈ ℳ)$ with $N_C ∈ 𝒟_ℕ^t ℰ(C)$ such that, for all $C,D ∈ ℳ$,
+  A *discrete empirical model of level* $t$ is a family $N = (N_C)_(C in cal(M))$ with $N_C in 𝒟_NN^t (ℰ(C))$ such that, for all $C,D in cal(M)$,
   $
-    N_C|_(C ∩ D) = N_D|_(C ∩ D).
+    N_C|_(C inter D) = N_D|_(C inter D).
   $
 ]<def:discrete_model>
 
-Equivalently, one may encode the same data by a contextual hypergraph. Its vertices are the primitive observational events $(C,s)$, where $C ∈ ℳ$ and $s ∈ ℰ(C)$. Its hyperedges encode the normalization and marginal-compatibility constraints.
+The order of the conditions is important. First, every local table must have the same level $t$, i.e. $|N_C| = t$ for all $C$. Second, after this common level has been fixed, the restrictions to overlaps must agree. If the levels are not equal, then the family may still define normalized probabilities $p_C := N_C /(|N_C|)$ context by context, but it is not an integer empirical model of common level. In that normalized situation, compatibility would be a condition on the $p_C$, not on the raw integer counts $N_C$.
 
-#definition[
-  Let define the hypergraph $H := (V,E)$ associate with $⟨X,ℳ,O⟩$ like $V := {(C,s) | C ∈ ℳ "and" s ∈ ℰ(C)}$ and $E := {e ∋ (C,s) | C ∈ ℳ "and" s ∈ ℰ(C)}$
+Equivalently, if $u in ℰ(C inter D)$, the compatibility equation is
+$
+  sum_(s in ℰ(C), s|_(C inter D) = u) N_C (s)
+  =
+  sum_(r in ℰ(D), r|_(C inter D) = u) N_D (r).
+$
+We write this family of linear equations compactly as $delta N = 0$.
+
+The vector notation is obtained by separating the contexts in a disjoint union.
+
+#definition(name: "Visible event space", id: "def:visible-event-space")[
+  The *visible event space* is
+  $
+    V := ∐_(C in cal(M)) ℰ(C)
+    = { (C,s) | C in cal(M) " and " s in ℰ(C) }.
+  $
+  An element $(C,s) in V$ records two pieces of data: the context $C$ that was measured, and the local outcome $s : C -> O$ that was observed. Giving a family $(N_C)_(C in cal(M))$ is the same thing as giving a vector $N in NN^V$, by the rule
+  $
+    N(C,s) := N_C (s).
+  $
 ]
 
-If $V$ is the set of vertices, then a discrete model define previously by $N = (N_C)_(C ∈ ℳ)$ with $N_C ∈ 𝒟_ℕ^t ℰ(C)$ can be view as a vector $N ∈ ℕ^V$. We can also view the discrete empirical model of level $t$ by a vector $N ∈ ℕ^V$ satisfying $A N = t 𝟙$ with $A$ the incidence matrix of this hypergraph.
+#definition(name: "Level map", id: "def:level-map")[
+  The *context hypergraph* is $H_cal(M) = (V,E_cal(M))$, where
+  $
+    E_cal(M) = { e_C | C in cal(M) }
+    quad "and" quad
+    e_C := { (C,s) | s in ℰ(C) }.
+  $
+  Let $A_cal(M)$ be its incidence matrix. For $N in NN^V$, the $C$-th component of $A_cal(M) N$ is
+  $
+    (A_cal(M)N)_C = sum_(s in ℰ(C)) N(C,s) = |N_C|.
+  $
+  Thus $A_cal(M)N = t 𝟙$ means only that every context table has the same level $t$. This is a normalization condition. It is not yet a compatibility condition.
+]
+
+#definition(name: "Gluing operator", id: "def:gluing-operator")[
+  The *gluing operator* $delta$ measures whether two context tables agree on their common part. For two contexts $C,D in cal(M)$ and for $u in ℰ(C inter D)$, its component is
+  $
+    (delta N)_(C,D,u)
+    :=
+    sum_(s in ℰ(C), s|_(C inter D) = u) N(C,s)
+    -
+    sum_(r in ℰ(D), r|_(C inter D) = u) N(D,r).
+  $
+  The equation $delta N = 0$ means that the two marginal countings on $C inter D$ are equal for every overlap and every local assignment $u$.
+]
+
+These two maps have different roles. The equation $A_cal(M)N = t 𝟙$ fixes the common number of counted runs in each context. The equation $delta N = 0$ says that these equal-level tables can be glued on overlaps.
+
+#definition(name: "Compatible counting semigroup", id: "def:compatible-counting-semigroup")[
+  The semigroup of compatible integer empirical models is
+  $
+    𝒮 := { (N,t) in NN^V times NN | A_cal(M) N = t 𝟙 " and " delta N = 0 }.
+  $
+  The first coordinate $N$ is the vector of observed counts. The second coordinate $t$ is the common level of all context tables. For a fixed level $t$, we write
+  $
+    𝒮_t := { N in NN^V | (N,t) in 𝒮 }.
+  $
+]
+
+#proposition(name: [Meaning of the slice $𝒮_t$], id: "prop:slice-compatible-models")[
+  A vector $N in NN^V$ belongs to $𝒮_t$ if and only if the associated family $(N_C)_(C in cal(M))$ is a discrete empirical model of level $t$.
+]
+
+#proof[
+  By the definition of $A_cal(M)$, the equation $A_cal(M)N = t 𝟙$ is equivalent to $|N_C| = t$ for every context $C$. By the definition of $delta$, the equation $delta N = 0$ is equivalent to equality of the marginal countings on every overlap $C inter D$. These are exactly the two conditions in the definition of a discrete empirical model of level $t$.
+]
 
 #remark[
-  The fact that the same constant $t$ appears on every hyperedge is essential: it means that all local pieces are normalized at the same integer level and can therefore be regarded as parts of one coherent empirical object.
+  The fact that the same constant $t$ appears for every context is essential. It says that all local pieces are normalized at the same integer level and can therefore be regarded as parts of one coherent empirical object.
 ]
 
-The link between the hypergraph formalism and the Sheaf-theory is describe in #todo[paper].
-Thus the relevant discrete object is the affine semigroup
+If $D$ denotes the matrix of the gluing operator $delta$, the two families of constraints can be assembled in one block system:
 $
-  𝒮(A) := { (N,t) ∈ ℕ^V × ℕ ∣ A N = t 𝟙 }.
+  A_cal(M) N = t 𝟙
+  quad "and" quad
+  D N = 0.
 $
+Equivalently,
+$
+  A_("aug") N = (t 𝟙, 0)
+  quad "with" quad
+  A_("aug") := mat(A_cal(M); D).
+$
+Here $A_("aug")$ is not only the incidence matrix of the context hypergraph. Its rows also contain the compatibility equations. If one treats $t$ as an additional variable, the same constraints become the homogeneous system
+$
+  mat(A_cal(M), -𝟙; D, 0) vec(N, t) = 0.
+$
+This is the precise meaning of the augmented-matrix notation.
+
+#proposition(name: "Compatibility fixes the level on connected covers", id: "prop:compatibility-fixes-level")[
+  Suppose that the intersection graph of the contexts is connected, where $C$ is adjacent to $D$ when $C inter D != emptyset$. If $N = (N_C)_(C in cal(M))$ is compatible, i.e. $delta N = 0$, then all local levels $|N_C|$ are equal. Hence a compatible family in $∏_(C in cal(M)) 𝒟_NN^∙ (ℰ(C))$ automatically belongs to $∏_(C in cal(M)) 𝒟_NN^t (ℰ(C))$ for a unique $t$.
+]
+
+#proof[
+  If $C inter D != emptyset$ and $delta N = 0$, then the marginals of $N_C$ and $N_D$ on $C inter D$ are equal. Marginalization preserves total weight, so the total weight of $N_C$ equals the total weight of $N_D$. Connectedness propagates this equality to every context.
+]
 
 === Example: non-signaling as hypergraph compatibility
 
@@ -360,19 +440,19 @@ $
   quad
   ∑_a N(a b ∣ 0y) = ∑_a N(a b ∣ 1y).
 $
-The contextual hypergraph packages the context normalizations and these non-signaling marginal constraints into one linear equation $A N = t 𝟙$.
+Equivalently, the context normalizations give $A_cal(M) N = t 𝟙$, while the non-signaling marginal constraints give $delta N = 0$. If these two families of equations are assembled into one augmented matrix $A_("aug") = mat(A_cal(M); D)$, where $D$ is the matrix of $delta$, the same condition is $A_("aug") N = (t 𝟙,0)$. The zero part is important: compatibility equations are homogeneous, while normalization equations have level $t$.
 
 === From convex mixtures to Hilbert bases
 
 This discrete framework differs from the standard probabilistic one. In the usual convex setting, if $e$ and $e'$ are empirical models, then every convex combination $r e + (1-r)e'$ with $r ∈ [0,1]$ is again an empirical model. The geometry is therefore convex.
 
-In our setting, this operation is not primitive. An arbitrary real coefficient $r$ does not preserve integer counts. Instead, the natural operation is addition: if $(m,t)$ and $(m',t')$ belong to $𝒮(A)$, then
+In our setting, this operation is not primitive. An arbitrary real coefficient $r$ does not preserve integer counts. Instead, the natural operation is addition: if $(N,t)$ and $(N',t')$ belong to $𝒮$, then
 $
-  (m,t) + (m',t') = (m+m', t+t')
+  (N,t) + (N',t') = (N+N', t+t')
 $
-also belongs to $𝒮(A)$. Hence the appropriate algebraic object is not first a convex set, but an affine semigroup.
+also belongs to $𝒮$. Hence the appropriate algebraic object is not first a convex set, but an affine semigroup.
 
-The analogue of a convex decomposition is therefore a Hilbert-basis decomposition. The Hilbert basis $ℋ(A)$ of $𝒮(A)$ is the finite set of irreducible elements of the semigroup. Its elements are the elementary compatible counting models that cannot be decomposed into smaller compatible counting models. Thus, instead of asking whether a model is a convex mixture of deterministic models, we ask which Hilbert generators are required to build it as an integer sum.
+The analogue of a convex decomposition is therefore a Hilbert-basis decomposition. The Hilbert basis $ℋ(𝒮)$ of $𝒮$ is the finite set of irreducible elements of the semigroup. Its elements are the elementary compatible counting models that cannot be decomposed into smaller compatible counting models. Thus, instead of asking whether a model is a convex mixture of deterministic models, we ask which Hilbert generators are required to build it as an integer sum.
 
 === Discrete noncontextuality and strong contextuality
 
@@ -392,7 +472,32 @@ $
 $
 Here $V = { (C,s) ∣ C ∈ 𝓜, s ∈ 𝓔(C) }$ is the set of contextual events. Thus $d_g$ places one unit of mass on exactly one event in each context: the event selected by restricting the same global assignment $g$ to that context.
 
-Equivalently, $d_g$ is the empirical model produced by the deterministic hidden state $g$. It satisfies the compatibility constraints automatically, because all its local pieces come from one and the same global assignment. In incidence form, if $A$ is the contextual incidence matrix, then $A d_g = 𝟙$.
+Equivalently, $d_g$ is the empirical model produced by the deterministic hidden state $g$. It satisfies the compatibility constraints automatically, because all its local pieces come from one and the same global assignment. In incidence form, $A_cal(M) d_g = 𝟙$ and $delta d_g = 0$; with the augmented convention, this is $A_("aug") d_g = (𝟙,0)$.
+
+More generally, an arbitrary integer counting of global hidden assignments is an element
+$
+  c in 𝒟_NN^∙ (ℰ(X)).
+$
+Here $c(g)$ counts how many times the global assignment $g : X -> O$ is used. Such a global counting produces a contextual-event counting by the linear map
+$
+  Phi(c) := sum_(g in ℰ(X)) c(+g) d_g in NN^V.
+$
+If $|c| = t$, then $Phi(c)$ has common level $t$ and is compatible. Thus $Phi$ maps global hidden countings into the empirical semigroup $𝒮$.
+
+Indeed, fix a context $C$. Since each deterministic vector $d_g$ puts exactly one unit on the event $(C,g|_C)$ and zero on the other events of the same context, we have
+$
+  sum_(s in ℰ(C)) Phi(c)(C,s)
+  = sum_(s in ℰ(C)) sum_(g in ℰ(X)) c(g) d_g (C,s)+
+  = sum_(g in ℰ(X)) c(g)
+  = |c| = t.
+$
+So every context has the same level $t$. Compatibility is also automatic. If $C,D in cal(M)$ and $u in ℰ(C inter D)$, then
+$
+  sum_(s|_(C inter D)=u) Phi(c)(C,s)
+  = sum_(g: g|_(C inter D)=u) c(g)
+  = sum_(r|_(C inter D)=u) Phi(c)(D,r).
+$
+Both sides count exactly the same global assignments: those whose restriction to the overlap $C inter D$ is $u$. Hence $delta Phi(c)=0$.
 
 A discrete empirical model $N ∈ ℕ^V$ is *noncontextual* if it can be written as an integer sum of deterministic global sections. That is, there exist coefficients ${c_g}_(g ∈ ℰ(X)) ∈ ℕ$ such that
 $
@@ -405,6 +510,28 @@ This is the discrete analogue of the usual hidden-variable decomposition. In the
 If such a decomposition exists, then the apparent contextual data can be explained by a classical hidden-variable mechanism: each run secretly chooses a global assignment $g$, and the context merely reveals the part $g|_C$ corresponding to the measurements actually performed.
 
 If no such decomposition exists, the model is contextual in the discrete sense. It is compatible as a counting model, because it satisfies the common-level constraints, but it cannot be reconstructed as a sum of predetermined global assignments.
+
+In the notation above, this says simply that the noncontextual integer models are the image
+$
+  𝒮_("nc") := Phi(𝒟_NN^∙ (ℰ(X))) subset.eq 𝒮.
+$
+This notation is useful because it separates two questions. The semigroup $𝒮$ contains all compatible integer empirical models. The subsemigroup $𝒮_("nc")$ contains only those compatible models that can be generated from global deterministic assignments. Thus $𝒮_("nc")$ is the integer analogue of the classical or local polytope, while $𝒮$ is the integer analogue of the compatible, or no-signaling, object.
+
+#proposition[
+  The semigroup $𝒮_("nc")$ is generated by the deterministic vectors $(d_g,1)$ with $g in ℰ(X)$.
+]
+
+#proof[
+  By definition, every element of $𝒟_NN^∙(ℰ(X))$ is a finite counting $c : ℰ(X) -> NN$. Hence
+  $
+    Phi(c) = sum_(g in ℰ(X)) c(g) d_g.
+  $
+  Therefore every element of $𝒮_("nc")$ is an integer sum of deterministic vectors. Conversely, every integer sum of deterministic vectors is obtained by taking $c(g)$ equal to the multiplicity of $d_g$ in the sum. Thus these vectors generate $𝒮_("nc")$.
+]
+
+In the generic case, the Hilbert basis of $𝒮_("nc")$ is obtained from these deterministic generators after removing duplicates, because two distinct global assignments may induce the same contextual vector if the measurement cover does not separate them. In the usual separated scenarios, and in particular in CHSH, the deterministic vectors are distinct and irreducible; then the Hilbert basis of $𝒮_("nc")$ is exactly $ℋ_("nc") = { (d_g,1) | g in ℰ(X) }$.
+
+Therefore contextuality is a property of a compatible counting $N in 𝒮$: it means $N in.not 𝒮_("nc")$. The condition $N in 𝒮$ alone is not contextuality; it is only compatibility, or no-signaling in Bell scenarios.
 
 The support version gives the analogue of strong contextuality. For each context $C$, define
 $
@@ -423,32 +550,72 @@ $
 $
 This means that every possible predetermined global assignment is ruled out by at least one context. No matter how one tries to assign outcomes to all measurements in advance, some chosen context would force an event that is absent from the observed support.
 
+Thus the strongly contextual part of the discrete semigroup is the support-defined subset
+$
+  𝒮_("sc") := { (N,t) in 𝒮 | forall g in ℰ(X), "supp"(d_g) ⊄ "supp"(N) }.
+$
+Equivalently, if $ℋ_("loc") := { (d_g,1) | g in ℰ(X) }$ denotes the deterministic local part of the Hilbert basis, then $(N,t) in 𝒮_("sc")$ exactly when the support of $N$ contains the support of no generator in $ℋ_("loc")$. This is often the most convenient formulation in the counting model: once the Hilbert basis of $𝒮$ is known, the classical obstructions are visible directly at the level of generator supports.
+
+It is important not to confuse this with membership in the no-signaling semigroup. If $𝒮_("ns")$ denotes the compatible semigroup $𝒮$ in a Bell scenario, then strong contextuality is not equivalent to $N in 𝒮_("ns")$. The implication only goes one way: a strongly contextual model must first be compatible, hence it belongs to $𝒮_("ns")$. The converse is false, because every deterministic vector $d_g$ belongs to $𝒮_("ns")$ but is not strongly contextual; its own global section $g$ is compatible with its support. The correct statement is
+$
+  N " is strongly contextual" quad <==> quad N in 𝒮_("sc") subset.eq 𝒮_("ns").
+$
+
 Thus we have three distinct levels:
 
-- *compatibility* or *non-signaling*: the local count tables agree on overlaps, or equivalently satisfy a common-constant equation such as $A N = t 𝟙$;
+- *compatibility* or *non-signaling*: the local count tables have a common level and agree on overlaps, equivalently $A_cal(M) N = t 𝟙$ and $delta N = 0$;
 - *noncontextuality*: the compatible model decomposes as an integer sum of deterministic global sections;
 - *strong contextuality*: not even one deterministic global section is compatible with the support of the model.
 
-In the shifted convention $N = 𝟙 + m$, the support condition should usually be applied to the excess part $m$, not to $N$ itself. Indeed, if $N$ contains the uniform background $𝟙$, then every event has positive count and $"supp"(N)$ is automatically full. In that convention, the strong contextuality condition should be written as
+== Small results on the discrete CHSH semigroup #todo[A travailler]
+
+We now record the elementary consequences of the previous definitions for the CHSH scenario. In this subsection, $N$ denotes the counting vector. The entries of $N$ are the integer variables that we study.
+
+For a context $C in cal(M)$ and a local section $s in ℰ(C)$, the coordinate $N(C,s)$ may also be written $N(s | C)$. In the Bell notation this becomes $N(a b | x y)$: conditionally on the chosen questions $(x,y)$, one counts the observed answers $(a,b)$.
+
+In CHSH the vertex set is $V = { (a b | x y) | a,b,x,y in {0,1} }$, hence $|V| = 16$. The contextual hypergraph has $12$ hyperedges: four context-normalization edges and eight non-signaling marginal edges. Each edge has size $4$, and each vertex belongs to exactly $3$ edges. If $A$ is the corresponding incidence matrix, then the discrete non-signaling equation is
 $
-  ∀ g ∈ 𝓔(X), quad "supp"(d_g) ⊄ "supp"(m).
+  A N = t 𝟙.
 $
 
-== Small results on the discrete CHSH semigroup
+This is the same object as the non-signaling polytope, but seen before normalization. Indeed, if
+$
+  G_("NS")(A) := { p in RR_(>=0)^V | A p = 𝟙 } = P(A),
+$
+then the equation $A N = t 𝟙$ is equivalent, for $t > 0$, to $p := N/t in G_("NS")(A)$. Conversely, any $p in G_("NS")(A)$ such that $t p in ZZ^V$ gives an integer model $N := t p$. Thus
+$
+  { N in NN^V | A N = t 𝟙 }
+  = t G_("NS")(A) inter ZZ^V.
+$
+The semigroup $𝒮_("ns")(A)$ is therefore the semigroup of integer points in the cone over $G_("NS")(A)$:
+$
+  𝒮_("ns")(A)
+  := { (N,t) in NN^V times NN | A N = t 𝟙 }
+  = { (N,t) | N in t G_("NS")(A) inter ZZ^V }.
+$
+The polytope $G_("NS")(A)$ is the normalized slice $t=1$ of this cone, while the discrete models at level $t$ are the integer points in the dilated slice $t G_("NS")(A)$.
 
-We now record the elementary consequences of the previous definitions for the CHSH scenario. This subsection deliberately keeps only the semigroup, Hilbert-basis, and Ehrhart-counting facts; no distance-to-model or norm-based construction is used here.
-
-In CHSH the vertex set is $V = { (a b | x y) | a,b,x,y in {0,1} }$, hence $|V| = 16$. The contextual hypergraph has $12$ hyperedges: four context-normalization edges and eight non-signaling marginal edges. Each edge has size $4$, and each vertex belongs to exactly $3$ edges. If $A$ is the corresponding incidence matrix and if $N = 𝟙 + m$ with $m in NN^16$, then the discrete non-signaling equation is $A m = t 𝟙$.
+The local part is obtained by replacing $G_("NS")(A)$ by the local polytope
+$
+  L_("loc")(A) := "conv" { d_lambda | lambda " deterministic" }.
+$
+Thus
+$
+  Q_("NS")(t) := \#(t G_("NS")(A) inter ZZ^V)
+  quad "and" quad
+  Q_("loc")(t) := \#(t L_("loc")(A) inter ZZ^V)
+$
+count, respectively, all compatible integer non-signaling models and the integer models lying in the local polytope at the same level. The semigroup viewpoint and the Ehrhart viewpoint are therefore two descriptions of the same graded object: $𝒮_("ns")(A)$ studies how integer points decompose into irreducible generators, while $Q_("NS")(t)$ counts how many such points occur in each slice.
 
 #proposition[
-  In the CHSH scenario, every shifted discrete model $(m,t)$ satisfies $k = sum_(v in V) m_v = 4 t$. In particular, there are no shifted discrete models with $k = 1,2,3$, nor with any $k$ not divisible by $4$.
+  In the CHSH scenario, every discrete model $(N,t)$ satisfies $k = sum_(v in V) N_v = 4 t$. In particular, there are no discrete models with $k = 1,2,3$, nor with any $k$ not divisible by $4$.
 ]
 
 #proof[
-  Summing all coordinates of $A m = t 𝟙$ gives $12 t$ because CHSH has $12$ hyperedges. The same sum also equals $3 sum_(v in V) m_v$, because each vertex belongs to exactly $3$ hyperedges. Hence $12 t = 3 k$, so $k = 4 t$.
+  Summing all coordinates of $A N = t 𝟙$ gives $12 t$ because CHSH has $12$ hyperedges. The same sum also equals $3 sum_(v in V) N_v$, because each vertex belongs to exactly $3$ hyperedges. Hence $12 t = 3 k$, so $k = 4 t$.
 ]
 
-The first admissible nonzero level is therefore $t=1$, equivalently $k=4$. At this level, $A m = 𝟙$ forces $m$ to select exactly one event on every hyperedge. These exact transversals are precisely the local deterministic strategies, i.e. assignments $a = f(x)$ and $b = g(y)$. Thus the first level contains only classical generators.
+The first admissible nonzero level is therefore $t=1$, equivalently $k=4$. At this level, $A N = 𝟙$ forces $N$ to select exactly one event on every hyperedge. These exact transversals are precisely the local deterministic strategies, i.e. assignments $a = f(x)$ and $b = g(y)$. Thus the first level contains only classical generators.
 
 #proposition[
   The first intrinsically non-local CHSH generators occur at $t=2$, equivalently $k=8$.
@@ -458,21 +625,27 @@ The first admissible nonzero level is therefore $t=1$, equivalently $k=4$. At th
   A PR box has probabilities in ${0,1/2}$ and therefore is not an integer point at level $t=1$. Multiplying it by $2$ gives an integer vector $r in {0,1}^16$ with $A r = 2 𝟙$. Hence its first discrete lift is at level $t=2$, so $k = 4t = 8$.
 ]
 
-The affine semigroup associated with CHSH is
+The compatible, or non-signaling, affine semigroup associated with CHSH is
 $
-  𝒮_("CHSH") := { (m,t) in NN^16 times NN | A m = t 𝟙 }.
+  𝒮_("ns")("CHSH") := { (N,t) in NN^16 times NN | A N = t 𝟙 }.
 $
 Let $d_lambda in {0,1}^16$ denote the $16$ local deterministic generators, with $A d_lambda = 𝟙$, and let $r_mu = 2 p_mu^"PR" in {0,1}^16$ denote the $8$ lifted PR generators, with $A r_mu = 2 𝟙$. The natural candidate Hilbert basis is
 $
   ℋ_("CHSH") := { (d_lambda,1) }_(lambda=1)^16 union { (r_mu,2) }_(mu=1)^8.
 $
 
+The noncontextual subsemigroup is
+$
+  𝒮_("nc")("CHSH") := { sum_(lambda=1)^16 c_lambda (d_lambda,1) | c_lambda in NN }.
+$
+Its Hilbert basis is the set of the $16$ deterministic generators. The larger non-signaling semigroup $𝒮_("ns")("CHSH")$ also contains irreducible non-local generators, namely the lifted PR boxes.
+
 #proposition[
-  Assuming the support lemma verified by exhaustive enumeration of the CHSH supports, $ℋ_("CHSH")$ is the Hilbert basis of $𝒮_("CHSH")$.
+  Assuming the support lemma verified by exhaustive enumeration of the CHSH supports, $ℋ_("CHSH")$ is the Hilbert basis of $𝒮_("ns")("CHSH")$.
 ]
 
 #proof[
-  The deterministic elements are irreducible because their level is $1$. A lifted PR element is also irreducible: a nontrivial decomposition of $(r_mu,2)$ would split it into two level-$1$ elements, hence into two deterministic local models, which would write a PR box as a convex combination of local deterministic boxes. This is impossible. For generation, the support lemma states that every nonzero $(m,t) in 𝒮_("CHSH")$ contains the support of some element $(u,s) in ℋ_("CHSH")$. Then $(m-u,t-s)$ is again in $𝒮_("CHSH")$, and induction on $t$ gives a decomposition into elements of $ℋ_("CHSH")$.
+  The deterministic elements are irreducible because their level is $1$. A lifted PR element is also irreducible: a nontrivial decomposition of $(r_mu,2)$ would split it into two level-$1$ elements, hence into two deterministic local models, which would write a PR box as a convex combination of local deterministic boxes. This is impossible. For generation, the support lemma states that every nonzero $(N,t) in 𝒮_("ns")("CHSH")$ contains the support of some element $(u,s) in ℋ_("CHSH")$. Then $(N-u,t-s)$ is again in $𝒮_("ns")("CHSH")$, and induction on $t$ gives a decomposition into elements of $ℋ_("CHSH")$.
 ]
 
 This means that, at the discrete level, CHSH non-signaling models are built from two types of irreducible bricks: local deterministic bricks of level $1$ and PR bricks of level $2$. The statement depends on the enumerated support lemma; the rest of the proof is formal.
@@ -487,6 +660,189 @@ and
 $
   Q_("NS")(t) = 17/10080 t^8 + 17/630 t^7 + 7/36 t^6 + 37/45 t^5 + 1607/720 t^4 + 359/90 t^3 + 290/63 t^2 + 332/105 t + 63/64 + (-1)^t / 64.
 $
-Thus the number of shifted discrete CHSH models with parameter $k$ is $0$ if $4$ does not divide $k$, and is $Q_("NS")(k/4)$ if $k = 4t$. The local polynomial has normalized volume $8! dot 1/630 = 64$, whereas the non-signaling quasi-polynomial has normalized volume $8! dot 17/10080 = 68$. Consequently, the asymptotic non-local part $Q_("NS")(t) - Q_("loc")(t)$ has leading term $1/10080 t^8$, and the asymptotic proportion of non-local integer models inside the non-signaling ones is $1/17$.
+Thus the number of discrete CHSH models with parameter $k$ is $0$ if $4$ does not divide $k$, and is $Q_("NS")(k/4)$ if $k = 4t$. The local polynomial has normalized volume $8! dot 1/630 = 64$, whereas the non-signaling quasi-polynomial has normalized volume $8! dot 17/10080 = 68$. Consequently, the asymptotic non-local part $Q_("NS")(t) - Q_("loc")(t)$ has leading term $1/10080 t^8$, and the asymptotic proportion of non-local integer models inside the non-signaling ones is $1/17$.
+
+== Main concept : dynamic contextual automata
+
+The previous section described compatible countings as elements of an affine semigroup. This is a static description. It tells us which completed integer tables are possible. For example, in the CHSH case, a compatible count has total size $k = 4t$. Hence completed objects appear only at sizes divisible by $4$.
+
+The dynamic question is different. What can be said after only one, two, or three visible events have occurred? Such a prefix is not a completed empirical model, but it may still be the beginning of a process that will later close into one. The aim of dynamic contextual automata is to describe these intermediate states without reducing them to noise.
+
+The guiding idea is the following. A completed count is built from elementary generators. An interrupted count is built from completed generators and from generators that are still open. The open part contains information about the future: it records what must still be emitted in order to close the process.
+
+=== Generators as complete processes
+
+Let $V$ be the visible event space introduced above. A count is an element of $NN^V$. A generator is a finite counting vector $g in NN^V$ that is regarded as one elementary complete process.
+
+In CHSH, the intended examples are the local deterministic generators and the lifted PR generators. A local deterministic generator has total size $4$. A lifted PR generator has total size $8$. At this stage, we do not need to assume that these are the only possible generators in every scenario. The set of generators is a modelling choice.
+
+#definition(name: "Generator family", id: "def:generator-family")[
+  A *generator family* is a finite set
+  $
+    cal(G) subset.eq NN^V
+  $
+  whose elements are called complete generators. Each $g in cal(G)$ has a level $ell(g) in NN$ such that $(g,ell(g)) in 𝒮$.
+
+  The family is *closed-complete* for $𝒮$ if every completed compatible model can be written as a finite sum of generators:
+  $
+    forall (N,t) in 𝒮, quad
+    exists c : cal(G) -> NN,
+    quad
+    N = sum_(g in cal(G)) c(g) g
+    " and "
+    t = sum_(g in cal(G)) c(g) ell(g).
+  $
+]
+
+This condition is the closed, semigroup-level requirement. It says that the chosen generators can explain every completed compatible counting. When $cal(G)$ is the Hilbert basis of $𝒮$, this condition is automatic. In practice, the choice of $cal(G)$ must be made carefully: if it is too small, some counts cannot be explained; if it is too large, the explanation loses structure.
+
+=== The automaton of one generator
+
+A generator is complete, but it can be produced in several orders. To model this, we attach a small automaton to each $g in cal(G)$.
+
+For $v in V$, let $ε_v in NN^V$ be the unit vector at $v$. Thus $epsilon_v (v)=1$ and $epsilon_v (w)=0$ for $w != v$.
+
+#definition(name: "Residual automaton of a generator", id: "def:residual-automaton")[
+  Let $g in cal(G)$. The residual automaton $cal(A)_g$ has states
+  $
+    { R in NN^V | 0 <= R <= g }.
+  $
+  The initial state is $R=g$, and the final state is $R=0$.
+
+  If $R(v) > 0$, there is a transition
+  $
+    R arrow.r R - epsilon_v
+  $
+  labelled by $v$. This transition emits the visible event $v$ and decreases the residual part by one unit at $v$.
+]
+
+The state $R$ is the part of $g$ that remains to be emitted. The emitted part is $g - R$. Thus an interruption of the automaton at residual state $R$ gives a past/future decomposition
+$
+  g = (g - R) + R.
+$
+The first term is already visible. The second term is the future required to close this copy of the generator.
+
+#remark(name: "A four-event generator", id: "rem:four-event-generator")[
+  Suppose that $g = epsilon_(v_1) + epsilon_(v_2) + epsilon_(v_3) + epsilon_(v_4)$. The automaton $cal(A)_g$ starts at residual state $g$. If the first three emitted events are $v_1,v_2,v_3$, then the residual state is $R = epsilon_(v_4)$ and the visible count is $g - R = epsilon_(v_1)+epsilon_(v_2)+epsilon_(v_3)$.
+
+  This prefix has size $3$. It is not a closed generator. It is nevertheless meaningful, because it knows that the missing future is $epsilon_(v_4)$.
+]
+
+=== Global states and open generators
+
+An experiment can contain several copies of generators at the same time. Some copies are already closed. Other copies are open and have only been partially emitted. The correct hidden state must remember this distinction.
+
+#definition(name: "Dynamic state", id: "def:dynamic-state")[
+  A *dynamic state* is a pair
+  $
+    eta = (c_eta, O_eta).
+  $
+  Here $c_eta : cal(G) -> NN$ counts the closed copies of each generator. The object $O_eta$ is a finite multiset of open copies. An open copy is a pair $(g,R)$, where $g in cal(G)$ is the complete generator and $R in NN^V$ is its residual part, with $0 <= R <= g$.
+]
+
+The visible counting associated with $eta$ is
+$
+  N_eta
+  :=
+  sum_(g in cal(G)) c_eta (g) g
+  +
+  sum_((g,R) in O_eta) (g - R).
+$
+The first sum is the contribution of closed copies. The second sum is the contribution of open copies: each open copy has already emitted $g-R$ and still owes the residual $R$.
+
+The future residual of the state is
+$
+  R_eta := sum_((g,R) in O_eta) R.
+$
+If no new generator is opened, then closing all current open copies would produce the completed count
+$
+  K_eta := N_eta + R_eta
+  =
+  sum_(g in cal(G)) c_eta (g) g
+  +
+  sum_((g,R) in O_eta) g.
+$
+Thus the natural signature of an interrupted state is the pair
+$
+  Phi(eta) := (N_eta, R_eta).
+$
+It records both the visible past and the residual future.
+
+#remark[
+  There is no reason for the map $eta -> N_eta$ to be injective. Two different hidden states may have the same visible count but different open generators and different residual futures. This is why the dynamic theory cannot be reduced to the visible counting vector alone.
+]
+
+=== Dynamic explainability
+
+The central question is now not only whether a count is closed, but whether it can be explained as the visible part of an interrupted process.
+
+#definition(name: "Dynamic explanation", id: "def:dynamic-explanation")[
+  Let $N in NN^V$. A *dynamic explanation* of $N$ over $cal(G)$ is a dynamic state $eta=(c_eta,O_eta)$ such that
+  $
+    N = N_eta
+    =
+    sum_(g in cal(G)) c_eta (g) g
+    +
+    sum_((g,R) in O_eta) (g - R).
+  $
+  The set of all such explanations is denoted
+  $
+    cal(E)_(cal(G))(N)
+    := { eta | N_eta = N }.
+  $
+]
+
+This formula is the basic accounting rule of the model. A visible count is explained by a number of closed generators and by a multiset of open generators. Each open generator contributes only the part already emitted. Its residual part is not visible yet, but it is part of the hidden state.
+
+#definition(name: "Dynamic completeness", id: "def:dynamic-completeness")[
+  Let $cal(A) subset.eq NN^V$ be a class of visible counts that we want to explain. The generator family $cal(G)$ is *dynamically complete* for $cal(A)$ if
+  $
+    forall N in cal(A), quad cal(E)_(cal(G))(N) != emptyset.
+  $
+]
+
+Dynamic completeness is stronger than closed completeness when $cal(A)$ contains prefixes. Closed completeness only explains final compatible models. Dynamic completeness asks that the intermediate counts also come from some population of closed and open generators.
+
+=== Petri-net reading and concurrency
+
+The previous definitions can be read as a Petri net. A marking is a multiset of tokens. In our case, a token is either a closed copy of a generator or an open copy with a residual state. The marking is therefore the hidden interface of the experiment.
+
+There are three elementary kinds of transitions.
+
+- *Opening*: choose $g in cal(G)$ and create a new open copy $(g,g)$.
+- *Emission*: if an open copy is $(g,R)$ and $R(v)>0$, emit the event $v$ and replace $(g,R)$ by $(g,R-epsilon_v)$.
+- *Closing*: if an open copy has residual $0$, replace it by one closed copy of $g$.
+
+The emission transitions on two different open copies are independent. They can be performed in either order and lead to the same marking. This is the basic Petri-net notion of concurrency: the model does not force a single total order between independent local emissions. The observer may later apply the Parikh compression and keep only the count $N_eta$, but the hidden marking still remembers which copies are open and what remains to be produced.
+
+#proposition(name: "Closed states recover the semigroup", id: "prop:closed-states-recover-semigroup")[
+  Suppose that $cal(G)$ is closed-complete for $𝒮$. If a dynamic state $eta$ has no open copy, then $(N_eta,t_eta) in 𝒮$, where
+  $
+    t_eta := sum_(g in cal(G)) c_eta (g) ell(g).
+  $
+  Conversely, every $(N,t) in 𝒮$ is represented by at least one dynamic state with no open copy.
+]
+
+#proof[
+  If $O_eta$ is empty, then $N_eta = sum_(g in cal(G)) c_eta(g) g$. Since each $(g,ell(g))$ belongs to $𝒮$ and $𝒮$ is closed under addition, $(N_eta,t_eta)$ belongs to $𝒮$. Conversely, closed completeness gives a decomposition of every $(N,t) in 𝒮$ as a finite sum of generators. This decomposition defines a state with the corresponding closed multiplicities and with no open copy.
+]
+
+This proposition explains the relation between the static and dynamic viewpoints. The static semigroup is recovered when all generators are closed. The dynamic model adds the missing layer: it also describes states that occur before closure.
+
+=== First interpretation
+
+The model separates three levels.
+
+- A *trace* is an ordered sequence of visible events produced by hidden transitions.
+- A *count* is the Parikh compression of a trace. It forgets the order and keeps only multiplicities.
+- A *dynamic state* is a hidden explanation of a count by closed and open generators.
+
+This distinction is essential. A completed count such as an element of $𝒮_("ns")$ is only the endpoint of a process. An interrupted experiment is described by an interface $eta$, or equivalently by its past/future signature $Phi(eta)=(N_eta,R_eta)$. The visible past says what has already happened. The residual future says how the process can still stabilize.
+
+The next step will be to use this interface structure to compare interrupted states, to define costs of open non-local resources, and to study which choices of generators give a meaningful reconstruction of contextual phenomena.
+
+= Contributions
+
+
 
 #bibliography("refs.bib")
