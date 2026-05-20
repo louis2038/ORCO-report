@@ -231,13 +231,15 @@
       let chap = if current_chapter != none {
         smallcaps(current_chapter.body)
       }
-      let chap_num = if current_chapter != none [
-        chap. #numbering(current_chapter.numbering, ..counter(heading).at(current_chapter.location()))
-      ]
+      let chap_num = if current_chapter != none {
+        let fmt = if current_chapter.numbering == none { "1.1.1a" } else { current_chapter.numbering }
+        [chap. #numbering(fmt, ..counter(heading).at(current_chapter.location()))]
+      }
 
-      let sec_num = if current_sec != none [
-        sec. #numbering(current_sec.numbering, ..counter(heading).at(current_sec.location()))
-      ]
+      let sec_num = if current_sec != none {
+        let fmt = if current_sec.numbering == none { "1.1.1a" } else { current_sec.numbering }
+        [sec. #numbering(fmt, ..counter(heading).at(current_sec.location()))]
+      }
 
       set text(size: 9pt)
 

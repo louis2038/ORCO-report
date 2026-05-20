@@ -13,204 +13,75 @@
   title-page-fct: title-page-report,
 )
 
-#import "@preview/dashy-todo:0.1.3": todo
+#import "@preview/dashy-todo:0.1.3": *
+#let med(comment) = todo(position: left, stroke: blue)[*med*: #comment]
+#let leo(comment) = todo(position: right, stroke: red)[*léo*: #comment]
+#let lou(comment) = todo(position: right, stroke: gray)[*lou*: #comment]
 
 #set par(spacing: 1.2em, first-line-indent: 0pt)
 
+#outline(title: "Review", target: figure.where(kind: "todo"))
+
 #outline()
-
-// = Context and Motivation
-// == A non-standard internship
-// == Initial motivation: locality and quantum correlations
-// == Why the question had to be reformulated
-// == Final scope of the report
-// == Contributions
-
-// = Conceptual Framework: Observation, Locality, and Reconstruction
-// == Phenomena and hidden structure
-// == Models rather than metaphysical explanations
-// == Understanding as reconstruction
-// == Why traces?
-// == Why locality?
-
-// = Background and State of the Art
-// == Nonlocal games
-// == CHSH as a minimal test case
-// == Contextuality and count-based descriptions
-// == Automata, traces, and Parikh images
-// == Petri nets and process models
-
-// = Technical Preliminaries
-// == Events and contexts
-// == Traces
-// == Count vectors
-// == Classical deterministic strategies
-// == CHSH and PR supports
-
-// = Dynamic Trace Model
-// == Hidden mechanisms as automata
-// == Compression from traces to counts
-// == Explainability of compressed observations
-// == Local model changes
-// == Scientific mediation: lab, intermediary, verifier
-
-// = Generators, Petri Nets, and Interfaces
-// == Generators as elementary behaviours
-// == Closed and open executions
-// == Petri-net representation
-// == Residual fragments
-// == Interfaces as interrupted states
-// == Past/future signatures
-
-// = Case Study: CHSH
-// == Local deterministic generators
-// == PR generators
-// == Count-based CHSH analysis
-// == Interface-based CHSH analysis
-// == Balanced half-PR interruptions
-// == Appearance of the factor $1 / sqrt(2)$
-// == Computational verification
-
-// = Discussion
-// == What the model explains
-// == What the model does not explain
-// == Relation to quantum intuition
-// == Limits of the current approach
-
-// = Conclusion and Perspectives
-// == Summary
-// == Contributions
-// == Future work: GHZ, Tsirelson, and possible quantum extensions
 
 = Context and Motivation
 
-== Everything start by a philosophical question
+== Why start from observation?
 
-[parler de la vision philosophie des processus - de l'interuption - des environemment - changement de résolution - du quatre on n'est jamais sur de rien - de la stabilisation des idées vu comme rayon qui rebondit - ect] mais rester trés bref !
+Scientific theories do not begin with reality given all at once. They begin with phenomena: outcomes, traces, correlations, and reports produced through concrete experimental interfaces. A hidden variable, a state, a Hilbert space vector, or an automaton is therefore not direct access to reality itself. It is a model introduced to organize what is observed.
 
-== The open question of quantum correlations : why do they exist ? How to explain them ? What is the best theory that reconciliate relativity and quantum ?
+This distinction is modest, but it is important for the rest of the report. We do not try to reveal a final hidden world. We ask which hidden structures can explain the visible data, how much structure they require, and what they still fail to explain. In that sense, the word *model* should be read operationally. A model is a disciplined way of connecting observed phenomena to a possible hidden organization.
 
-[parler de la littérature a ce sujet] a quoi sert les jeux contextuels, les jeux non-locaux, parler de MIP = RE, quel impact sur notre vision du monde ? Théorie des faiseaux (sheaf theorie) - essayer de construire une méta théorie sur les expériences elle meme et sur le concept même de théorie scientifique.
+This position is not meant to weaken science. On the contrary, it makes the task more precise. Since the hidden structure is not directly given, it must be reconstructed under constraints. It must fit the observations, respect the operational limitations of the experiment, and use a controlled amount of structure. A model is then judged by its explanatory power, by its coherence, and by the resources it needs.
 
-== Our approch: Discrete contextuality
+== Truth, understanding, and interruption
 
-[nous voulons éviter les espaces de probabilité - les espaces tout court - les maths ainsi que tout hypothese] Le but est de partir d'aucun axiome, nous voulons douter de tout : dire soit X un ensemble de chose tel que ... cette ensemble n'existe pas ? ou alors il faut le construire ! Le rayon pousse des murs et le processus de stabilisation crée l'espace.
+In this report, truth is used in an operational and provisional sense. A model is accepted when it is the best available explanation of the observed phenomena under explicit constraints. If the observations change, or if the class of admissible models changes, the accepted model may change as well. This does not make truth arbitrary. The choice of a model is constrained by data, by mathematical consistency, and by the cost of the hidden resources used in the explanation.
 
-== What we expect from a theory of discrete contextuality
+Understanding is slightly different. A model may give correct predictions while remaining too opaque to reuse. Here, a model is understood when it can be compressed, transmitted, interrupted, and reconstructed without losing its explanatory role.
 
-[Nous ne voulons pas remplacer le quantique - les espaces de hilbert ] MAIS le quantique soufre d'une trés mauvaise formulation, plusieurs variante (C algebra, anticommutator algebra, finite hilbert space) ne donne pas les meme résultat voir mip star egal RE. Donc nous voulons proposer une approche naturel dans le sens définie au dessus, qui puisse exprimer des choses qui sont plus complexe a exprimer avec une abstraction. Nous voulons construire une interprétation construitive du quantique qui n'oublie pas, et qui doute en permanance de ses propres hypothese.
+A simple analogy is curve fitting. Suppose that an experiment produces a sequence of points $(x_i,y_i)$. In a classical analysis, one may fix a class of models, for instance polynomials of degree at most $3$, and choose the polynomial that best fits the first $n$ points:
+One then says that the model is good if the final error is small enough.
 
-= State of the art
+This report asks for a more dynamic requirement. The explanation procedure itself should be observable and interruptible. After each new point, we obtain a new model, a new error, and a transition from the model at step $n$ to the model at step $n+1$. A good explanatory process should not only end with a small error. Its successive updates should also follow a coherent pattern.
 
-The subjet has evoled a lot during my internship, this start by
+This is the sense in which we want a kind of meta-model. We do not only want a final explanation of the completed experiment. We also want to track the history of partial explanations, their errors, and their possible continuations. If the experiment is interrupted at time $n$, the current state should still have a meaning.
 
-== The initial state of the art and the initial subjet
+This point will become central later. A probability table is a completed summary. It has already forgotten the order of events, the number of occurrences before normalization, and the possible unfinished mechanisms that produced the data. If our aim is only prediction, this loss may be acceptable. If our aim is reconstruction, it is too strong. We need a language that keeps enough information to restart the process after an interruption.
 
-#let mipstar = $"MIP"^*$
+The report therefore takes seriously a simple methodological principle: before normalizing, count; before completing, keep the prefix; before replacing a mechanism by a probability distribution, ask what hidden process could have produced it.
 
-We start from a now central observation in quantum complexity theory: entangled multi-prover interactive proofs are extremely powerful, as captured by the equality $mipstar = "RE"$. In the standard $mipstar$ model, a verifier interacts with spatially separated provers that may share arbitrary quantum correlations. Importantly, the model does not impose any explicit structural constraint on how entanglement is distributed, nor on what information is operationally accessible to subsets of provers. This abstraction is theoretically useful, because it isolates the informational consequences of quantum non-locality. However, it also incorporates a strong implicit assumption: the availability of unstructured, globally coordinated correlations at no explicit cost.
+== Existing routes toward the quantum model
 
-In physically motivated settings, information propagation is constrained by locality. Interactions are limited by distance and propagation time, and causal structure bounds what can be coordinated within a given time window. Even when large-scale entangled resources are assumed to be pre-distributed, the ability to access and coordinate arbitrary distant subsystems is not free, since synchronization and correlation across long distances become resources in their own right.
+The question of which model best explains quantum phenomena is not new. Bell's theorem showed that local hidden-variable models cannot reproduce all quantum predictions @Bell_1964. The CHSH inequality gave a particularly clear experimental and mathematical form of this obstruction @Clauser_Horne_Shimony_Holt_1969. These results changed the status of hidden mechanisms: the difficulty is not merely that the hidden variables are unknown, but that some families of local observations cannot be glued into a single classical global assignment.
 
-The first idea of the interphip was to study the models that retain quantum non-locality while enforcing explicit locality constraints, whether geometric, combinatorial, or causal. The goal is not to weaken $mipstar$ a priori, but to identify which aspects of its power rely on unconstrained global correlations, and which persist under structured, bounded access to entanglement.
+One response is to search for general operational principles that single out quantum theory. Generalized probabilistic theories provide a broad framework in which classical theory, quantum theory, and many non-classical theories can be compared @Barrett_2007. In this setting, states, effects, and transformations are not assumed to be Hilbert-space objects from the start. They are abstract operational objects constrained by axioms. Several reconstruction programs follow this direction. Hardy derived quantum theory from a small set of reasonable axioms @Hardy_2001. Chiribella, D'Ariano, and Perinotti derived the finite-dimensional formalism from informational principles, with purification playing a central role @Chiribella_DAriano_Perinotti_2011. Masanes and Müller gave another derivation from physical requirements concerning preparations, transformations, and measurements @Masanes_Muller_2011.
 
-To this end, we would have liked to introduce a localized variant of entangled multi-prover interactive proofs, denoted $mipstar_0 (k,n)$. The definition separates two levels. First, a global resource specifies how entanglement is distributed, for instance via a large entanglement graph state. Second, each effective interaction is constrained to exploit only local correlations, represented by induced subgraphs of size at most $k$. Informally, at any point in the protocol, only a "local group" of at most $k$ provers may access and exploit the correlations supported on a $k$-vertex window of the global resource, as if the verifier could probe only bounded-size subsystems. To preserve the flexibility of multi-prover protocols, we allow $n$ independent copies of the resource state, enabling repeated use of the same local structure across many interactions, while preventing the protocol from implicitly assuming a single globally accessible instance with unbounded coordinated correlations.
+These works are important because they show that the Hilbert-space formalism is not the only possible starting point. One may instead ask which operational or informational constraints force that formalism. They also show how hard the problem is. If the axioms are too weak, one obtains theories larger than quantum theory. If they are too strong, the reconstruction risks hiding the quantum structure inside the assumptions.
 
-This model aims to capture a simple principle: quantum non-locality is not removed, but organized. The parameter $k$ acts as a correlation granularity, or an effective locality radius, bounding the entanglement that can be operationally mobilized within one interaction. The parameter $n$ functions as a parallelism budget, modeling the ability to distribute multiple independent instances of the same resource without obtaining unconstrained global correlations inside a single instance. Consequently, any global power must arise from repetition, composition, and consistency constraints across local windows, rather than from immediate access to arbitrary global entanglement.
+The example of non-signaling correlations makes this tension concrete. Popescu and Rohrlich showed that there are non-signaling correlations stronger than quantum correlations @Popescu_Rohrlich_1994. Thus no-signaling alone does not characterize quantum theory. The quantum set lies between the classical local polytope and the larger non-signaling polytope. The problem is then to explain why nature seems to choose this intermediate region.
 
-The framework supports two complementary objectives. First, it provides a language for threshold questions, such as determining for which growth rates of $k$ (as a function of the input size) the model recovers the full power of $mipstar$, and under which restrictions it yields strictly weaker classes. Second, it creates a common formal setting connecting tools from nonlocal games, entanglement graph theory, and distributed models, because the "induced subgraph of size $k$" constraint enforces an inherently local viewpoint compatible with notions of radius, distance, and composition. We next discuss how ideas from distributed computing offer a concrete methodology for reasoning about bounded information access.
+There is also a second difficulty. Even inside the mathematical formalism of quantum correlations, different completions of the model are not obviously equivalent. One may use finite-dimensional tensor-product models, infinite-dimensional limits, or commuting-operator models. The relation between these descriptions is connected to Tsirelson's problem and to Connes' embedding problem @Junge_Navascues_Palazuelos_PerezGarcia_Scholz_Werner_2011. The NPA hierarchy gives a powerful semidefinite approximation to quantum correlations @Navascues_Pironio_Acin_2008, while later results showed that closure and model choice are subtle issues @Slofstra_2019. The equality $"MIP"^* = "RE"$ gives a striking complexity-theoretic expression of this subtlety @ji2022mipre.
 
-To do so, i first read four papers @botteron2024communicationcomplexitygraphisomorphism, @balliu2024distributedquantumadvantagelocal, @Mančinska_Spaas_Spirig_Vernooij_2025 and @cui2025quantumperfectmatchings. The first goal was to find relevent link the can motivate our approch.
+This literature gives the background for the present work. The goal is not to replace these reconstructions, nor to claim that the quantum formalism is wrong. The goal is more local and constructive: to build a discrete model that stays close to the experimental record and makes visible which hidden mechanisms are needed to explain it.
 
-=== Locality and quantum advantage in distributed computing
+== From state spaces to constructive countings
 
-The paper @balliu2024distributedquantumadvantagelocal exhibits a separation between classical and quantum distributed computation for a problem specified purely by local constraints. The authors define an LCL problem in a bipartite black-white formalism, where white nodes represent vertices and black nodes represent edges, allowing uniform constraints to be expressed via multisets of input-output pairs. They introduce the _iterated GHZ_ problem, which can be viewed as a local composition of GHZ-type nonlocal games whose consistency is locally checkable. Their main result shows that on graphs of maximum degree $Delta$, any classical strategy requires $Omega(Delta)$ rounds, whereas a quantum strategy achieves a constant number of rounds by locally distributing GHZ states and then performing measurements without further communication.
+Most operational reconstructions start with a space of states, a set of effects, and rules for composing systems. This is natural when one wants to reconstruct the full probabilistic formalism. In this report, we take a different starting point. We begin with finite observations and integer counts.
 
-Methodologically, the key point for our purposes is how bounded radius induces structured uncertainty. The round elimination technique transforms a problem $Pi_i$ into a derived problem $Pi_(i+1)$ whose labels are sets of labels of $Pi_i$. This "set lifting" encodes exactly what a node can no longer distinguish when one communication round is removed. Since this transformation quickly becomes intractable at the level of explicit descriptions, the authors introduce a sequence of relaxations that preserves the operational implication: solving a relaxation in $t$ rounds implies solving the preceding problem in $t+1$ rounds.
+The reason is simple. A normalized probability distribution erases the level at which it was obtained. A distribution such as $(1,0)$ may come from one trial or from one thousand trials. These two situations have the same normalized probability but not the same empirical status. Keeping integer counts preserves this scale. It also makes it possible to ask which finite pieces of data are already compatible, which are not yet complete, and which hidden generator could still close them.
 
-Conceptually, this provides a template for our program. Instead of relying on implicit global coordination, one explicitly models the information available within a bounded neighborhood, replaces the inaccessible part by a structured description of possibilities, and studies how local constraints compose to enforce global correctness. This perspective suggests viewing locality as a constraint on distinguishability, and therefore as a constraint on the representation of information. One can think of an abstract "information band" whose position corresponds to the level of accessible structure. Moving toward smaller locality windows corresponds to replacing precise facts by sets of feasible possibilities consistent with local observations, which increases descriptive uncertainty and forces an expansion of the local alphabet. Moving toward larger windows corresponds to reducing uncertainty by enforcing compatibility constraints, effectively projecting ambiguous descriptions onto coherent ones. In distributed settings, this is exactly what the transformation $Pi arrow.bar R(Pi)$ formalizes: reducing the communication radius increases uncertainty, which must be compensated by richer local descriptions.
+This is where contextuality enters. In the sheaf-theoretic approach, contextuality is an obstruction to gluing local data into a global section @Abramsky_Brandenburger_2011. This language is well suited to our purpose because it separates local observation from global explanation. In the discrete version used here, local probability tables are replaced by integer count tables. Compatibility becomes equality of marginal counts on overlaps. Noncontextuality becomes the possibility of reconstructing the compatible count as an integer sum of deterministic global assignments.
 
-In our localized $mipstar$ framework, an analogous mechanism arises from bounding the exploitable entanglement. We assume a global resource, such as an entanglement graph, but restrict each interaction to induced subgraphs of size $k$, possibly across $n$ independent copies. Decreasing $k$ forces most of the global structure out of view, which suggests that any soundness or completeness analysis must work with coarser, set-valued descriptions of what distant provers could be doing, whereas increasing $k$ allows more direct constraints and reduces ambiguity. Our goal is to formalize this trade-off, identify which combinatorial properties of the resource graph control the power of $mipstar_0 (k,n)$, and determine how locally accessible quantum correlations can compose to enforce global language recognition.
+The change from probabilities to counts is not only cosmetic. It turns convex geometry into semigroup geometry. Instead of asking only whether a point lies in a convex hull, we ask how an integer count decomposes into irreducible generators. The Hilbert basis of the relevant semigroup then gives candidate elementary bricks of explanation. In CHSH, these bricks include local deterministic generators and lifted PR-type generators. This does not mean that PR boxes are accepted as physical final states. It means that they appear as elementary algebraic pieces of the compatible counting structure, and therefore must be interpreted.
 
-=== Combinatorial characterizations of quantum games
+== Quantum phenomena as unfinished stabilization
 
-A recurrent thing is that operational properties of quantum protocols can be equivalently expressed as structural properties of purely combinatorial objects. Several results in the literature illustrate this principle with remarkable precision.
+This perspective gives a useful way to read quantum phenomena. A quantum state will not be treated here as a primitive object whose meaning is already fixed. We instead ask whether some quantum features can be understood as effects of projection and incomplete stabilization. Superposition suggests that several hidden histories may give the same visible phenomenon. Entanglement suggests that local visible pieces may fail to factorize because they still come from one common hidden process.
 
-In @botteron2024communicationcomplexitygraphisomorphism, the authors study the isomorphism game: given two graphs $cal(G)$ and $cal(H)$, if the graphs are isomorphic, then the game admits a perfect classical strategy. By extension, they define the notion of quantum isomorphism $cal(G) tilde.equiv_q cal(H)$ and non-signaling isomorphism $cal(G) tilde.equiv_("ns") cal(H)$, which hold whenever there exists a perfect quantum or non-signaling strategy, respectively. A key structural result is that non-signaling isomorphism is equivalent to fractional isomorphism, that is, $cal(G) tilde.equiv_("ns") cal(H)$ if and only if there exists a bistochastic matrix $u$ such that $A_cal(G) u = u A_cal(H)$. This is a clean relaxation of the classical notion of isomorphism, which requires $u$ to be a permutation matrix.
+This is deliberately only a guiding interpretation. The mathematical part of the report will be more modest. We start from finite observations, integer counts, and compatibility constraints. We then study the generators of these counts and the automata that describe their interrupted production. A completed compatible count is a stabilized object. A prefix is not an error; it is a partial observation that may still have possible completions. The residual future of an open generator records exactly what is missing for closure.
 
-A first striking result, from @9317964, establishes that $cal(G) tilde.equiv_("ns") cal(H)$ is equivalent to $forall "tree" cal(K), space \#"Hom"(cal(K),cal(G)) = \#"Hom"(cal(K),cal(H))$. This is a beautiful correspondence because the two sides are very different in nature: on one side stands a game, which is a protocol with interactions, rules, and strategies, and on the other side stands a simple combinatorial property involving homomorphism counts. Even more surprisingly, an analogous equivalence holds for quantum isomorphism: $cal(G) tilde.equiv_q cal(H)$ if and only if $forall "planar" cal(K), space \#"Hom"(cal(K),cal(G)) = \#"Hom"(cal(K),cal(H))$. The fact that the laws of quantum mechanics can be captured by a condition on planar homomorphism counts is a striking illustration of the power of combinatorial characterizations. This result is precisely the kind of equivalence we want to find.
-
-A second important result from the same line of work is the construction of the notion of $D$-fractional isomorphism. The authors introduce a $D$-distance game that imposes that the output node of both players must be at the same distance from the input node, but only when the distance is below $D$. This forces a kind of locally consistent isomorphism. The key observation is that this local condition $cal(G) tilde.equiv^D_("ns") cal(H)$ enforces a global property $cal(G) tilde.equiv_("frac") cal(H)$. This is directly relevant to our programme: it demonstrates that a local condition can enforce a global property.
-
-=== Quantum perfect matchings
-
-The paper @cui2025quantumperfectmatchings studies a family of nonlocal games built around the notion of perfect matching. In the bipartite $L$-perfect matching game $"BPM"_G$, the verifier asks questions corresponding to vertices on one side of a bipartite graph, and the players answer with edges. The winning conditions are local: each answer must be incident to the queried vertex, and two answers must be compatible with being part of the same matching. Classically, having a perfect strategy is equivalent to the existence of an actual perfect matching.
-
-What interested us in this paper is precisely this passage from local tests to a global combinatorial object. The verifier never sees the whole matching directly; it only checks local consistency conditions. Nevertheless, in the classical case these local checks force the existence of a global perfect matching. This is close to the kind of mechanism we were looking for when trying to build a toy model for my tutor's broader intuition: global structure should emerge from local compatibility constraints.
-
-The quantum case gives a richer picture. For some versions of the game, quantum strategies do not give an advantage over classical ones: in particular, the bipartite $L$-perfect matching game is quantum sound. But in more general settings, the paper introduces a genuine notion of quantum perfect matching. The main characterization states that a graph $G$ has a quantum perfect matching if and only if its line graph $L(G)$ admits a projective packing of the appropriate value. In this formulation, edges of the original graph are replaced by projectors, and the condition that two incident edges cannot both be selected becomes an orthogonality condition.
-
-This result was useful for us as a methodological example. It shows that a nonlocal game can sometimes be translated into a clean algebraic-combinatorial condition on a derived graph. The line graph is not just a technical construction: it records which local choices are incompatible. This suggested a general way of thinking about local quantum protocols: instead of trying to understand the whole quantum strategy directly, one can look for a graph encoding the conflicts between local constraints, and then study projectors, orthogonality, and packing-type conditions on this graph.
-
-The paper also contains an important warning. When the same ideas are extended to hypergraphs, deciding the existence of quantum perfect matchings becomes undecidable. This shows that local quantum constraints can quickly become extremely expressive.
-
-=== Gap-preserving reductions for entangled-prover games
-
-The paper @Mančinska_Spaas_Spirig_Vernooij_2025 studies gap-preserving reductions between entangled-prover games. Its main question is how to transform one nonlocal game into another while preserving the distinction between perfect strategies and strategies that are bounded away from perfect. This is important because, without control of the gap, a reduction may preserve exact satisfiability but lose all useful quantitative information.
-
-The authors show that general synchronous games can be reduced to independent set games with only polynomial loss in the gap. Given a synchronous game $cal(G)$, they build a game graph $X(cal(G))$ whose vertices are question-answer pairs $(q,a)$. Two vertices are adjacent when the corresponding answers would make the players lose. A perfect strategy for the original game then corresponds to a suitable independent-set-type strategy on this graph. The main theorem shows that if
-$
-  omega^*(cal(G)) = 1,
-$
-then the reduced independent set game also has value $1$, while if
-$
-  omega^*(cal(G)) <= 1 - epsilon,
-$
-then the reduced game has value at most
-$
-  1 - Omega(epsilon^8 / t^4),
-$
-where $t$ is the number of questions. Thus the reduction preserves the gap up to a polynomial loss.
-
-The technically difficult part is the approximate case. A near-perfect quantum strategy only gives relations that are approximately true: measurements are almost projective, orthogonality is almost satisfied, and consistency is only approximate. The paper proves a stability theorem showing that such approximate measurement families can be rounded to genuine projective measurements without losing too much. This is the core mechanism that makes the reduction gap-preserving rather than merely exact.
-
-This paper was relevant to us because it gives a precise example of how local combinatorial constraints can retain the hardness of a much more general quantum game. The independent set game has a very simple rule: equal questions require equal answers, and different questions require non-adjacent answers. Yet, through the game graph construction and the stability theorem, this simple game family can encode the complexity of general entangled-prover games.
-
-=== Conclusion
-
-For our internship, the initial motivation was not only complexity-theoretic. My tutor had developed a broader theoretical viewpoint which seemed to become more stable and coherent over time. After many discussions, I became interested in building a toy model that could justify or at least motivate this way of seeing information, structure, and quantum behaviour. In that context, the paper was useful less as a direct roadmap toward a new complexity class, and more as a proof that local compatibility rules, when organized correctly, can preserve deep global properties. The key ideas we retained were the construction of a derived graph from a game, the role of approximate-to-exact stability, and the importance of controlling how errors accumulate when local constraints are combined.
-
-== Philosophical view
-
-[explique vite fait l'idée de mont tuteur sans en faire des tonnes]
-
-== The midle state of the art
-
-The present work is situated at the intersection of epistemic reconstructions of quantum theory, sheaf-theoretic contextuality, and process-theoretic approaches to quantum mechanics. A first important precedent is Spekkens’ toy theory, where an elementary system has four ontic states, while maximal knowledge only identifies a subset of two possible states. This model shows that many phenomena usually regarded as characteristically quantum — interference, noncommutativity of measurements, no-cloning, teleportation, dense coding, steering, and several forms of entanglement-like behaviour — can arise from structured incomplete knowledge rather than from an ontic quantum state. However, Spekkens’ model remains local and non-contextual, and therefore fails to reproduce Bell inequality violations and Kochen–Specker contextuality. This failure is crucial for my approach: it suggests that the quantum cannot be explained by *static ignorance over a hidden state alone*.
-
-The sheaf-theoretic framework of Abramsky and Brandenburger gives the mathematical language needed to locate this obstruction. In their setting, an empirical model is a compatible family of local probability distributions over a measurement cover, and contextuality is precisely the obstruction to extending this compatible local data to a global section. Strong contextuality corresponds to the absence of even a single global assignment compatible with the support of the model. This shifts the problem from hidden variables to gluing: the non-classical feature is not merely uncertainty, but the impossibility of globally stabilizing all local descriptions at once. Later cohomological refinements show that all-vs-nothing arguments, such as GHZ-type contradictions, can be witnessed by topological or cohomological obstructions. This supports the view that contextuality is not an accidental probabilistic anomaly, but a structural failure of global reconciliation.
-
-Quantitative approaches, especially the contextual fraction and its linear-programming formulation, refine this picture by measuring how much of an empirical model can be explained non-contextually. These methods identify the largest subdistribution over global assignments that can be extracted from a model. In my setting, this naturally suggests replacing normalized probabilities by integer-valued countings at a fixed level. Instead of working only with distributions satisfying $sum_x d(x)=1$, I consider graded counting objects satisfying $sum_x d(x)=t$. This preserves the number of experimental occurrences and leads to a semigroup of compatible countings. The Hilbert basis of this semigroup then plays the role of a set of irreducible processual generators: local deterministic generators appear at level one, while contextual generators such as PR-type atoms may appear at higher levels.
-
-Process-theoretic approaches, especially categorical quantum mechanics, provide a further conceptual motivation. They treat quantum theory not primarily as a theory of states, but as a theory of composable processes. However, these approaches generally still represent completed morphisms or protocols. My proposal is to push the processual reading further: the relevant object is not only a process, but an interrupted process. I represent such an interruption by a past/future decomposition
-// $$
-// \eta=(E_\eta,R_\eta),
-// $$
-// where $E_\eta$ is the already actualized visible part and $R_\eta$ is the residual future required for stabilization. The completed object is
-// $$
-// K_\eta=E_\eta+R_\eta.
-// $$
-// If $K_\eta$ is compatible in the sheaf-theoretic sense, then the future exactly compensates the gluing defect of the past:
-// $$
-// \delta R_\eta=-\delta E_\eta.
-// $$
-Thus the future is not an external addition but the co-recollement that gives the past its final meaning.
-
-This leads to the central hypothesis of my work: a quantum state should be understood as the observation of a process that has not yet stabilized. Superposition is then not the coexistence of several ontic states, but the multiplicity of possible stabilizing completions of an unfinished prefix. Entanglement is not a mysterious extra bond between subsystems, but the failure of the space of completions to factorize locally. In this sense, the quantum is a hole in stabilization: a phenomenon seen before the process has fully resolved its global meaning.
-
-This perspective also suggests a way to avoid collapsing into unrestricted no-signaling theories. PR-type generators may be legitimate internal atoms of the Hilbert basis, but they should not be accepted as terminal stable states. A PR box is then interpreted as an interrupted or isolated phase of a larger stabilization cycle, not as a physically completed phenomenon. By contrast, GHZ-type supports can be understood as closures of contextual fibers. In computations on GHZ and related games, one can define an invariant $nu(P)$ measuring the minimal integer level at which a target support $P$ admits a compatible counting. For GHZ-type supports, this minimal level is greater than one, reflecting strong contextuality, but finite, reflecting the possibility of non-classical stabilization. A second invariant $kappa(P)$ measures how many minimal fibers are needed to reconstruct the target generator. This suggests that perfect quantum phenomena may correspond not to isolated contextual atoms, but to dynamically stabilized compositions of non-globalizable fibers.
-
-Thus, the proposed framework combines three insights from the literature while changing their point of contact: from Spekkens, I retain the idea that quantum phenomena express structured incompleteness; from sheaf theory, I retain the idea that contextuality is obstruction to global stabilization; from process theories, I retain the primacy of compositional dynamics. The new claim is that the quantum should be modeled as an intermediate phase of an automaton of Hilbert-basis generators, where observation captures a past that has not yet received its final interpretation through future closure.
+The aim is not to replace Hilbert spaces. It is to build a small discrete language in which such ideas can be tested. Contextuality is used as a laboratory for a broader question: how can visible phenomena be reconstructed from hidden processes without pretending that the hidden process is directly given?
 
 = Technical Preliminaries
 
@@ -284,6 +155,7 @@ The technical point of this section is the following. A context table is only lo
   $
     𝒟_R^t (Y) := { d in 𝒟_R (Y) | |d| = t }.
   $
+
   We also use the graded object
   $
     𝒟_R^∙(Y) := union_(t in R) 𝒟_R^t (Y).
@@ -300,147 +172,149 @@ $
 $
 An element $d_U in 𝒟_R (ℰ(U))$ assigns a weight to each local section $s : U -> O$. In particular, a local counting over a context $C$ is an element $N_C in 𝒟_NN^∙ (ℰ(C))$. This means only that $N_C$ has some integer level. If $N_C in 𝒟_NN^t (ℰ(C))$, then the context $C$ has exact level $t$.
 
-In the usual probabilistic case, one takes $R = RR_(>=0)$ and restricts each context to level $1$. In the discrete experimental case considered here, one takes $R = NN$ and keeps the integer level explicit. This matters because a raw family $(N_C)_(C in cal(M))$ may initially have different local levels $t_C := |N_C|$. Such a raw family is not yet a discrete empirical model of level $t$ unless all $t_C$ are equal to the same integer $t$.
-
 In all the following we suppose that $cal(M)$ is a *measurement cover*, meaning $union_(C in cal(M)) C = X$, and that it is an antichain, meaning $C subset.eq D$ with $C,D in cal(M)$ implies $C = D$.
 
-#definition[
-  An *empirical model* over $chevron.l X, cal(M), O chevron.r$ is a family $e = (e_C)_(C in cal(M))$ with $e_C in 𝒟_R (ℰ(C))$, satisfying compatibility on overlaps. Namely, for all contexts $C,D in cal(M)$, the restrictions of $e_C$ and $e_D$ to $C inter D$ must agree:
+=== Compatibility before the level
+
+The first notion is compatibility. It comes from the sheaf-theoretic idea that two local observations must agree on the part that they have in common. This is a local-to-local condition. It does not start by imposing a global normalization constant.
+
+#definition(name: "Compatible family", id: "def:compatible-family")[
+  Let $R$ be a semiring. A family
+  $
+    e = (e_C)_(C in cal(M)),
+    quad e_C in 𝒟_R (ℰ(C)),
+  $
+  is *compatible* if, for all contexts $C,D in cal(M)$,
   $
     e_C|_(C inter D) = e_D|_(C inter D).
   $
-]<def:empirical_model>
-In the probabilistic case, this says that the marginal distributions coincide. In the counting case, it says that the marginal count vectors coincide exactly.
+]
 
-#definition[
-  A *discrete empirical model of level* $t$ is a family $N = (N_C)_(C in cal(M))$ with $N_C in 𝒟_NN^t (ℰ(C))$ such that, for all $C,D in cal(M)$,
-  $
-    N_C|_(C inter D) = N_D|_(C inter D).
-  $
-]<def:discrete_model>
-
-The order of the conditions is important. First, every local table must have the same level $t$, i.e. $|N_C| = t$ for all $C$. Second, after this common level has been fixed, the restrictions to overlaps must agree. If the levels are not equal, then the family may still define normalized probabilities $p_C := N_C /(|N_C|)$ context by context, but it is not an integer empirical model of common level. In that normalized situation, compatibility would be a condition on the $p_C$, not on the raw integer counts $N_C$.
-
-Equivalently, if $u in ℰ(C inter D)$, the compatibility equation is
+In the probabilistic case, this says that marginal distributions coincide on overlaps. In the counting case, it says that marginal count vectors coincide exactly. Equivalently, for a counting family $N=(N_C)_(C in cal(M))$ and for $u in ℰ(C inter D)$, compatibility means
 $
-  sum_(s in ℰ(C), s|_(C inter D) = u) N_C (s)
+  sum_(s in ℰ(C), s|_(C inter D) = u) N_C(s)
   =
-  sum_(r in ℰ(D), r|_(C inter D) = u) N_D (r).
+  sum_(r in ℰ(D), r|_(C inter D) = u) N_D(r).
 $
-We write this family of linear equations compactly as $delta N = 0$.
+We sometimes denote this whole family of homogeneous linear equations by $delta N = 0$.
 
-The vector notation is obtained by separating the contexts in a disjoint union.
+=== From sheaves to hypergraphs
 
-#definition(name: "Visible event space", id: "def:visible-event-space")[
-  The *visible event space* is
-  $
-    V := ∐_(C in cal(M)) ℰ(C)
-    = { (C,s) | C in cal(M) " and " s in ℰ(C) }.
-  $
-  An element $(C,s) in V$ records two pieces of data: the context $C$ that was measured, and the local outcome $s : C -> O$ that was observed. Giving a family $(N_C)_(C in cal(M))$ is the same thing as giving a vector $N in NN^V$, by the rule
-  $
-    N(C,s) := N_C (s).
-  $
-]
+The sheaf-theoretic formulation and the hypergraph formulation describe the same local-to-global problem from two complementary viewpoints. In the sheaf-theoretic approach of Abramsky and Brandenburger, the event presheaf $ℰ$ assigns to each set of measurements $U subset.eq X$ the set of local sections $ℰ(U)=O^U$. Contextuality is then an obstruction to gluing local data into a global section @Abramsky_Brandenburger_2011.
 
-#definition(name: "Level map", id: "def:level-map")[
-  The *context hypergraph* is $H_cal(M) = (V,E_cal(M))$, where
-  $
-    E_cal(M) = { e_C | C in cal(M) }
-    quad "and" quad
-    e_C := { (C,s) | s in ℰ(C) }.
-  $
-  Let $A_cal(M)$ be its incidence matrix. For $N in NN^V$, the $C$-th component of $A_cal(M) N$ is
-  $
-    (A_cal(M)N)_C = sum_(s in ℰ(C)) N(C,s) = |N_C|.
-  $
-  Thus $A_cal(M)N = t 𝟙$ means only that every context table has the same level $t$. This is a normalization condition. It is not yet a compatibility condition.
-]
+The hypergraph viewpoint keeps the same operational information but makes the linear constraints explicit. Its vertices are the visible events $(C,s)$. Its hyperedges encode the tests that a table must satisfy: context normalization and marginal compatibility. This is close in spirit to the combinatorial approach to contextuality scenarios developed by Acín, Fritz, Leverrier, and Sainz @Acin_Fritz_Leverrier_Sainz_2015. It is also related to the graph-theoretic exclusivity viewpoint of Cabello, Severini, and Winter @Cabello_Severini_Winter_2014, although here we keep the measurement-cover and marginal-compatibility structure visible.
 
-#definition(name: "Gluing operator", id: "def:gluing-operator")[
-  The *gluing operator* $delta$ measures whether two context tables agree on their common part. For two contexts $C,D in cal(M)$ and for $u in ℰ(C inter D)$, its component is
-  $
-    (delta N)_(C,D,u)
-    :=
-    sum_(s in ℰ(C), s|_(C inter D) = u) N(C,s)
-    -
-    sum_(r in ℰ(D), r|_(C inter D) = u) N(D,r).
-  $
-  The equation $delta N = 0$ means that the two marginal countings on $C inter D$ are equal for every overlap and every local assignment $u$.
-]
+In this report, the sheaf language explains what must be glued, while the hypergraph and matrix language explains how the gluing constraints act on integer counts.
 
-These two maps have different roles. The equation $A_cal(M)N = t 𝟙$ fixes the common number of counted runs in each context. The equation $delta N = 0$ says that these equal-level tables can be glued on overlaps.
+=== How compatibility creates the level
 
-#definition(name: "Compatible counting semigroup", id: "def:compatible-counting-semigroup")[
-  The semigroup of compatible integer empirical models is
-  $
-    𝒮 := { (N,t) in NN^V times NN | A_cal(M) N = t 𝟙 " and " delta N = 0 }.
-  $
-  The first coordinate $N$ is the vector of observed counts. The second coordinate $t$ is the common level of all context tables. For a fixed level $t$, we write
-  $
-    𝒮_t := { N in NN^V | (N,t) in 𝒮 }.
-  $
-]
+For a local counting $N_C$, define its local level by
+$
+  t_C := |N_C| = sum_(s in ℰ(C)) N_C(s).
+$
+At first, the numbers $t_C$ may depend on the context $C$. The point is that compatibility can force them to become equal.
 
-#proposition(name: [Meaning of the slice $𝒮_t$], id: "prop:slice-compatible-models")[
-  A vector $N in NN^V$ belongs to $𝒮_t$ if and only if the associated family $(N_C)_(C in cal(M))$ is a discrete empirical model of level $t$.
+#proposition(name: "Compatibility creates the level", id: "prop:compatibility-creates-level")[
+  Suppose that the intersection graph of the contexts is connected, where $C$ is adjacent to $D$ when $C inter D != emptyset$. If a counting family $N = (N_C)_(C in cal(M))$ is compatible, then all local levels $|N_C|$ are equal. Hence there is a unique integer $t$ such that
+  $
+    forall C in cal(M), quad |N_C| = t.
+  $
 ]
 
 #proof[
-  By the definition of $A_cal(M)$, the equation $A_cal(M)N = t 𝟙$ is equivalent to $|N_C| = t$ for every context $C$. By the definition of $delta$, the equation $delta N = 0$ is equivalent to equality of the marginal countings on every overlap $C inter D$. These are exactly the two conditions in the definition of a discrete empirical model of level $t$.
+  If $C inter D != emptyset$ and $N$ is compatible, then the marginals of $N_C$ and $N_D$ on $C inter D$ are equal. Marginalization preserves total weight, so $|N_C| = |N_D|$. Since the intersection graph is connected, this equality propagates from one context to every other context. Thus all local levels are equal to a common integer $t$. Uniqueness is immediate, because $t = |N_C|$ for any context $C$.
 ]
 
-#remark[
-  The fact that the same constant $t$ appears for every context is essential. It says that all local pieces are normalized at the same integer level and can therefore be regarded as parts of one coherent empirical object.
+Thus the level is not just an extra parameter added by hand. On a connected cover, it is the common normalization scale forced by compatible integer data.
+
+#definition(name: [Discrete empirical model of level $t$], id: "def:discrete-model")[
+  A *discrete empirical model of level* $t$ is a compatible family
+  $
+    N = (N_C)_(C in cal(M))
+  $
+  such that $N_C in 𝒟_NN^t (ℰ(C))$ for every context $C$.
 ]
 
-If $D$ denotes the matrix of the gluing operator $delta$, the two families of constraints can be assembled in one block system:
+=== Why the level matters
+
+It may look as if the integer model contains no new information, because one can divide a level-$t$ count by $t$ and obtain a probability table. This would miss the main point. The level $t$ is not only a denominator. It records the amount of observation that supports the table in each context.
+
+For instance, the count $(1,0)$ and the count $(1000,0)$ give the same normalized probability $(1,0)$. They do not have the same empirical status. The second table is supported by many more repetitions. In a standard statistical interpretation, this usually means that the sampling uncertainty decreases at the scale $1 / sqrt(t)$. We do not need to assume such a statistical model in this report, but the intuition is useful: $t$ is an experimental resolution scale. It is not a subjective probability of confidence. It is the amount of counted evidence that remains visible in the formal object.
+
+Thus a discrete empirical model is not only a point in a polytope. It is an integer point at a definite level. The same probability may appear at several levels, but these levels correspond to different amounts of evidence and to different possible intermediate histories.
+
+#remark(name: "An arithmetic effect of the level", id: "rem:arithmetic-level-effect")[
+  Consider a partial CHSH count at level $6$. Suppose that one context already contains the counts
+  $
+    mat(3, 1; 1, 1).
+  $
+  After normalization, this gives probabilities
+  $
+    mat(1/2, 1/6; 1/6, 1/6).
+  $
+  Now suppose that a marginal compatibility equation involves two unknown probabilities $a$ and $b$ and has the form
+  $
+    1/2 + 1/6 + a + b = 1.
+  $
+  Over probabilities, this gives the continuum of solutions $a+b=1/3$ with $a,b >= 0$.
+
+  At level $6$, however, the unknowns must come from integer counts: $a=A/6$ and $b=B/6$ with $A,B in NN$. The same equation becomes
+  $
+    3 + 1 + A + B = 6,
+  $
+  hence $A+B=2$. The continuum has been cut down to the finite arithmetic set $(A,B) in { (0,2), (1,1), (2,0) }$.
+
+  The point is not uniqueness. The point is that the level cuts the probabilistic continuum by an arithmetic lattice. This arithmetic rigidity disappears after normalization.
+]
+
+This is the reason why the transition to automata is natural. If the level records how much of a process has stabilized, then it is also natural to ask what exists before stabilization. A count of size $3$ in CHSH is not a completed level-$t$ model. But it is not meaningless. It may be the visible past of a generator that has not closed yet.
+
+The conceptual chain is therefore the following. The level $t$ describes closed stabilized observations. The Hilbert basis gives elementary closed bricks. Generator automata describe how these bricks can be produced step by step. Residuals record the future that is still needed for closure. The dynamic model below is designed to keep exactly this missing information: what has already been seen, and what still has to happen for the process to close.
+
+=== Vector and hypergraph packaging
+
+The vector notation is only a packaging of the sheaf-theoretic definition above. Define the visible event space
+$
+  V := ∐_(C in cal(M)) ℰ(C)
+  = { (C,s) | C in cal(M) " and " s in ℰ(C) }.
+$
+Giving a family $(N_C)_(C in cal(M))$ is the same thing as giving a vector $N in NN^V$, by the rule
+$
+  N(C,s) := N_C(s).
+$
+
+The context hypergraph is $H_cal(M) = (V,E_cal(M))$, where
+$
+  E_cal(M) = { e_C | C in cal(M) }
+  quad "and" quad
+  e_C := { (C,s) | s in ℰ(C) }.
+$
+Let $A_cal(M)$ be its incidence matrix. Then
+$
+  (A_cal(M)N)_C = sum_(s in ℰ(C)) N(C,s) = |N_C|.
+$
+Therefore the equation $A_cal(M)N = t 𝟙$ expresses the common-level condition. It does not express compatibility by itself.
+
+The compatibility equations are homogeneous. If $D$ denotes their matrix, the vector form of a discrete empirical model of level $t$ is
 $
   A_cal(M) N = t 𝟙
   quad "and" quad
   D N = 0.
 $
-Equivalently,
+Equivalently, using the notation $delta N = 0$ for the second family of equations, the compatible counting semigroup is
 $
-  A_("aug") N = (t 𝟙, 0)
-  quad "with" quad
-  A_("aug") := mat(A_cal(M); D).
+  𝒮 := { (N,t) in NN^V times NN | A_cal(M) N = t 𝟙 " and " delta N = 0 }.
 $
-Here $A_("aug")$ is not only the incidence matrix of the context hypergraph. Its rows also contain the compatibility equations. If one treats $t$ as an additional variable, the same constraints become the homogeneous system
+For a fixed level $t$, we write
 $
-  mat(A_cal(M), -𝟙; D, 0) vec(N, t) = 0.
-$
-This is the precise meaning of the augmented-matrix notation.
-
-#proposition(name: "Compatibility fixes the level on connected covers", id: "prop:compatibility-fixes-level")[
-  Suppose that the intersection graph of the contexts is connected, where $C$ is adjacent to $D$ when $C inter D != emptyset$. If $N = (N_C)_(C in cal(M))$ is compatible, i.e. $delta N = 0$, then all local levels $|N_C|$ are equal. Hence a compatible family in $∏_(C in cal(M)) 𝒟_NN^∙ (ℰ(C))$ automatically belongs to $∏_(C in cal(M)) 𝒟_NN^t (ℰ(C))$ for a unique $t$.
-]
-
-#proof[
-  If $C inter D != emptyset$ and $delta N = 0$, then the marginals of $N_C$ and $N_D$ on $C inter D$ are equal. Marginalization preserves total weight, so the total weight of $N_C$ equals the total weight of $N_D$. Connectedness propagates this equality to every context.
-]
-
-=== Example: non-signaling as hypergraph compatibility
-
-In a bipartite Bell scenario, the primitive events are written $(a b ∣ x y)$, where $x,y$ are the questions and $a,b$ the answers. A counting table assigns an integer $N(a b ∣ x y) ∈ ℕ$ to each event. For each context $(x,y)$, the context level is
-$
-  k_(x,y) := ∑_(a,b) N(a b ∣ x y).
+  𝒮_t := { N in NN^V | (N,t) in 𝒮 }.
 $
 
-The probabilistic non-signaling equations are
+If the two families of constraints are assembled into one augmented matrix, then
 $
-  p(a ∣ x_0) = p(a ∣ x_1)
-  quad "and" quad
-  p(b ∣ 0y) = p(b ∣ 1y).
+  A_("aug") N = (t 𝟙, 0).
 $
-and can be view by a set of
-At a common discrete level $t$, these become equalities of marginal counts:
-$
-  ∑_b N(a b ∣ x_0) = ∑_b N(a b ∣ x_1),
-  quad
-  ∑_a N(a b ∣ 0y) = ∑_a N(a b ∣ 1y).
-$
-Equivalently, the context normalizations give $A_cal(M) N = t 𝟙$, while the non-signaling marginal constraints give $delta N = 0$. If these two families of equations are assembled into one augmented matrix $A_("aug") = mat(A_cal(M); D)$, where $D$ is the matrix of $delta$, the same condition is $A_("aug") N = (t 𝟙,0)$. The zero part is important: compatibility equations are homogeneous, while normalization equations have level $t$.
+The zero part is important: compatibility equations are homogeneous, while normalization equations carry the level $t$.
 
 === From convex mixtures to Hilbert bases
 
@@ -533,41 +407,25 @@ In the generic case, the Hilbert basis of $𝒮_("nc")$ is obtained from these d
 
 Therefore contextuality is a property of a compatible counting $N in 𝒮$: it means $N in.not 𝒮_("nc")$. The condition $N in 𝒮$ alone is not contextuality; it is only compatibility, or no-signaling in Bell scenarios.
 
-The support version gives the analogue of strong contextuality. For each context $C$, define
+We shall only use the support version briefly. For each context $C$, define
 $
   "supp"(N_C) := { s ∈ 𝓔(C) ∣ N_C (s) > 0 }.
 $
-A compatible empirical model $N$ is *strongly contextual* if there is no global section $g : X → O$ whose restrictions all remain inside the observed supports. Formally,
+A compatible model $N$ is *strongly contextual* when no global section remains compatible with these supports:
 $
   ∄ g ∈ 𝓔(X)
   quad "such that" quad
   ∀ C ∈ 𝓜,\ g|_C ∈ "supp"(N_C).
 $
+In this report, this notion is mainly used as orientation. The main constructions below concern compatible countings, noncontextual decompositions, and dynamic generator explanations.
 
-Equivalently, using deterministic support vectors,
-$
-  ∀ g ∈ 𝓔(X), quad "supp"(d_g) ⊄ "supp"(N).
-$
-This means that every possible predetermined global assignment is ruled out by at least one context. No matter how one tries to assign outcomes to all measurements in advance, some chosen context would force an event that is absent from the observed support.
-
-Thus the strongly contextual part of the discrete semigroup is the support-defined subset
-$
-  𝒮_("sc") := { (N,t) in 𝒮 | forall g in ℰ(X), "supp"(d_g) ⊄ "supp"(N) }.
-$
-Equivalently, if $ℋ_("loc") := { (d_g,1) | g in ℰ(X) }$ denotes the deterministic local part of the Hilbert basis, then $(N,t) in 𝒮_("sc")$ exactly when the support of $N$ contains the support of no generator in $ℋ_("loc")$. This is often the most convenient formulation in the counting model: once the Hilbert basis of $𝒮$ is known, the classical obstructions are visible directly at the level of generator supports.
-
-It is important not to confuse this with membership in the no-signaling semigroup. If $𝒮_("ns")$ denotes the compatible semigroup $𝒮$ in a Bell scenario, then strong contextuality is not equivalent to $N in 𝒮_("ns")$. The implication only goes one way: a strongly contextual model must first be compatible, hence it belongs to $𝒮_("ns")$. The converse is false, because every deterministic vector $d_g$ belongs to $𝒮_("ns")$ but is not strongly contextual; its own global section $g$ is compatible with its support. The correct statement is
-$
-  N " is strongly contextual" quad <==> quad N in 𝒮_("sc") subset.eq 𝒮_("ns").
-$
-
-Thus we have three distinct levels:
+We therefore keep three levels distinct:
 
 - *compatibility* or *non-signaling*: the local count tables have a common level and agree on overlaps, equivalently $A_cal(M) N = t 𝟙$ and $delta N = 0$;
 - *noncontextuality*: the compatible model decomposes as an integer sum of deterministic global sections;
 - *strong contextuality*: not even one deterministic global section is compatible with the support of the model.
 
-== Small results on the discrete CHSH semigroup #todo[A travailler]
+== Small results on the discrete CHSH semigroup #lou[A travailler]
 
 We now record the elementary consequences of the previous definitions for the CHSH scenario. In this subsection, $N$ denotes the counting vector. The entries of $N$ are the integer variables that we study.
 
@@ -664,17 +522,21 @@ Thus the number of discrete CHSH models with parameter $k$ is $0$ if $4$ does no
 
 == Main concept : dynamic contextual automata
 
-The previous section described compatible countings as elements of an affine semigroup. This is a static description. It tells us which completed integer tables are possible. For example, in the CHSH case, a compatible count has total size $k = 4t$. Hence completed objects appear only at sizes divisible by $4$.
+The previous section described compatible countings as elements of an affine semigroup. This is a static description. It tells us which completed integer tables are possible at each level $t$. The level is important because it records the scale at which the observation has stabilized.
 
-The dynamic question is different. What can be said after only one, two, or three visible events have occurred? Such a prefix is not a completed empirical model, but it may still be the beginning of a process that will later close into one. The aim of dynamic contextual automata is to describe these intermediate states without reducing them to noise.
+In CHSH, a completed compatible count has total size $k = 4t$. Hence completed objects appear only at sizes divisible by $4$. The dynamic question is therefore unavoidable: what can be said after only one, two, or three visible events have occurred? Such a prefix is not a completed empirical model, but it may still be the beginning of a process that will later close into one.
 
-The guiding idea is the following. A completed count is built from elementary generators. An interrupted count is built from completed generators and from generators that are still open. The open part contains information about the future: it records what must still be emitted in order to close the process.
+The aim of dynamic contextual automata is to describe these intermediate states without reducing them to noise. A completed count is built from elementary generators. An interrupted count is built from completed generators and from generators that are still open. The open part contains information about the future: it records what must still be emitted in order to close the process. This makes the later definition of a dynamic state almost forced: it must contain closed copies, open copies, and the residual future of each open copy.
 
 === Generators as complete processes
 
 Let $V$ be the visible event space introduced above. A count is an element of $NN^V$. A generator is a finite counting vector $g in NN^V$ that is regarded as one elementary complete process.
 
-In CHSH, the intended examples are the local deterministic generators and the lifted PR generators. A local deterministic generator has total size $4$. A lifted PR generator has total size $8$. At this stage, we do not need to assume that these are the only possible generators in every scenario. The set of generators is a modelling choice.
+Generators are not introduced as arbitrary formal objects. They are meant to be elementary bricks of stabilization. A closed empirical table is not explained by a probability point alone, but by a finite production of such bricks.
+
+In CHSH, the previous semigroup computation gives the intended examples. The local deterministic generators are the minimal classical bricks. The lifted PR generators are the minimal non-local bricks of the compatible semigroup. A local deterministic generator has total size $4$. A lifted PR generator has total size $8$. The automata below do not change these bricks. They only describe their progressive production.
+
+At this stage, we do not need to assume that these are the only possible generators in every scenario. The set of generators is a modelling choice, but it is a constrained choice: it must be rich enough to reconstruct the completed countings that we want to explain, and structured enough to make intermediate states meaningful.
 
 #definition(name: "Generator family", id: "def:generator-family")[
   A *generator family* is a finite set
@@ -787,7 +649,7 @@ The central question is now not only whether a count is closed, but whether it c
   $
   The set of all such explanations is denoted
   $
-    cal(E)_(cal(G))(N)
+    cal(H)_(cal(G))(N)
     := { eta | N_eta = N }.
   $
 ]
@@ -797,7 +659,7 @@ This formula is the basic accounting rule of the model. A visible count is expla
 #definition(name: "Dynamic completeness", id: "def:dynamic-completeness")[
   Let $cal(A) subset.eq NN^V$ be a class of visible counts that we want to explain. The generator family $cal(G)$ is *dynamically complete* for $cal(A)$ if
   $
-    forall N in cal(A), quad cal(E)_(cal(G))(N) != emptyset.
+    forall N in cal(A), quad cal(H)_(cal(G))(N) != emptyset.
   $
 ]
 
@@ -841,7 +703,88 @@ This distinction is essential. A completed count such as an element of $𝒮_("n
 
 The next step will be to use this interface structure to compare interrupted states, to define costs of open non-local resources, and to study which choices of generators give a meaningful reconstruction of contextual phenomena.
 
-= Contributions
+= Metric
+
+
+
+
+= Appendix
+
+== The initial state of the art and the initial subjet
+
+#let mipstar = $"MIP"^*$
+
+We start from a now central observation in quantum complexity theory: entangled multi-prover interactive proofs are extremely powerful, as captured by the equality $mipstar = "RE"$. In the standard $mipstar$ model, a verifier interacts with spatially separated provers that may share arbitrary quantum correlations. Importantly, the model does not impose any explicit structural constraint on how entanglement is distributed, nor on what information is operationally accessible to subsets of provers. This abstraction is theoretically useful, because it isolates the informational consequences of quantum non-locality. However, it also incorporates a strong implicit assumption: the availability of unstructured, globally coordinated correlations at no explicit cost.
+
+In physically motivated settings, information propagation is constrained by locality. Interactions are limited by distance and propagation time, and causal structure bounds what can be coordinated within a given time window. Even when large-scale entangled resources are assumed to be pre-distributed, the ability to access and coordinate arbitrary distant subsystems is not free, since synchronization and correlation across long distances become resources in their own right.
+
+The first idea of the interphip was to study the models that retain quantum non-locality while enforcing explicit locality constraints, whether geometric, combinatorial, or causal. The goal is not to weaken $mipstar$ a priori, but to identify which aspects of its power rely on unconstrained global correlations, and which persist under structured, bounded access to entanglement.
+
+To this end, we would have liked to introduce a localized variant of entangled multi-prover interactive proofs, denoted $mipstar_0 (k,n)$. The definition separates two levels. First, a global resource specifies how entanglement is distributed, for instance via a large entanglement graph state. Second, each effective interaction is constrained to exploit only local correlations, represented by induced subgraphs of size at most $k$. Informally, at any point in the protocol, only a "local group" of at most $k$ provers may access and exploit the correlations supported on a $k$-vertex window of the global resource, as if the verifier could probe only bounded-size subsystems. To preserve the flexibility of multi-prover protocols, we allow $n$ independent copies of the resource state, enabling repeated use of the same local structure across many interactions, while preventing the protocol from implicitly assuming a single globally accessible instance with unbounded coordinated correlations.
+
+This model aims to capture a simple principle: quantum non-locality is not removed, but organized. The parameter $k$ acts as a correlation granularity, or an effective locality radius, bounding the entanglement that can be operationally mobilized within one interaction. The parameter $n$ functions as a parallelism budget, modeling the ability to distribute multiple independent instances of the same resource without obtaining unconstrained global correlations inside a single instance. Consequently, any global power must arise from repetition, composition, and consistency constraints across local windows, rather than from immediate access to arbitrary global entanglement.
+
+The framework supports two complementary objectives. First, it provides a language for threshold questions, such as determining for which growth rates of $k$ (as a function of the input size) the model recovers the full power of $mipstar$, and under which restrictions it yields strictly weaker classes. Second, it creates a common formal setting connecting tools from nonlocal games, entanglement graph theory, and distributed models, because the "induced subgraph of size $k$" constraint enforces an inherently local viewpoint compatible with notions of radius, distance, and composition. We next discuss how ideas from distributed computing offer a concrete methodology for reasoning about bounded information access.
+
+To do so, i first read four papers @botteron2024communicationcomplexitygraphisomorphism, @balliu2024distributedquantumadvantagelocal, @Mančinska_Spaas_Spirig_Vernooij_2025 and @cui2025quantumperfectmatchings. The first goal was to find relevent link the can motivate our approch.
+
+=== Locality and quantum advantage in distributed computing
+
+The paper @balliu2024distributedquantumadvantagelocal exhibits a separation between classical and quantum distributed computation for a problem specified purely by local constraints. The authors define an LCL problem in a bipartite black-white formalism, where white nodes represent vertices and black nodes represent edges, allowing uniform constraints to be expressed via multisets of input-output pairs. They introduce the _iterated GHZ_ problem, which can be viewed as a local composition of GHZ-type nonlocal games whose consistency is locally checkable. Their main result shows that on graphs of maximum degree $Delta$, any classical strategy requires $Omega(Delta)$ rounds, whereas a quantum strategy achieves a constant number of rounds by locally distributing GHZ states and then performing measurements without further communication.
+
+Methodologically, the key point for our purposes is how bounded radius induces structured uncertainty. The round elimination technique transforms a problem $Pi_i$ into a derived problem $Pi_(i+1)$ whose labels are sets of labels of $Pi_i$. This "set lifting" encodes exactly what a node can no longer distinguish when one communication round is removed. Since this transformation quickly becomes intractable at the level of explicit descriptions, the authors introduce a sequence of relaxations that preserves the operational implication: solving a relaxation in $t$ rounds implies solving the preceding problem in $t+1$ rounds.
+
+Conceptually, this provides a template for our program. Instead of relying on implicit global coordination, one explicitly models the information available within a bounded neighborhood, replaces the inaccessible part by a structured description of possibilities, and studies how local constraints compose to enforce global correctness. This perspective suggests viewing locality as a constraint on distinguishability, and therefore as a constraint on the representation of information. One can think of an abstract "information band" whose position corresponds to the level of accessible structure. Moving toward smaller locality windows corresponds to replacing precise facts by sets of feasible possibilities consistent with local observations, which increases descriptive uncertainty and forces an expansion of the local alphabet. Moving toward larger windows corresponds to reducing uncertainty by enforcing compatibility constraints, effectively projecting ambiguous descriptions onto coherent ones. In distributed settings, this is exactly what the transformation $Pi arrow.bar R(Pi)$ formalizes: reducing the communication radius increases uncertainty, which must be compensated by richer local descriptions.
+
+In our localized $mipstar$ framework, an analogous mechanism arises from bounding the exploitable entanglement. We assume a global resource, such as an entanglement graph, but restrict each interaction to induced subgraphs of size $k$, possibly across $n$ independent copies. Decreasing $k$ forces most of the global structure out of view, which suggests that any soundness or completeness analysis must work with coarser, set-valued descriptions of what distant provers could be doing, whereas increasing $k$ allows more direct constraints and reduces ambiguity. Our goal is to formalize this trade-off, identify which combinatorial properties of the resource graph control the power of $mipstar_0 (k,n)$, and determine how locally accessible quantum correlations can compose to enforce global language recognition.
+
+=== Combinatorial characterizations of quantum games
+
+A recurrent thing is that operational properties of quantum protocols can be equivalently expressed as structural properties of purely combinatorial objects. Several results in the literature illustrate this principle with remarkable precision.
+
+In @botteron2024communicationcomplexitygraphisomorphism, the authors study the isomorphism game: given two graphs $cal(G)$ and $cal(H)$, if the graphs are isomorphic, then the game admits a perfect classical strategy. By extension, they define the notion of quantum isomorphism $cal(G) tilde.equiv_q cal(H)$ and non-signaling isomorphism $cal(G) tilde.equiv_("ns") cal(H)$, which hold whenever there exists a perfect quantum or non-signaling strategy, respectively. A key structural result is that non-signaling isomorphism is equivalent to fractional isomorphism, that is, $cal(G) tilde.equiv_("ns") cal(H)$ if and only if there exists a bistochastic matrix $u$ such that $A_cal(G) u = u A_cal(H)$. This is a clean relaxation of the classical notion of isomorphism, which requires $u$ to be a permutation matrix.
+
+A first striking result, from @9317964, establishes that $cal(G) tilde.equiv_("ns") cal(H)$ is equivalent to $forall "tree" cal(K), space \#"Hom"(cal(K),cal(G)) = \#"Hom"(cal(K),cal(H))$. This is a beautiful correspondence because the two sides are very different in nature: on one side stands a game, which is a protocol with interactions, rules, and strategies, and on the other side stands a simple combinatorial property involving homomorphism counts. Even more surprisingly, an analogous equivalence holds for quantum isomorphism: $cal(G) tilde.equiv_q cal(H)$ if and only if $forall "planar" cal(K), space \#"Hom"(cal(K),cal(G)) = \#"Hom"(cal(K),cal(H))$. The fact that the laws of quantum mechanics can be captured by a condition on planar homomorphism counts is a striking illustration of the power of combinatorial characterizations. This result is precisely the kind of equivalence we want to find.
+
+A second important result from the same line of work is the construction of the notion of $D$-fractional isomorphism. The authors introduce a $D$-distance game that imposes that the output node of both players must be at the same distance from the input node, but only when the distance is below $D$. This forces a kind of locally consistent isomorphism. The key observation is that this local condition $cal(G) tilde.equiv^D_("ns") cal(H)$ enforces a global property $cal(G) tilde.equiv_("frac") cal(H)$. This is directly relevant to our programme: it demonstrates that a local condition can enforce a global property.
+
+=== Quantum perfect matchings
+
+The paper @cui2025quantumperfectmatchings studies a family of nonlocal games built around the notion of perfect matching. In the bipartite $L$-perfect matching game $"BPM"_G$, the verifier asks questions corresponding to vertices on one side of a bipartite graph, and the players answer with edges. The winning conditions are local: each answer must be incident to the queried vertex, and two answers must be compatible with being part of the same matching. Classically, having a perfect strategy is equivalent to the existence of an actual perfect matching.
+
+What interested us in this paper is precisely this passage from local tests to a global combinatorial object. The verifier never sees the whole matching directly; it only checks local consistency conditions. Nevertheless, in the classical case these local checks force the existence of a global perfect matching. This is close to the kind of mechanism we were looking for when trying to build a toy model for my tutor's broader intuition: global structure should emerge from local compatibility constraints.
+
+The quantum case gives a richer picture. For some versions of the game, quantum strategies do not give an advantage over classical ones: in particular, the bipartite $L$-perfect matching game is quantum sound. But in more general settings, the paper introduces a genuine notion of quantum perfect matching. The main characterization states that a graph $G$ has a quantum perfect matching if and only if its line graph $L(G)$ admits a projective packing of the appropriate value. In this formulation, edges of the original graph are replaced by projectors, and the condition that two incident edges cannot both be selected becomes an orthogonality condition.
+
+This result was useful for us as a methodological example. It shows that a nonlocal game can sometimes be translated into a clean algebraic-combinatorial condition on a derived graph. The line graph is not just a technical construction: it records which local choices are incompatible. This suggested a general way of thinking about local quantum protocols: instead of trying to understand the whole quantum strategy directly, one can look for a graph encoding the conflicts between local constraints, and then study projectors, orthogonality, and packing-type conditions on this graph.
+
+The paper also contains an important warning. When the same ideas are extended to hypergraphs, deciding the existence of quantum perfect matchings becomes undecidable. This shows that local quantum constraints can quickly become extremely expressive.
+
+=== Gap-preserving reductions for entangled-prover games
+
+The paper @Mančinska_Spaas_Spirig_Vernooij_2025 studies gap-preserving reductions between entangled-prover games. Its main question is how to transform one nonlocal game into another while preserving the distinction between perfect strategies and strategies that are bounded away from perfect. This is important because, without control of the gap, a reduction may preserve exact satisfiability but lose all useful quantitative information.
+
+The authors show that general synchronous games can be reduced to independent set games with only polynomial loss in the gap. Given a synchronous game $cal(G)$, they build a game graph $X(cal(G))$ whose vertices are question-answer pairs $(q,a)$. Two vertices are adjacent when the corresponding answers would make the players lose. A perfect strategy for the original game then corresponds to a suitable independent-set-type strategy on this graph. The main theorem shows that if
+$
+  omega^*(cal(G)) = 1,
+$
+then the reduced independent set game also has value $1$, while if
+$
+  omega^*(cal(G)) <= 1 - epsilon,
+$
+then the reduced game has value at most
+$
+  1 - Omega(epsilon^8 / t^4),
+$
+where $t$ is the number of questions. Thus the reduction preserves the gap up to a polynomial loss.
+
+The technically difficult part is the approximate case. A near-perfect quantum strategy only gives relations that are approximately true: measurements are almost projective, orthogonality is almost satisfied, and consistency is only approximate. The paper proves a stability theorem showing that such approximate measurement families can be rounded to genuine projective measurements without losing too much. This is the core mechanism that makes the reduction gap-preserving rather than merely exact.
+
+This paper was relevant to us because it gives a precise example of how local combinatorial constraints can retain the hardness of a much more general quantum game. The independent set game has a very simple rule: equal questions require equal answers, and different questions require non-adjacent answers. Yet, through the game graph construction and the stability theorem, this simple game family can encode the complexity of general entangled-prover games.
+
+=== Conclusion
+
+For our internship, the initial motivation was not only complexity-theoretic. My tutor had developed a broader theoretical viewpoint which seemed to become more stable and coherent over time. After many discussions, I became interested in building a toy model that could justify or at least motivate this way of seeing information, structure, and quantum behaviour. In that context, the paper was useful less as a direct roadmap toward a new complexity class, and more as a proof that local compatibility rules, when organized correctly, can preserve deep global properties. The key ideas we retained were the construction of a derived graph from a game, the role of approximate-to-exact stability, and the importance of controlling how errors accumulate when local constraints are combined.
 
 
 

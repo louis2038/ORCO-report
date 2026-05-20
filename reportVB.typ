@@ -115,6 +115,42 @@ The central question of the report is therefore the following:
 
 The answer developed here is partial but structured. We define the basic objects, test them on CHSH, identify the role of interfaces and residual futures, and use this as a stepping stone toward localized models of entangled interactive proofs. In this sense, the internship was not only a study of existing results. It was the construction of a possible research programme from a fresh intuition: quantum correlations should not only be classified by the probabilities they produce, but also by the hidden processes, local windows, and reconstructible interfaces through which they become observable.
 
+= State of the art
+
+The subjet has evoled a lot during my internship, this start by
+
+== Philosophical view
+
+[explique vite fait l'idée de mont tuteur sans en faire des tonnes]
+
+== The midle state of the art
+
+The present work is situated at the intersection of epistemic reconstructions of quantum theory, sheaf-theoretic contextuality, and process-theoretic approaches to quantum mechanics. A first important precedent is Spekkens’ toy theory, where an elementary system has four ontic states, while maximal knowledge only identifies a subset of two possible states. This model shows that many phenomena usually regarded as characteristically quantum — interference, noncommutativity of measurements, no-cloning, teleportation, dense coding, steering, and several forms of entanglement-like behaviour — can arise from structured incomplete knowledge rather than from an ontic quantum state. However, Spekkens’ model remains local and non-contextual, and therefore fails to reproduce Bell inequality violations and Kochen–Specker contextuality. This failure is crucial for my approach: it suggests that the quantum cannot be explained by *static ignorance over a hidden state alone*.
+
+The sheaf-theoretic framework of Abramsky and Brandenburger gives the mathematical language needed to locate this obstruction. In their setting, an empirical model is a compatible family of local probability distributions over a measurement cover, and contextuality is precisely the obstruction to extending this compatible local data to a global section. Strong contextuality corresponds to the absence of even a single global assignment compatible with the support of the model. This shifts the problem from hidden variables to gluing: the non-classical feature is not merely uncertainty, but the impossibility of globally stabilizing all local descriptions at once. Later cohomological refinements show that all-vs-nothing arguments, such as GHZ-type contradictions, can be witnessed by topological or cohomological obstructions. This supports the view that contextuality is not an accidental probabilistic anomaly, but a structural failure of global reconciliation.
+
+Quantitative approaches, especially the contextual fraction and its linear-programming formulation, refine this picture by measuring how much of an empirical model can be explained non-contextually. These methods identify the largest subdistribution over global assignments that can be extracted from a model. In my setting, this naturally suggests replacing normalized probabilities by integer-valued countings at a fixed level. Instead of working only with distributions satisfying $sum_x d(x)=1$, I consider graded counting objects satisfying $sum_x d(x)=t$. This preserves the number of experimental occurrences and leads to a semigroup of compatible countings. The Hilbert basis of this semigroup then plays the role of a set of irreducible processual generators: local deterministic generators appear at level one, while contextual generators such as PR-type atoms may appear at higher levels.
+
+Process-theoretic approaches, especially categorical quantum mechanics, provide a further conceptual motivation. They treat quantum theory not primarily as a theory of states, but as a theory of composable processes. However, these approaches generally still represent completed morphisms or protocols. My proposal is to push the processual reading further: the relevant object is not only a process, but an interrupted process. I represent such an interruption by a past/future decomposition
+// $$
+// \eta=(E_\eta,R_\eta),
+// $$
+// where $E_\eta$ is the already actualized visible part and $R_\eta$ is the residual future required for stabilization. The completed object is
+// $$
+// K_\eta=E_\eta+R_\eta.
+// $$
+// If $K_\eta$ is compatible in the sheaf-theoretic sense, then the future exactly compensates the gluing defect of the past:
+// $$
+// \delta R_\eta=-\delta E_\eta.
+// $$
+Thus the future is not an external addition but the co-recollement that gives the past its final meaning.
+
+This leads to the central hypothesis of my work: a quantum state should be understood as the observation of a process that has not yet stabilized. Superposition is then not the coexistence of several ontic states, but the multiplicity of possible stabilizing completions of an unfinished prefix. Entanglement is not a mysterious extra bond between subsystems, but the failure of the space of completions to factorize locally. In this sense, the quantum is a hole in stabilization: a phenomenon seen before the process has fully resolved its global meaning.
+
+This perspective also suggests a way to avoid collapsing into unrestricted no-signaling theories. PR-type generators may be legitimate internal atoms of the Hilbert basis, but they should not be accepted as terminal stable states. A PR box is then interpreted as an interrupted or isolated phase of a larger stabilization cycle, not as a physically completed phenomenon. By contrast, GHZ-type supports can be understood as closures of contextual fibers. In computations on GHZ and related games, one can define an invariant $nu(P)$ measuring the minimal integer level at which a target support $P$ admits a compatible counting. For GHZ-type supports, this minimal level is greater than one, reflecting strong contextuality, but finite, reflecting the possibility of non-classical stabilization. A second invariant $kappa(P)$ measures how many minimal fibers are needed to reconstruct the target generator. This suggests that perfect quantum phenomena may correspond not to isolated contextual atoms, but to dynamically stabilized compositions of non-globalizable fibers.
+
+Thus, the proposed framework combines three insights from the literature while changing their point of contact: from Spekkens, I retain the idea that quantum phenomena express structured incompleteness; from sheaf theory, I retain the idea that contextuality is obstruction to global stabilization; from process theories, I retain the primacy of compositional dynamics. The new claim is that the quantum should be modeled as an intermediate phase of an automaton of Hilbert-basis generators, where observation captures a past that has not yet received its final interpretation through future closure.
+
 = Philosophical Foundations
 
 == Phenomena, Hidden Structure, and the Status of Models
