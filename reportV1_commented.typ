@@ -1,22 +1,27 @@
+// Last commit : 21/05/26 09:17
+
 // #import "@local/tool-box-louis:1.0.0": book, corollary, definition, lemma, proof, proposition, remark
 #import "template.typ": book, corollary, definition, lemma, proof, proposition, remark
-
-// s#import "@preview/physica:0.9.8": *
-
 #import "title.typ": title-page-report
-
 #set page(paper: "us-letter")
-
 #show: book.with(
   title: [Contextuality as Automata: Open Generators and the Dynamics of Quantum Phenomena],
   author: "Louis TRIOULEYRE--ROBERJOT",
   title-page-fct: title-page-report,
 )
 
-#import "@preview/dashy-todo:0.1.3": *
+// TUTO review :
+// Chaque membre a sa commande pour commenter
+#import "@preview/dashy-todo:0.1.3": inline-todo, todo
 #let med(comment) = todo(position: left, stroke: blue)[*med*: #comment]
 #let leo(comment) = todo(position: right, stroke: red)[*léo*: #comment]
 #let lou(comment) = todo(position: right, stroke: gray)[*lou*: #comment]
+
+
+// Chaque membre peux highligh des passages
+#let lou_ceci(passage) = highlight(fill: gray.lighten(80%), passage)
+#let med_ceci(passage) = highlight(fill: blue.lighten(80%), passage)
+
 
 #set par(spacing: 1.2em, first-line-indent: 0pt)
 
@@ -64,6 +69,8 @@ The example of non-signaling correlations makes this tension concrete. Popescu a
 There is also a second difficulty. Even inside the mathematical formalism of quantum correlations, different completions of the model are not obviously equivalent. One may use finite-dimensional tensor-product models, infinite-dimensional limits, or commuting-operator models. The relation between these descriptions is connected to Tsirelson's problem and to Connes' embedding problem @Junge_Navascues_Palazuelos_PerezGarcia_Scholz_Werner_2011. The NPA hierarchy gives a powerful semidefinite approximation to quantum correlations @Navascues_Pironio_Acin_2008, while later results showed that closure and model choice are subtle issues @Slofstra_2019. The equality $"MIP"^* = "RE"$ gives a striking complexity-theoretic expression of this subtlety @ji2022mipre.
 
 This literature gives the background for the present work. The goal is not to replace these reconstructions, nor to claim that the quantum formalism is wrong. The goal is more local and constructive: to build a discrete model that stays close to the experimental record and makes visible which hidden mechanisms are needed to explain it.
+
+#med[je mettrais $"MIP0"$ co Re aussi parce que moins connu et suggere lextension sans proba]
 
 == From state spaces to constructive countings
 
