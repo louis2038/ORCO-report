@@ -18,6 +18,12 @@
 #let leo(comment) = todo(position: right, stroke: red)[*léo*: #comment]
 #let lou(comment) = todo(position: right, stroke: gray)[*lou*: #comment]
 
+
+// Chaque membre peux highligh des passages
+#let lou_ceci(passage) = highlight(fill: gray.lighten(80%), passage)
+#let med_ceci(passage) = highlight(fill: blue.lighten(80%), passage)
+
+
 #set par(spacing: 1.2em, first-line-indent: 0pt)
 
 #outline(title: "Review", target: figure.where(kind: "todo"))
@@ -61,9 +67,21 @@ These works are important because they show that the Hilbert-space formalism is 
 
 The example of non-signaling correlations makes this tension concrete. Popescu and Rohrlich showed that there are non-signaling correlations stronger than quantum correlations @Popescu_Rohrlich_1994. Thus no-signaling alone does not characterize quantum theory. The quantum set lies between the classical local polytope and the larger non-signaling polytope. The problem is then to explain why nature seems to choose this intermediate region.
 
-There is also a second difficulty. Even inside the mathematical formalism of quantum correlations, different completions of the model are not obviously equivalent. One may use finite-dimensional tensor-product models, infinite-dimensional limits, or commuting-operator models. The relation between these descriptions is connected to Tsirelson's problem and to Connes' embedding problem @Junge_Navascues_Palazuelos_PerezGarcia_Scholz_Werner_2011. The NPA hierarchy gives a powerful semidefinite approximation to quantum correlations @Navascues_Pironio_Acin_2008, while later results showed that closure and model choice are subtle issues @Slofstra_2019. The equality $"MIP"^* = "RE"$ gives a striking complexity-theoretic expression of this subtlety @ji2022mipre.
+There is also a second difficulty. Even inside the mathematical formalism of quantum correlations, different completions of the model are not obviously equivalent. One may use finite-dimensional tensor-product models, infinite-dimensional limits, or commuting-operator models. The relation between these descriptions is connected to Tsirelson's problem and to Connes' embedding problem @Junge_Navascues_Palazuelos_PerezGarcia_Scholz_Werner_2011.
 
-This literature gives the background for the present work. The goal is not to replace these reconstructions, nor to claim that the quantum formalism is wrong. The goal is more local and constructive: to build a discrete model that stays close to the experimental record and makes visible which hidden mechanisms are needed to explain it.
+The distinction has a physical meaning. In a finite tensor-product model, Alice and Bob are described by two separate Hilbert spaces, and the joint system is represented by $cal(H)_A ⊗ cal(H)_B$. This is close to the usual laboratory picture of two separated devices. In the commuting-operator model, one uses a single Hilbert space $cal(H)$ and only requires Alice's and Bob's observables to commute, for example $A_x B_y = B_y A_x$. This algebraic condition says that the two measurements are compatible: changing their order does not change the predicted statistics. It is natural in algebraic quantum field theory, where observables localized in spacelike separated regions are required to commute. However, it is less directly tied to a finite experimental mechanism than a concrete tensor decomposition.
+
+The issue can be stated in terms of correlation sets. Let $C_("q")$ denote the set of correlations obtained from finite-dimensional tensor-product strategies. Let $C_("qs")$ denote the spatial tensor-product model, where the Hilbert spaces may be infinite-dimensional. Let $C_("qa") := overline(C_("q"))$ denote the approximable quantum set, obtained by closing the finite-dimensional set. Finally, let $C_("qc")$ denote the commuting-operator set. These sets satisfy the inclusions
+$
+  C_("q") subset.eq C_("qs") subset.eq C_("qa") subset.eq C_("qc").
+$
+The inclusions are not only technical details. Slofstra showed that finite-dimensional quantum correlations need not form a closed set, so one can have $C_("q") != C_("qa")$ @Slofstra_2019. Tsirelson's problem asks, in one standard formulation, whether the approximable model and the commuting-operator model coincide, that is, whether $C_("qa") = C_("qc")$. The theorem $"MIP"^* = "RE"$ implies a negative answer: there are non-local games whose commuting-operator value cannot be approximated by finite-dimensional tensor-product strategies, hence $C_("qa") subset.neq C_("qc")$ @ji2022mipre.
+
+The zero-gap version of this story is also relevant. In the usual gap formulation of $"MIP"^*$, a verifier must distinguish a yes-instance from a no-instance with a fixed separation between acceptance probabilities. In $"MIP"_0^*$, this uniform gap is removed. The question becomes exact: is the entangled value equal to $1$, or only strictly smaller than $1$? This looks like a small change, and it is operationally natural when one cares about perfect realizability rather than an arbitrary error threshold. However, it changes the behaviour of the associated classes in a strong way. Mousavi, Nezhadi, and Yuen show this for zero-gap $"MIP"^*$, and their Figure 1 gives a useful picture of the different inclusions between the classical, entangled, and commuting-operator variants @Mousavi_Nezhadi_Yuen_2020. Related work on commuting-operator formulations leads to a different computability-theoretic behaviour again @Lin_2025_MIPco_coRE. Thus even a small modification of the rule, such as removing the promise gap, can change the model at a structural level.
+
+These results do not decide which mathematical completion is physically real. They show a more modest but important point: the word "quantum" does not determine a unique operational object unless the allowed idealization is specified. A finite experiment gives finite data, with finite precision. It can rule out restricted finite-dimensional models, or give lower bounds on dimension, but it cannot by itself certify an exact infinite-dimensional Hilbert space or a genuinely non-tensor commuting-operator realization. Thus the separation $C_("qa") subset.neq C_("qc")$ is mathematically decisive, while its direct physical interpretation remains more delicate.
+
+This motivates the constructive stance of the present report. The aim is not to decide the ontology of Hilbert spaces. It is to work at the level where the experiment is actually recorded: visible events, integer counts, compatibility equations, and finite generators. A property proved at this level has a direct operational meaning before any passage to closures, limits, or operator-algebraic completions. In this sense, staying close to the experimental record is not only a simplification. It is a way to separate physically accessible structure from structure introduced by the mathematical completion of the model.
 
 == From state spaces to constructive countings
 
@@ -529,7 +547,7 @@ The aim of dynamic contextual automata is to describe these intermediate states 
 
 The following sections present the result of our work, from the initial definitions and motivations to the final proposition. The first part introduces the foundations of our meta-theory of theories. The second part shows how this framework can account for simple examples of contextuality. We also emphasize the advantage of replacing probabilistic models with an integer-based dynamic model.
 
-== Basic of dynamic sheaf automata
+== Basic of dynamic contextual automata
 
 === Generators as complete processes
 
@@ -691,8 +709,18 @@ The emission transitions on two different open copies are independent. They can 
 ]
 
 #proof[
-  If $O_eta$ is empty, then $N_eta = sum_(g in cal(G)) c_eta(g) g$. Since each $(g,ell(g))$ belongs to $𝒮$ and $𝒮$ is closed under addition, $(N_eta,t_eta)$ belongs to $𝒮$. Conversely, closed completeness gives a decomposition of every $(N,t) in 𝒮$ as a finite sum of generators. This decomposition defines a state with the corresponding closed multiplicities and with no open copy.
+  If $O_eta$ is empty, then $N_eta = sum_(g in cal(G)) c_eta (g) g$. Since each $(g,ell(g))$ belongs to $𝒮$ and $𝒮$ is closed under addition, $(N_eta,t_eta)$ belongs to $𝒮$. Conversely, closed completeness gives a decomposition of every $(N,t) in 𝒮$ as a finite sum of generators. This decomposition defines a state with the corresponding closed multiplicities and with no open copy.
 ]
+
+=== Set of possible explanations
+
+We want to define if $N subset.eq N'$:
+$
+  ℋ_𝒢 (N -> N') = { (η,η') | η ∈ ℋ_𝒢 (N) , η' ∈ ℋ_𝒢 (N') , η arrow.squiggly η'}
+$
+with the condition $η := (c,O) arrow.squiggly η' := (c',O')$ is equivalent to $∀ g ∈ 𝒢 , c(g) <= c'(g)$ and $∀g, ∀ R,R' , (g,R) ∈ O and (g,R') ∈ O' => R(v) <= R'(v)$. This means that first the second observation don't erase the past of the first observation and has the same possible view of the future.
+
+It means that given two observation, we have a theory of sheaf but about past and futur, we take the uninion of the past and the intersection of the futur like the restriction of the sheaf.
 
 This proposition explains the relation between the static and dynamic viewpoints. The static semigroup is recovered when all generators are closed. The dynamic model adds the missing layer: it also describes states that occur before closure.
 
@@ -718,6 +746,8 @@ The next step will be to use this interface structure to compare interrupted sta
 == The initial state of the art and the initial subjet
 
 #let mipstar = $"MIP"^*$
+#let mipstarzero = $"MIP"_0^*$
+#let RE = $"RE"$
 
 We start from a now central observation in quantum complexity theory: entangled multi-prover interactive proofs are extremely powerful, as captured by the equality $mipstar = "RE"$. In the standard $mipstar$ model, a verifier interacts with spatially separated provers that may share arbitrary quantum correlations. Importantly, the model does not impose any explicit structural constraint on how entanglement is distributed, nor on what information is operationally accessible to subsets of provers. This abstraction is theoretically useful, because it isolates the informational consequences of quantum non-locality. However, it also incorporates a strong implicit assumption: the availability of unstructured, globally coordinated correlations at no explicit cost.
 
@@ -791,6 +821,62 @@ This paper was relevant to us because it gives a precise example of how local co
 
 For our internship, the initial motivation was not only complexity-theoretic. My tutor had developed a broader theoretical viewpoint which seemed to become more stable and coherent over time. After many discussions, I became interested in building a toy model that could justify or at least motivate this way of seeing information, structure, and quantum behaviour. In that context, the paper was useful less as a direct roadmap toward a new complexity class, and more as a proof that local compatibility rules, when organized correctly, can preserve deep global properties. The key ideas we retained were the construction of a derived graph from a game, the role of approximate-to-exact stability, and the importance of controlling how errors accumulate when local constraints are combined.
 
+== Some genaral definition
+
+We recall the standard definition of multi-prover interactive proof systems with entanglement. The parameters are the number of provers $r$, the number of rounds $p$, the completeness parameter $c$, and the soundness parameter $s$.
+
+*Definition 1* ($mipstar_0 (r, p)$). A language $cal(L)$ belongs to $mipstar (r, p)$ if there exists a polynomial-time verifier $V$ interacting with $r$ non-communicating provers $P_1, dots, P_r$ over $p$ rounds of communication, such that:
+
++ *Shared entanglement.* Before the protocol begins, the provers share an arbitrary quantum state
+  $ |psi chevron.r in cal(H)_1 times.o cal(H)_2 times.o dots.c times.o cal(H)_r $
+  where each $cal(H)_i$ is a Hilbert space of _arbitrary finite dimension_. No restriction is placed on $|psi chevron.r$: it may be entangled in any way, in any dimension.
+
++ *Strategy.* Upon receiving question $q_i$ from the verifier, prover $P_i$ performs a measurement $\{M^((i))_(a|q_i)\}_a$ on their local subsystem $cal(H)_i$ and returns the outcome $a$. The joint probability of outcomes $(a_1, dots, a_r)$ given questions $(q_1, dots, q_r)$ is
+  $
+    p(a_1, dots, a_r | q_1, dots, q_r) = chevron.l psi | M^((1))_(a_1|q_1) times.o dots.c times.o M^((r))_(a_r|q_r) | psi chevron.r.
+  $
+
++ *Completeness.* If $x in cal(L)$, there exist a state $|psi chevron.r$ and measurements such that $Pr[V "accepts"] >= 1$ (we have $c=1$).
+
++ *Soundness.* If $x in.not cal(L)$, for _every_ state $|psi chevron.r$ (of every dimension) and _every_ choice of measurements, $Pr[V "accepts"] <= 1/2$ (we have $s = 1/2$).
+
+The class $mipstarzero$ is defined as $union.big_(r,p) mipstarzero (r, p)$, allowing arbitrarily many provers and rounds with perfect completeness and bounded-error soundness.
+
+In the $mipstar$ class, instead of fixing the completeness and soundness parameters to $1$ and $1/2$, we take unions over all $c, s$ such that $c - s >= 1/"poly"(|x|)$, allowing for arbitrary completeness-soundness gaps.
+
+=== Two-prover, one-round characterization
+
+A fundamental simplification result shows that two provers and a single round suffice.
+
+*Theorem 1* (see @ji2022mipre). $mipstarzero = mipstarzero (2, 1)$.
+
+That is, every language recognizable by an entangled multi-prover interactive proof system is already recognizable by a _two-prover, one-round_ protocol with perfect completeness and soundness $1\/2$. In this simplified model, the protocol consists of a single exchange:
+
+#block(inset: (left: 1.5em))[
+  1. The verifier samples a pair of questions $(q_A, q_B)$ and sends $q_A$ to prover $A$, $q_B$ to prover $B$.
+
+  2. The provers, who share $|psi chevron.r in cal(H)_A times.o cal(H)_B$, each measure their subsystem and return answers $a, b$.
+
+  3. The verifier evaluates a predicate $V(q_A, q_B, a, b)$ and accepts or rejects.
+]
+
+This is precisely the framework of a _nonlocal game_, and the supremum of the acceptance probability over all quantum strategies is the _entangled value_ $omega^*$ of the game.
+
+=== The role of unbounded dimension in $mipstar = RE$
+
+The following is the landmark result that motivates our investigation.
+
+*Theorem 2* (Ji, Natarajan, Vidick, Wright, Yuen @ji2022mipre). $mipstar (2, 1, 1, s) = RE$ for some constant $s < 1$.
+
+The proof constructs, for each Turing machine $M$, a nonlocal game $cal(G)_M$ such that:
+- if $M$ halts, then $omega^*(cal(G)_M) = 1$ (a perfect strategy exists in finite dimension $d$, where $d$ depends on the halting time of $M$);
+- if $M$ does not halt, then $omega^*(cal(G)_M) < 1$ (no strategy in any dimension achieves value $1$).
+
+A crucial feature of this construction is that the entangled value is defined as
+$ omega^*(cal(G)) = sup_(d >= 1) sup_(|psi chevron.r in CC^d times.o CC^d) sup_({M_(a|q)}, {N_(b|q')}) Pr["win"], $
+and the supremum over $d$ is _essential_. For a halting machine with halting time $T$, the dimension $d$ of the optimal strategy may grow as a function of $T$, and no uniform bound on $d$ exists across all instances. In other words, the full power of $mipstar = RE$ relies on the provers' ability to use shared entanglement of _arbitrarily large dimension_.
+
+*Remark.* If the dimension is bounded by a fixed constant $d$, the resulting class $mipstar (2,1,s,d)$ is known _not_ to capture all of $RE$; indeed, for fixed $d$, the entangled value $omega^*_d (cal(G))$ is computable by semidefinite programming, so the class collapses to a decidable complexity class.
 
 
 #bibliography("refs.bib")

@@ -66,11 +66,22 @@ These works are important because they show that the Hilbert-space formalism is 
 
 The example of non-signaling correlations makes this tension concrete. Popescu and Rohrlich showed that there are non-signaling correlations stronger than quantum correlations @Popescu_Rohrlich_1994. Thus no-signaling alone does not characterize quantum theory. The quantum set lies between the classical local polytope and the larger non-signaling polytope. The problem is then to explain why nature seems to choose this intermediate region.
 
-There is also a second difficulty. Even inside the mathematical formalism of quantum correlations, different completions of the model are not obviously equivalent. One may use finite-dimensional tensor-product models, infinite-dimensional limits, or commuting-operator models. The relation between these descriptions is connected to Tsirelson's problem and to Connes' embedding problem @Junge_Navascues_Palazuelos_PerezGarcia_Scholz_Werner_2011. The NPA hierarchy gives a powerful semidefinite approximation to quantum correlations @Navascues_Pironio_Acin_2008, while later results showed that closure and model choice are subtle issues @Slofstra_2019. The equality $"MIP"^* = "RE"$ gives a striking complexity-theoretic expression of this subtlety @ji2022mipre.
+#lou[J'ai amélioré tout cette partie et rajouté un petit bout sur $"MIP"_0^*$, dit moi ce que tu en penses !]
+There is also a second difficulty. Even inside the mathematical formalism of quantum correlations, different completions of the model are not obviously equivalent. One may use finite-dimensional tensor-product models, infinite-dimensional limits, or commuting-operator models. The relation between these descriptions is connected to Tsirelson's problem and to Connes' embedding problem @Junge_Navascues_Palazuelos_PerezGarcia_Scholz_Werner_2011.
 
-This literature gives the background for the present work. The goal is not to replace these reconstructions, nor to claim that the quantum formalism is wrong. The goal is more local and constructive: to build a discrete model that stays close to the experimental record and makes visible which hidden mechanisms are needed to explain it.
+The distinction has a physical meaning. In a finite tensor-product model, Alice and Bob are described by two separate Hilbert spaces, and the joint system is represented by $cal(H)_A ⊗ cal(H)_B$. This is close to the usual laboratory picture of two separated devices. In the commuting-operator model, one uses a single Hilbert space $cal(H)$ and only requires Alice's and Bob's observables to commute, for example $A_x B_y = B_y A_x$. This algebraic condition says that the two measurements are compatible: changing their order does not change the predicted statistics. It is natural in algebraic quantum field theory, where observables localized in spacelike separated regions are required to commute. However, it is less directly tied to a finite experimental mechanism than a concrete tensor decomposition.
 
-#med[je mettrais $"MIP0"$ co Re aussi parce que moins connu et suggere lextension sans proba]
+The issue can be stated in terms of correlation sets. Let $C_("q")$ denote the set of correlations obtained from finite-dimensional tensor-product strategies. Let $C_("qs")$ denote the spatial tensor-product model, where the Hilbert spaces may be infinite-dimensional. Let $C_("qa") := overline(C_("q"))$ denote the approximable quantum set, obtained by closing the finite-dimensional set. Finally, let $C_("qc")$ denote the commuting-operator set. These sets satisfy the inclusions
+$
+  C_("q") subset.eq C_("qs") subset.eq C_("qa") subset.eq C_("qc").
+$
+The inclusions are not only technical details. Slofstra showed that finite-dimensional quantum correlations need not form a closed set, so one can have $C_("q") != C_("qa")$ @Slofstra_2019. Tsirelson's problem asks, in one standard formulation, whether the approximable model and the commuting-operator model coincide, that is, whether $C_("qa") = C_("qc")$. The theorem $"MIP"^* = "RE"$ implies a negative answer: there are non-local games whose commuting-operator value cannot be approximated by finite-dimensional tensor-product strategies, hence $C_("qa") subset.neq C_("qc")$ @ji2022mipre.
+
+The zero-gap version of this story is also relevant. In the usual gap formulation of $"MIP"^*$, a verifier must distinguish a yes-instance from a no-instance with a fixed separation between acceptance probabilities. In $"MIP"_0^*$, this uniform gap is removed. The question becomes exact: is the entangled value equal to $1$, or only strictly smaller than $1$? This looks like a small change, and it is operationally natural when one cares about perfect realizability rather than an arbitrary error threshold. However, it changes the behaviour of the associated classes in a strong way. Mousavi, Nezhadi, and Yuen show this for zero-gap $"MIP"^*$, and their Figure 1 gives a useful picture of the different inclusions between the classical, entangled, and commuting-operator variants @Mousavi_Nezhadi_Yuen_2020. Related work on commuting-operator formulations leads to a different computability-theoretic behaviour again @Lin_2025_MIPco_coRE. Thus even a small modification of the rule, such as removing the promise gap, can change the model at a structural level.
+
+These results do not decide which mathematical completion is physically real. They show a more modest but important point: the word "quantum" does not determine a unique operational object unless the allowed idealization is specified. A finite experiment gives finite data, with finite precision. It can rule out restricted finite-dimensional models, or give lower bounds on dimension, but it cannot by itself certify an exact infinite-dimensional Hilbert space or a genuinely non-tensor commuting-operator realization. Thus the separation $C_("qa") subset.neq C_("qc")$ is mathematically decisive, while its direct physical interpretation remains more delicate.
+
+This motivates the constructive stance of the present report. The aim is not to decide the ontology of Hilbert spaces. It is to work at the level where the experiment is actually recorded: visible events, integer counts, compatibility equations, and finite generators. A property proved at this level has a direct operational meaning before any passage to closures, limits, or operator-algebraic completions. In this sense, staying close to the experimental record is not only a simplification. It is a way to separate physically accessible structure from structure introduced by the mathematical completion of the model.
 
 == From state spaces to constructive countings
 
@@ -536,7 +547,7 @@ The aim of dynamic contextual automata is to describe these intermediate states 
 
 The following sections present the result of our work, from the initial definitions and motivations to the final proposition. The first part introduces the foundations of our meta-theory of theories. The second part shows how this framework can account for simple examples of contextuality. We also emphasize the advantage of replacing probabilistic models with an integer-based dynamic model.
 
-== Basic of dynamic sheaf automata
+== Basic of dynamic contextual automata
 
 === Generators as complete processes
 
@@ -698,7 +709,7 @@ The emission transitions on two different open copies are independent. They can 
 ]
 
 #proof[
-  If $O_eta$ is empty, then $N_eta = sum_(g in cal(G)) c_eta(g) g$. Since each $(g,ell(g))$ belongs to $𝒮$ and $𝒮$ is closed under addition, $(N_eta,t_eta)$ belongs to $𝒮$. Conversely, closed completeness gives a decomposition of every $(N,t) in 𝒮$ as a finite sum of generators. This decomposition defines a state with the corresponding closed multiplicities and with no open copy.
+  If $O_eta$ is empty, then $N_eta = sum_(g in cal(G)) c_eta (g) g$. Since each $(g,ell(g))$ belongs to $𝒮$ and $𝒮$ is closed under addition, $(N_eta,t_eta)$ belongs to $𝒮$. Conversely, closed completeness gives a decomposition of every $(N,t) in 𝒮$ as a finite sum of generators. This decomposition defines a state with the corresponding closed multiplicities and with no open copy.
 ]
 
 This proposition explains the relation between the static and dynamic viewpoints. The static semigroup is recovered when all generators are closed. The dynamic model adds the missing layer: it also describes states that occur before closure.
