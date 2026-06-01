@@ -87,7 +87,7 @@ This motivates the constructive stance of the present report. The aim is not to 
 
 Most operational reconstructions start with a space of states, a set of effects, and rules for composing systems. This is natural when one wants to reconstruct the full probabilistic formalism. In this report, we take a different starting point. We begin with finite observations and integer counts.
 
-The reason is simple. A normalized probability distribution erases the level at which it was obtained. A distribution such as $(1,0)$ may come from one trial or from one thousand trials. These two situations have the same normalized probability but not the same empirical status. Keeping integer counts preserves this scale. It also makes it possible to ask which finite pieces of data are already compatible, which are not yet complete, and which hidden generator could still close them.
+The reason is simple. A normalized probability distribution erases the level at which it was obtained. For example, consider two possible events $A$ and $B$. The distribution $PP(A)=1$ and $PP(B)=0$ may come from the count $(1,0)$, from the count $(1000,0)$, or from any count $(t,0)$ with $t>0$. After normalization, all these situations become identical. Empirically, however, they are not the same: one observation and one thousand observations do not carry the same amount of evidence. Keeping integer counts preserves this scale. It also makes it possible to ask which finite pieces of data are already compatible, which are not yet complete, and which hidden generator could still close them.
 
 This is where contextuality enters. In the sheaf-theoretic approach, contextuality is an obstruction to gluing local data into a global section @Abramsky_Brandenburger_2011. This language is well suited to our purpose because it separates local observation from global explanation. In the discrete version used here, local probability tables are replaced by integer count tables. Compatibility becomes equality of marginal counts on overlaps. Noncontextuality becomes the possibility of reconstructing the compatible count as an integer sum of deterministic global assignments.
 
@@ -154,6 +154,23 @@ experimental run.
 
 The technical point of this section is the following. A context table is only local data. A genuine empirical model is obtained only when all context tables can be compared on overlaps and when they have a common level. Therefore we must distinguish three objects: a local counting $N_C$, a family $N = (N_C)_(C in cal(M))$, and the corresponding vector $N in NN^V$ indexed by visible contextual events. The notation is intentionally the same, but the type of the object changes with the context.
 
+As an illustration, consider the following probability table for a quantum strategy in the CHSH scenario. The rows correspond to the measurement settings $(x,y)$ chosen by Alice and Bob, and the columns correspond to the joint outcomes $(a,b)$:
+
+#figure(
+  table(
+    columns: 6,
+    align: center,
+    inset: 6pt,
+    table.header([$A$], [$B$], [$(0,0)$], [$(1,0)$], [$(0,1)$], [$(1,1)$]),
+    [$a$], [$b$], [$1/2$], [$0$], [$0$], [$1/2$],
+    [$a'$], [$b$], [$3/8$], [$1/8$], [$1/8$], [$3/8$],
+    [$a$], [$b'$], [$3/8$], [$1/8$], [$1/8$], [$3/8$],
+    [$a'$], [$b'$], [$1/8$], [$3/8$], [$3/8$], [$1/8$],
+  ),
+  caption: [Joint probabilities $p(a,b|x,y)$ for a quantum strategy achieving the Tsirelson bound $cos^2(pi/8) approx 0.8536$.],
+)<tab:chsh-quantum-example>
+
+This table illustrates a quantum strategy that violates the CHSH inequality. The marginals are uniform: for each context $(x,y)$, each outcome $(a,b)$ has probability summing to $1$, as required by compatibility. Multiplying by $8$ gives an integer counting table at level $t=2$, which corresponds to one of the lifted PR generators discussed below.
 
 #let Set = $sans("Set")$
 #definition[
@@ -261,24 +278,14 @@ For instance, the count $(1,0)$ and the count $(1000,0)$ give the same normalize
 Thus a discrete empirical model is not only a point in a polytope. It is an integer point at a definite level. The same probability may appear at several levels, but these levels correspond to different amounts of evidence and to different possible intermediate histories.
 
 #remark(name: "An arithmetic effect of the level", id: "rem:arithmetic-level-effect")[
-  Consider a partial CHSH count at level $6$. Suppose that one context already contains the counts
-  $
-    mat(3, 1; 1, 1).
-  $
-  After normalization, this gives probabilities
-  $
-    mat(1/2, 1/6; 1/6, 1/6).
-  $
+  Consider a partial CHSH count at level $6$. Suppose that one context already contains the counts $mat(3, 1, 1, 1)$.
+  After normalization, this gives probabilities $mat(1/2, 1/6, 1/6, 1/6)$.
   Now suppose that a marginal compatibility equation involves two unknown probabilities $a$ and $b$ and has the form
-  $
-    1/2 + 1/6 + a + b = 1.
-  $
+  $1/2 + 1/6 + a + b = 1$.
   Over probabilities, this gives the continuum of solutions $a+b=1/3$ with $a,b >= 0$.
 
   At level $6$, however, the unknowns must come from integer counts: $a=A/6$ and $b=B/6$ with $A,B in NN$. The same equation becomes
-  $
-    3 + 1 + A + B = 6,
-  $
+  $3 + 1 + A + B = 6$,
   hence $A+B=2$. The continuum has been cut down to the finite arithmetic set $(A,B) in { (0,2), (1,1), (2,0) }$.
 
   The point is not uniqueness. The point is that the level cuts the probabilistic continuum by an arithmetic lattice. This arithmetic rigidity disappears after normalization.
@@ -649,9 +656,9 @@ $
 $
 Thus the natural signature of an interrupted state is the pair
 $
-  Phi(eta) := (N_eta, R_eta).
+  Phi(eta) := (N_eta, K_eta).
 $
-It records both the visible past and the residual future.
+It records both the stabilized visible count (the past) and the completed count (the futur) that would be obtained if all open generators were closed
 
 #remark[
   There is no reason for the map $eta -> N_eta$ to be injective. Two different hidden states may have the same visible count but different open generators and different residual futures. This is why the dynamic theory cannot be reduced to the visible counting vector alone.
@@ -736,7 +743,9 @@ This distinction is essential. A completed count such as an element of $𝒮_("n
 
 The next step will be to use this interface structure to compare interrupted states, to define costs of open non-local resources, and to study which choices of generators give a meaningful reconstruction of contextual phenomena.
 
-= Metric
+= Analyse quantum experiences result with dynamic contextual automata
+
+= Towards a dynamic condition to capture quantum non-locality
 
 
 
