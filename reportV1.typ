@@ -4,6 +4,8 @@
 // s#import "@preview/physica:0.9.8": *
 
 #import "title.typ": title-page-report
+#import "@local/tool-box-louis:1.0.0" as tool
+#import "@preview/cetz:0.5.2" as cetz
 
 #set page(paper: "us-letter")
 
@@ -22,6 +24,26 @@
 // Chaque membre peux highligh des passages
 #let lou_ceci(passage) = highlight(fill: gray.lighten(80%), passage)
 #let med_ceci(passage) = highlight(fill: blue.lighten(80%), passage)
+
+// Helper for CHSH visualization
+#let cred(content) = text(content, fill: rgb(200, 0, 0, 200))
+#let chsh_rule(A, X) = {
+  let (a, b) = A
+  let (x, y) = X
+  if (x, y) == (1, 1) {
+    if a != b {
+      return true
+    } else {
+      return false
+    }
+  } else {
+    if a == b {
+      return true
+    } else {
+      return false
+    }
+  }
+}
 
 
 #set par(spacing: 1.2em, first-line-indent: 0pt)
@@ -154,23 +176,6 @@ experimental run.
 
 The technical point of this section is the following. A context table is only local data. A genuine empirical model is obtained only when all context tables can be compared on overlaps and when they have a common level. Therefore we must distinguish three objects: a local counting $N_C$, a family $N = (N_C)_(C in cal(M))$, and the corresponding vector $N in NN^V$ indexed by visible contextual events. The notation is intentionally the same, but the type of the object changes with the context.
 
-As an illustration, consider the following probability table for a quantum strategy in the CHSH scenario. The rows correspond to the measurement settings $(x,y)$ chosen by Alice and Bob, and the columns correspond to the joint outcomes $(a,b)$:
-
-#figure(
-  table(
-    columns: 6,
-    align: center,
-    inset: 6pt,
-    table.header([$A$], [$B$], [$(0,0)$], [$(1,0)$], [$(0,1)$], [$(1,1)$]),
-    [$a$], [$b$], [$1/2$], [$0$], [$0$], [$1/2$],
-    [$a'$], [$b$], [$3/8$], [$1/8$], [$1/8$], [$3/8$],
-    [$a$], [$b'$], [$3/8$], [$1/8$], [$1/8$], [$3/8$],
-    [$a'$], [$b'$], [$1/8$], [$3/8$], [$3/8$], [$1/8$],
-  ),
-  caption: [Joint probabilities $p(a,b|x,y)$ for a quantum strategy achieving the Tsirelson bound $cos^2(pi/8) approx 0.8536$.],
-)<tab:chsh-quantum-example>
-
-This table illustrates a quantum strategy that violates the CHSH inequality. The marginals are uniform: for each context $(x,y)$, each outcome $(a,b)$ has probability summing to $1$, as required by compatibility. Multiplying by $8$ gives an integer counting table at level $t=2$, which corresponds to one of the lifted PR generators discussed below.
 
 #let Set = $sans("Set")$
 #definition[
@@ -226,11 +231,45 @@ The first notion is compatibility. It comes from the sheaf-theoretic idea that t
 
 In the probabilistic case, this says that marginal distributions coincide on overlaps. In the counting case, it says that marginal count vectors coincide exactly. Equivalently, for a counting family $N=(N_C)_(C in cal(M))$ and for $u in ℰ(C inter D)$, compatibility means
 $
-  sum_(s in ℰ(C), s|_(C inter D) = u) N_C(s)
+  sum_(s in ℰ(C), s|_(C inter D) = u) N_C (s)
   =
-  sum_(r in ℰ(D), r|_(C inter D) = u) N_D(r).
+  sum_(r in ℰ(D), r|_(C inter D) = u) N_D (r).
 $
 We sometimes denote this whole family of homogeneous linear equations by $delta N = 0$.
+
+In the standard probabilistic setting, where $R = RR_(>=0)$, one normalizes the integer counts to obtain probability distributions. To illustrate this passage, consider the following joint probability table $p(a,b|x,y)$ for a quantum strategy in the $(2,2,2)$ Bell scenario. The rows correspond to the measurement settings $(x,y)$ chosen by Alice and Bob, and the columns to the joint outcomes $(a,b)$:
+
+#figure(
+  table(
+    columns: 6,
+    align: center,
+    inset: 6pt,
+    table.header([$A$], [$B$], [$(0,0)$], [$(1,0)$], [$(0,1)$], [$(1,1)$]),
+    [$a$], [$b$], [$1/2$], [$0$], [$0$], [$1/2$],
+    [$a'$], [$b$], [$3/8$], [$1/8$], [$1/8$], [$3/8$],
+    [$a$], [$b'$], [$3/8$], [$1/8$], [$1/8$], [$3/8$],
+    [$a'$], [$b'$], [$1/8$], [$3/8$], [$3/8$], [$1/8$],
+  ),
+  caption: [Joint probabilities $p(a,b|x,y)$ for a quantum strategy achieving the Tsirelson bound $cos^2(pi/8) approx 0.8536$.],
+)<tab:chsh-quantum-example>
+
+The four contexts are $C_1 = {a, b}$, $C_2 = {a, b'}$, $C_3 = {a', b}$, and $C_4 = {a', b'}$. Two contexts that share a measurement must agree on its marginal.
+
+_Alice's marginal on $a$_ : The contexts $C_1 = {a, b}$ and $C_2 = {a, b'}$ both contain $a$. Summing over Bob's outcomes in each context gives:
+$
+  p(a = 0 | C_1) & = p(0,0|0,0) + p(0,1|0,0) = 1/2 + 0 = 1/2, \
+  p(a = 0 | C_2) & = p(0,0|0,1) + p(0,1|0,1) = 3/8 + 1/8 = 1/2.
+$
+These two values coincide. The same holds for $a = 1$: both marginals equal $1/2$. Thus the two contexts agree on the distribution of $a$.
+
+_Bob's marginal on $b$_ : The contexts $C_1 = {a, b}$ and $C_3 = {a', b}$ both contain $b$. Summing over Alice's outcomes:
+$
+  p(b = 0 | C_1) & = p(0,0|0,0) + p(1,0|0,0) = 1/2 + 0 = 1/2, \
+  p(b = 0 | C_3) & = p(0,0|1,0) + p(1,0|1,0) = 3/8 + 1/8 = 1/2.
+$
+Again the marginals coincide. The same check works for every shared measurement across all four contexts.
+
+In summary, compatibility means that each measurement, when it appears in two different contexts, induces the same marginal distribution. The table is not free: the $16$ entries are constrained by $8$ independent marginal equations (two for each shared measurement), leaving only $8$ degrees of freedom. This is precisely the condition $delta N = 0$ applied to the CHSH cover. This can be called the no-signaling condition, because it says that the choice of measurement on one side does not affect the marginal distribution on the other side, that is the precise definition of what signaling mean.
 
 === From sheaves to hypergraphs
 
@@ -240,11 +279,113 @@ The hypergraph viewpoint keeps the same operational information but makes the li
 
 In this report, the sheaf language explains what must be glued, while the hypergraph and matrix language explains how the gluing constraints act on integer counts.
 
+To make this concrete, consider the CHSH scenario. The visible event space is $V = { (a,b|x,y) | a,b,x,y in {0,1} }$, which has $16$ elements. If we adopt the ordering $0 |-> 0, 0 |-> 1, 1 |-> 0, 1 |-> 1$ for the question-to-answer map, then a counting vector $N in NN^V$ can be represented as a $4 times 4$ matrix. The rows represent Alice's measurement-outcome pairs $(a|x)$, and the columns represent Bob's measurement-outcome pairs $(b|y)$. Each cell $(i,j)$ then corresponds to the joint event $(a,b|x,y)$, and records the count $N(a,b|x,y)$ for that combination. @fig:chsh-matrix illustrates this representation.
+
+#figure(
+  tool.draw-nonlocal-game(
+    chsh_rule,
+    players: 2,
+    unit-length: 2em,
+    pair-order: ((0, 0), (0, 1), (1, 0), (1, 1)),
+    extra-content: {},
+  ),
+  caption: [Matrix representation of a counting vector $N in NN^V$ in the CHSH scenario. Rows correspond to Alice's pairs $(a|x)$, columns to Bob's pairs $(b|y)$, and each cell to the joint event $(a,b|x,y)$. The blue color is for the winning event of the CHSH game and red is for the loosing event.],
+)<fig:chsh-matrix>
+
+In this matrix view, the context-normalization condition $A_cal(M) N = t 𝟙$ says that the sum over each context block equals $t$. The marginal-compatibility condition $delta N = 0$ says that the marginals are consistent across contexts that share a measurement. For instance, summing over Bob's outcomes in the rows corresponding to Alice's pair $(a|x)$ must give the same result whether Bob's measurement is $y=0$ or $y=1$, because Alice's marginal should not depend on Bob's choice.
+
+Concretely, all these constraints can be summarized by the *contextual hypergraph* of the Bell $(2,2,2)$ scenario, shown in @fig:chsh-hypergraph. The $16$ visible events are the vertices. The hyperedges encode two types of constraints:
+
+- *Context normalization* (blue): for each context $(x,y)$, the four events $(a,b|x,y)$ with $a,b in {0,1}$ must have counts summing to $t$. This gives $4$ hyperedges.
+- *Marginal compatibility* (red for Alice, green for Bob): for each fixed measurement-outcome pair of one party, the marginal must be independent of the other party's measurement. For Alice, fixing $(a|x)$ requires that summing over Bob's outcomes gives the same result for $y=0$ and $y=1$. For Bob, fixing $(b|y)$ requires the same for Alice's measurement $x$. This gives $4 + 4 = 8$ hyperedges.
+
+In total, the hypergraph has $12$ hyperedges. A vector $N in NN^V$ represents a compatible counting if and only if it satisfies all $12$ hyperedge constraints simultaneously.
+
+#figure(
+  {
+    cetz.canvas({
+      import cetz.draw: *
+
+      let scale = 1.2
+
+      // Vertex positions: (col, 3-row)
+      let pos(i, j) = (j * scale, (3 - i) * scale)
+
+      // Draw a hyperedge as a closed curve through vertices (no fill)
+      let hyperedge-curve(vertices, color) = {
+        let pts = vertices.map(((i, j)) => pos(i, j))
+        // Draw lines connecting vertices in order
+        for k in range(pts.len() - 1) {
+          let next = calc.rem(k + 1, pts.len())
+          line(pts.at(k), pts.at(next), stroke: color + 2pt)
+        }
+      }
+
+      // Context normalization hyperedges (blue) - 2x2 blocks with diagonal cross
+      // (0,0): diagonal cross through (0,0)-(1,1)-(0,1)-(1,0)
+      hyperedge-curve(((0, 0), (1, 1), (0, 1), (1, 0)), blue)
+      // (0,1): diagonal cross through (0,2)-(1,3)-(0,3)-(1,2)
+      hyperedge-curve(((0, 2), (1, 3), (0, 3), (1, 2)), blue)
+      // (1,0): diagonal cross through (2,0)-(3,1)-(2,1)-(3,0)
+      hyperedge-curve(((2, 0), (3, 1), (2, 1), (3, 0)), blue)
+      // (1,1): diagonal cross through (2,2)-(3,3)-(2,3)-(3,2)
+      hyperedge-curve(((2, 2), (3, 3), (2, 3), (3, 2)), blue)
+
+      // Alice compatibility hyperedges (red) - horizontal zigzag
+      // a=0, x=0: row 0 with zigzag
+      hyperedge-curve(((0, 0), (0, 1), (1, 2), (1, 3)), rgb(250, 0, 0, 255))
+      // a=1, x=0: row 1 with zigzag
+      hyperedge-curve(((1, 0), (1, 1), (0, 2), (0, 3)), rgb(200, 0, 0, 255))
+      // a=0, x=1: row 2 with zigzag
+      hyperedge-curve(((2, 0), (2, 1), (3, 2), (3, 3)), rgb(150, 0, 0, 255))
+      // a=1, x=1: row 3 with zigzag
+      hyperedge-curve(((3, 0), (3, 1), (2, 2), (2, 3)), rgb(100, 0, 0, 255))
+
+      // Bob compatibility hyperedges (green) - vertical zigzag
+      // b=0, y=0: col 0 with zigzag
+      hyperedge-curve(((0, 0), (1, 0), (2, 1), (3, 1)), rgb(0, 250, 0, 255))
+      // b=1, y=0: col 1 with zigzag
+      hyperedge-curve(((0, 1), (1, 1), (2, 0), (3, 0)), rgb(0, 200, 0, 255))
+      // b=0, y=1: col 2 with zigzag
+      hyperedge-curve(((0, 2), (1, 2), (2, 3), (3, 3)), rgb(0, 150, 0, 255))
+      // b=1, y=1: col 3 with zigzag
+      hyperedge-curve(((0, 3), (1, 3), (2, 2), (3, 2)), rgb(0, 100, 0, 255))
+
+      // Draw vertices on top
+      for i in range(4) {
+        for j in range(4) {
+          let (x, y) = pos(i, j)
+          circle((x, y), radius: 0.12, fill: white, stroke: 1.5pt)
+        }
+      }
+
+      // Row labels (Alice)
+      content((-0.5, 3 * scale), $0|0$)
+      content((-0.5, 2 * scale), $0|1$)
+      content((-0.5, 1 * scale), $1|0$)
+      content((-0.5, 0 * scale), $1|1$)
+
+      // Column labels (Bob)
+      content((0 * scale, 4.0), $0|0$)
+      content((1 * scale, 4.0), $0|1$)
+      content((2 * scale, 4.0), $1|0$)
+      content((3 * scale, 4.0), $1|1$)
+
+      // Axis labels
+      content((-1.1, 1.5), [Alice $(a|x)$], angle: 90deg)
+      content((1.5, 4.6), [Bob $(b|y)$])
+    })
+  },
+  caption: [Contextual hypergraph of the Bell $(2,2,2)$ scenario. The hyperedge are represented by the same color.],
+)<fig:chsh-hypergraph>
+
+Each hyperedge constrains its vertices: in the probabilistic setting, the sum of their probabilities must equal $1$; in the counting setting, the sum of their counts must equal the same level $t$.
+
 === How compatibility creates the level
 
 For a local counting $N_C$, define its local level by
 $
-  t_C := |N_C| = sum_(s in ℰ(C)) N_C(s).
+  t_C := |N_C| = sum_(s in ℰ(C)) N_C (s).
 $
 At first, the numbers $t_C$ may depend on the context $C$. The point is that compatibility can force them to become equal.
 
@@ -358,7 +499,7 @@ A global section is an assignment of an outcome to every measurement at once. Fo
 
 Thus, a global section represents a deterministic *hidden-variable* assignment. If the experimenter later chooses a context $C ∈ 𝓜$, the observed local outcome is not chosen anew; it is just the restriction $g|_C : C → O$ of the already fixed global assignment.
 
-In other words, determinism means that all counterfactual outcomes are jointly defined. Even if two measurements cannot be performed together, such as $a_1$ and $a_2$ in the Bell scenario, a deterministic model still assigns values to both of them in advance.
+In other words, determinism means that all counterfactual outcomes are jointly defined. Even if two measurements cannot be performed together, such as $a$ and $a'$ in the Bell scenario, a deterministic model still assigns values to both of them in advance.
 
 Given a global section $g : X → O$, we define its deterministic counting vector $d_g ∈ ℕ^V$ by
 $
@@ -746,6 +887,10 @@ The next step will be to use this interface structure to compare interrupted sta
 = Analyse quantum experiences result with dynamic contextual automata
 
 = Towards a dynamic condition to capture quantum non-locality
+
+== Single data
+
+== Towards dynamic behavior, multiple data and dynamic contraints
 
 
 
