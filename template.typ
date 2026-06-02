@@ -243,20 +243,20 @@
 
       set text(size: 9pt)
 
-      if calc.even(page_num) {
-        place(left + horizon, page)
-        place(center + horizon, smallcaps(title))
-        if not is_chapter_heading {
-          place(right + horizon, smallcaps(chap_num))
-        }
-      } else {
-        if not is_chapter_heading {
-          place(left + horizon, smallcaps(sec_num))
-          place(center + horizon, chap)
-        }
-        place(right + horizon, page)
+      // if calc.even(page_num) {
+      //   place(left + horizon, page)
+      //   place(center + horizon, smallcaps(title))
+      //   if not is_chapter_heading {
+      //     place(right + horizon, smallcaps(chap_num))
+      //   }
+      // } else {
+      if not is_chapter_heading {
+        place(left + horizon, smallcaps(sec_num))
+        place(center + horizon, chap)
       }
+      place(right + horizon, page)
     },
+    // },
   )
 
   // offset the numbering by one because single star could be ambiguous in math, maybe
@@ -434,10 +434,14 @@
   content,
 )
 
-#let fmt-proof(content) = [
+#let fmt-proof(content) = block(
+  breakable: true,
+  above: 0.44em,
+  below: 0.1em,
+  inset: (left: 0.55em, right: 0pt, top: 0.12em, bottom: 0pt),
+  stroke: (left: 0.6pt + gray),
+)[
   #content
-  #align(top + right, $square$)
-  #v(0.4em)
 ]
 
 #let smallcaps-strong = it => {
