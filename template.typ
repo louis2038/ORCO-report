@@ -437,7 +437,7 @@
 #let fmt-proof(content) = [
   #content
   #align(top + right, $square$)
-  #v(2em)
+  #v(0.4em)
 ]
 
 #let smallcaps-strong = it => {

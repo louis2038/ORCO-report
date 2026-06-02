@@ -125,7 +125,7 @@ The aim is not to replace Hilbert spaces. It is to build a small discrete langua
 
 = Technical Preliminaries
 
-In this section we will introduce the technical concept from generic contextuality to our theory of discrete contextuality.
+In this section we will introduce the technical concept from generic contextuality to our all new theory of discrete contextuality.
 
 == What is contextuality ?
 
@@ -180,7 +180,7 @@ The technical point of this section is the following. A context table is only lo
 #let Set = $sans("Set")$
 #definition[
   A *measurement scenario* is a triple $chevron.l X, cal(M), O chevron.r$ where $X$ is a set of measurements, $O$ is a set of outcomes, and $cal(M) ⊆ cal(P)(X)$ is a family of measurement contexts.
-  The *event presheaf* associated with this scenario is the functor $cal(E) : cal(P)(X)^"op" -> "Set"$
+  The *event presheaf* associated with this scenario is the functor #footnote[A functor is a mapping between categories that preserves structure. See @Leinster_2016[Chapter 1] for a gentle introduction.] $cal(E) : cal(P)(X)^"op" -> "Set"$
   defined by $cal(E)(U) := O^U$ for every subset $U ⊆ X$.
   If $U ⊆ V ⊆ X$, the restriction map $cal(E)(V) -> cal(E)(U)$ sends a joint assignment $s : V -> O$  to its restriction $s|_U : U -> O$.
   Thus, an element $s in cal(E)(U)$ is a local assignment of outcomes to all measurements in $U$. In particular, for a *context* $C in cal(M)$, an element $s in cal(E)(C)$ represents a possible joint outcome for the measurements in $C$.
@@ -215,18 +215,13 @@ In all the following we suppose that $cal(M)$ is a *measurement cover*, meaning 
 
 === Compatibility before the level
 
-The first notion is compatibility. It comes from the sheaf-theoretic idea that two local observations must agree on the part that they have in common. This is a local-to-local condition. It does not start by imposing a global normalization constant.
+The first notion is compatibility. It comes from the sheaf-theoretic idea that two local observations must agree on the part that they have in common.
 
 #definition(name: "Compatible family", id: "def:compatible-family")[
   Let $R$ be a semiring. A family
-  $
-    e = (e_C)_(C in cal(M)),
-    quad e_C in 𝒟_R (ℰ(C)),
-  $
+  $e = (e_C)_(C in cal(M))$ of elements $e_C in 𝒟_R (ℰ(C))$
   is *compatible* if, for all contexts $C,D in cal(M)$,
-  $
-    e_C|_(C inter D) = e_D|_(C inter D).
-  $
+  $e_C|_(C inter D) = e_D|_(C inter D)$.
 ]
 
 In the probabilistic case, this says that marginal distributions coincide on overlaps. In the counting case, it says that marginal count vectors coincide exactly. Equivalently, for a counting family $N=(N_C)_(C in cal(M))$ and for $u in ℰ(C inter D)$, compatibility means
@@ -383,17 +378,11 @@ Each hyperedge constrains its vertices: in the probabilistic setting, the sum of
 
 === How compatibility creates the level
 
-For a local counting $N_C$, define its local level by
-$
-  t_C := |N_C| = sum_(s in ℰ(C)) N_C (s).
-$
+For a local counting $N_C$, define its local level by $t_C := |N_C| = sum_(s in ℰ(C)) N_C (s).$
 At first, the numbers $t_C$ may depend on the context $C$. The point is that compatibility can force them to become equal.
 
 #proposition(name: "Compatibility creates the level", id: "prop:compatibility-creates-level")[
-  Suppose that the intersection graph of the contexts is connected, where $C$ is adjacent to $D$ when $C inter D != emptyset$. If a counting family $N = (N_C)_(C in cal(M))$ is compatible, then all local levels $|N_C|$ are equal. Hence there is a unique integer $t$ such that
-  $
-    forall C in cal(M), quad |N_C| = t.
-  $
+  Suppose that the intersection graph of the contexts is connected, where $C$ is adjacent to $D$ when $C inter D != emptyset$. If a counting family $N = (N_C)_(C in cal(M))$ is compatible, then all local levels $|N_C|$ are equal. Hence there is a unique integer $t$ such that $forall C in cal(M), quad |N_C| = t.$
 ]
 
 #proof[
@@ -403,10 +392,7 @@ At first, the numbers $t_C$ may depend on the context $C$. The point is that com
 Thus the level is not just an extra parameter added by hand. On a connected cover, it is the common normalization scale forced by compatible integer data.
 
 #definition(name: [Discrete empirical model of level $t$], id: "def:discrete-model")[
-  A *discrete empirical model of level* $t$ is a compatible family
-  $
-    N = (N_C)_(C in cal(M))
-  $
+  A *discrete empirical model of level* $t$ is a compatible family $N = (N_C)_(C in cal(M))$
   such that $N_C in 𝒟_NN^t (ℰ(C))$ for every context $C$.
 ]
 
@@ -443,29 +429,12 @@ $
   V := ∐_(C in cal(M)) ℰ(C)
   = { (C,s) | C in cal(M) " and " s in ℰ(C) }.
 $
-Giving a family $(N_C)_(C in cal(M))$ is the same thing as giving a vector $N in NN^V$, by the rule
-$
-  N(C,s) := N_C(s).
-$
-
-The context hypergraph is $H_cal(M) = (V,E_cal(M))$, where
-$
-  E_cal(M) = { e_C | C in cal(M) }
-  quad "and" quad
-  e_C := { (C,s) | s in ℰ(C) }.
-$
-Let $A_cal(M)$ be its incidence matrix. Then
-$
-  (A_cal(M)N)_C = sum_(s in ℰ(C)) N(C,s) = |N_C|.
-$
+Giving a family $(N_C)_(C in cal(M))$ is the same thing as giving a vector $N in NN^V$, by the rule $N(C,s) := N_C (s).$
+The context hypergraph is $H_cal(M) = (V,E_cal(M))$, where $E_cal(M) = { e_C | C in cal(M) }$ and $e_C := { (C,s) | s in ℰ(C) }.$
+Let $A_cal(M)$ be its incidence matrix. Then $(A_cal(M)N)_C = sum_(s in ℰ(C)) N(C,s) = |N_C|.$
 Therefore the equation $A_cal(M)N = t 𝟙$ expresses the common-level condition. It does not express compatibility by itself.
 
-The compatibility equations are homogeneous. If $D$ denotes their matrix, the vector form of a discrete empirical model of level $t$ is
-$
-  A_cal(M) N = t 𝟙
-  quad "and" quad
-  D N = 0.
-$
+The compatibility equations are homogeneous. If $D$ denotes their matrix, the vector form of a discrete empirical model of level $t$ is $A_cal(M) N = t 𝟙$ and $D N = 0.$
 Equivalently, using the notation $delta N = 0$ for the second family of equations, the compatible counting semigroup is
 $
   𝒮 := { (N,t) in NN^V times NN | A_cal(M) N = t 𝟙 " and " delta N = 0 }.
@@ -475,58 +444,46 @@ $
   𝒮_t := { N in NN^V | (N,t) in 𝒮 }.
 $
 
-If the two families of constraints are assembled into one augmented matrix, then
-$
-  A_("aug") N = (t 𝟙, 0).
-$
+If the two families of constraints are assembled into one augmented matrix, then $A_("aug") N = (t 𝟙, 0).$
 The zero part is important: compatibility equations are homogeneous, while normalization equations carry the level $t$.
 
 === From convex mixtures to Hilbert bases
 
 This discrete framework differs from the standard probabilistic one. In the usual convex setting, if $e$ and $e'$ are empirical models, then every convex combination $r e + (1-r)e'$ with $r ∈ [0,1]$ is again an empirical model. The geometry is therefore convex.
 
-In our setting, this operation is not primitive. An arbitrary real coefficient $r$ does not preserve integer counts. Instead, the natural operation is addition: if $(N,t)$ and $(N',t')$ belong to $𝒮$, then
-$
-  (N,t) + (N',t') = (N+N', t+t')
-$
+In our setting, this operation is not primitive. An arbitrary real coefficient $r$ does not preserve integer counts. Instead, the natural operation is addition: if $(N,t)$ and $(N',t')$ belong to $𝒮$, then $(N,t) + (N',t') = (N+N', t+t')$
 also belongs to $𝒮$. Hence the appropriate algebraic object is not first a convex set, but an affine semigroup.
 
 The analogue of a convex decomposition is therefore a Hilbert-basis decomposition. The Hilbert basis $ℋ(𝒮)$ of $𝒮$ is the finite set of irreducible elements of the semigroup. Its elements are the elementary compatible counting models that cannot be decomposed into smaller compatible counting models. Thus, instead of asking whether a model is a convex mixture of deterministic models, we ask which Hilbert generators are required to build it as an integer sum.
 
 === Discrete noncontextuality and strong contextuality
 
-A global section is an assignment of an outcome to every measurement at once. Formally, it is an element $g ∈ 𝓔(X)$, or equivalently a function $g : X → O$. The intuitive meaning is simple: before any context is chosen, every measurement $x ∈ X$ already has a predetermined outcome value $g(x) ∈ O$.
+A global section is an assignment of an outcome to every measurement at once. Formally, it is an element $g ∈ ℰ(X)$, or equivalently a function $g : X → O$. The intuitive meaning is simple: before any context is chosen, every measurement $x ∈ X$ already has a predetermined outcome value $g(x) ∈ O$.
 
-Thus, a global section represents a deterministic *hidden-variable* assignment. If the experimenter later chooses a context $C ∈ 𝓜$, the observed local outcome is not chosen anew; it is just the restriction $g|_C : C → O$ of the already fixed global assignment.
+Thus, a global section represents a deterministic *hidden-variable* assignment. If the experimenter later chooses a context $C ∈ ℳ$, the observed local outcome is not chosen anew; it is just the restriction $g|_C : C → O$ of the already fixed global assignment.
 
 In other words, determinism means that all counterfactual outcomes are jointly defined. Even if two measurements cannot be performed together, such as $a$ and $a'$ in the Bell scenario, a deterministic model still assigns values to both of them in advance.
 
 Given a global section $g : X → O$, we define its deterministic counting vector $d_g ∈ ℕ^V$ by
-$
-  d_g (C,s) :=
-  cases(
-    1 "if" s = g|_C,
-    0 "otherwise".
-  )
-$
-Here $V = { (C,s) ∣ C ∈ 𝓜, s ∈ 𝓔(C) }$ is the set of contextual events. Thus $d_g$ places one unit of mass on exactly one event in each context: the event selected by restricting the same global assignment $g$ to that context.
+$d_g (C,s) :=
+cases(
+  1 "if" s = g|_C,
+  0 "otherwise"
+)$.
+Here $V = { (C,s) ∣ C ∈ ℳ, s ∈ ℰ(C) }$ is the set of contextual events. Thus $d_g$ places one unit of mass on exactly one event in each context: the event selected by restricting the same global assignment $g$ to that context.
 
 Equivalently, $d_g$ is the empirical model produced by the deterministic hidden state $g$. It satisfies the compatibility constraints automatically, because all its local pieces come from one and the same global assignment. In incidence form, $A_cal(M) d_g = 𝟙$ and $delta d_g = 0$; with the augmented convention, this is $A_("aug") d_g = (𝟙,0)$.
 
 More generally, an arbitrary integer counting of global hidden assignments is an element
-$
-  c in 𝒟_NN^∙ (ℰ(X)).
-$
+$c in 𝒟_NN^∙ (ℰ(X))$.
 Here $c(g)$ counts how many times the global assignment $g : X -> O$ is used. Such a global counting produces a contextual-event counting by the linear map
-$
-  Phi(c) := sum_(g in ℰ(X)) c(+g) d_g in NN^V.
-$
+$Phi(c) := sum_(g in ℰ(X)) c(g) d_g in NN^V$.
 If $|c| = t$, then $Phi(c)$ has common level $t$ and is compatible. Thus $Phi$ maps global hidden countings into the empirical semigroup $𝒮$.
 
 Indeed, fix a context $C$. Since each deterministic vector $d_g$ puts exactly one unit on the event $(C,g|_C)$ and zero on the other events of the same context, we have
 $
   sum_(s in ℰ(C)) Phi(c)(C,s)
-  = sum_(s in ℰ(C)) sum_(g in ℰ(X)) c(g) d_g (C,s)+
+  = sum_(s in ℰ(C)) sum_(g in ℰ(X)) c(g) d_g (C,s)
   = sum_(g in ℰ(X)) c(g)
   = |c| = t.
 $
@@ -539,12 +496,8 @@ $
 Both sides count exactly the same global assignments: those whose restriction to the overlap $C inter D$ is $u$. Hence $delta Phi(c)=0$.
 
 A discrete empirical model $N ∈ ℕ^V$ is *noncontextual* if it can be written as an integer sum of deterministic global sections. That is, there exist coefficients ${c_g}_(g ∈ ℰ(X)) ∈ ℕ$ such that
-$
-  N = ∑_(g ∈ 𝓔(X)) c_g d_g.
-$
+$N = ∑_(g ∈ ℰ(X)) c_g d_g$.
 The coefficient $c_g$ counts how many times the deterministic assignment $g$ is used in the construction of $N$.
-
-This is the discrete analogue of the usual hidden-variable decomposition. In the probabilistic setting one asks whether an empirical model is a convex mixture of deterministic assignments. In the counting setting, one asks whether the observed integer table is a finite sum of deterministic counting vectors.
 
 If such a decomposition exists, then the apparent contextual data can be explained by a classical hidden-variable mechanism: each run secretly chooses a global assignment $g$, and the context merely reveals the part $g|_C$ corresponding to the measurements actually performed.
 
@@ -562,9 +515,7 @@ This notation is useful because it separates two questions. The semigroup $𝒮$
 
 #proof[
   By definition, every element of $𝒟_NN^∙(ℰ(X))$ is a finite counting $c : ℰ(X) -> NN$. Hence
-  $
-    Phi(c) = sum_(g in ℰ(X)) c(g) d_g.
-  $
+  $Phi(c) = sum_(g in ℰ(X)) c(g) d_g$.
   Therefore every element of $𝒮_("nc")$ is an integer sum of deterministic vectors. Conversely, every integer sum of deterministic vectors is obtained by taking $c(g)$ equal to the multiplicity of $d_g$ in the sum. Thus these vectors generate $𝒮_("nc")$.
 ]
 
@@ -589,6 +540,8 @@ We therefore keep three levels distinct:
 - *compatibility* or *non-signaling*: the local count tables have a common level and agree on overlaps, equivalently $A_cal(M) N = t 𝟙$ and $delta N = 0$;
 - *noncontextuality*: the compatible model decomposes as an integer sum of deterministic global sections;
 - *strong contextuality*: not even one deterministic global section is compatible with the support of the model.
+
+#lou[Tout ce qu'il y a au dessus est PARFAIT]
 
 == Small results on the discrete CHSH semigroup #lou[A travailler]
 
