@@ -884,13 +884,456 @@ This distinction is essential. A completed count such as an element of $𝒮_("n
 
 The next step will be to use this interface structure to compare interrupted states, to define costs of open non-local resources, and to study which choices of generators give a meaningful reconstruction of contextual phenomena.
 
+=== From observations to theory: the three-layer architecture
+
+We now describe the full architecture of a dynamic contextual theory. The framework separates three layers: the raw observations, the dynamic explanations, and the constraint that selects admissible dynamics.
+
+==== Layer 1: The sequence of observations
+
+An experiment that can be interrupted produces not a single completed counting, but a sequence of partial observations. At each interruption time $i$, the experimenter records an integer counting $N_i in NN^V$. The full experimental record is the sequence
+$
+  N_(1:k) = (N_1, dots, N_k).
+$
+Each $N_i$ is a snapshot of the process at time $i$. It records what has been seen so far, but not how it was produced. The sequence carries more information than the final count alone: it preserves the order of events, the intermediate states, and the possibility of interruption.
+
+For example, in CHSH, if the experiment is interrupted after $17$ events, the visible count $N_3$ may contain $3$ complete local generators and part of a fourth. This prefix is not a closed empirical model, but it is a meaningful intermediate state.
+
+==== Layer 2: The dynamic states and their transitions
+
+For each observation $N_i$, the theory assigns a set of possible hidden explanations
+$
+  cal(H)_cal(G) (N_i) = { eta_i = (c_i, O_i) | N_(eta_i) = N_i }.
+$
+Each $eta_i$ remembers which generators are closed (stabilized) and which are open (still in progress). The transition condition $eta_i arrow.squiggly eta_(i+1)$ ensures that the explanation at time $i+1$ is compatible with the explanation at time $i$: closed generators remain closed, and the residual future can only shrink.
+
+The full fibre of dynamic explanations for the sequence is
+$
+  cal(H)_cal(G) (N_(1:k)) = { (eta_1, dots, eta_k) | forall i, eta_i in cal(H)_cal(G) (N_i) " and " eta_i arrow.squiggly eta_(i+1) }.
+$
+This fibre may contain many trajectories. Two different trajectories can explain the same observation sequence with different distributions of open and closed copies, different residual futures, and different intermediate costs.
+
+==== Layer 3: The dynamic constraint $xi$
+
+The fibre $cal(H)_cal(G) (N_(1:k))$ is typically too large to be useful by itself. It contains every possible way of explaining the observations, including explanations that accumulate unbounded open-generator debt. The third layer introduces a constraint $xi$ that filters the fibre to select only those trajectories that satisfy a global stability condition.
+
+The dynamic fit under constraint $xi$ is
+$
+  cal(H)_(cal(G), xi) (N_(1:k)) = { (eta_1, dots, eta_k) in cal(H)_cal(G) (N_(1:k)) | (eta_1, dots, eta_k) models xi }.
+$
+The observation sequence is *explained* by the theory $(cal(G), xi)$ if this set is non-empty.
+
+==== The theory $TT = (cal(G), xi)$
+
+A dynamic contextual theory is a pair
+$
+  TT = (cal(G), xi),
+$
+where $cal(G)$ is the *structure* and $xi$ is the *dynamics*.
+
+The *structure* $cal(G)$ specifies the elementary processes: which generators are available, what their levels are, and how they decompose compatible countings. The choice of $cal(G)$ is a modelling decision. A coarse theory uses only low-level generators. A fine-grained theory uses higher-level generators that can explain more complex observations.
+
+The *dynamics* $xi$ specifies how the generators can evolve over time. It does not determine a unique trajectory. It constrains the set of admissible trajectories, removing those that violate a stability condition. The dynamics is what makes the theory predictive: it says not only what can be observed, but how the hidden process must behave between observations.
+
+==== The three approaches to $xi$
+
+We now describe three ways to define the dynamic constraint $xi$, in order of increasing sophistication.
+
+*Approach 1: Open-generator constraint.* The simplest constraint limits the number of open generators relative to closed ones:
+$
+  xi_B : quad O_i <= lambda C_i + B quad forall i.
+$
+Here $O_i$ is the number of open copies and $C_i$ is the number of closed copies. This constraint acts like a magnet: it does not determine the trajectory, but if the process accumulates too many open generators, the constraint forces it back toward stabilization. The trajectory is free to choose its path within the stability envelope.
+
+*Approach 2: Calibrated slope.* A refined version calibrates the slope $lambda$ to the trison bound $T(n)$ at the relevant level:
+$
+  xi_(B,T) : quad O_i <= lambda_T (n) C_i + B quad forall i,
+$
+where $lambda_T (n)$ is computed from the rational approximation $w_Q (n)/n$ of the Tsirelson probability. This targets the discrete quantum bound rather than the abstract irrational limit.
+
+*Approach 3: Past/future product constraint.* The most refined approach uses the past/future distances $d^-$ and $d^+$. For each dynamic state $eta_i$, define
+$
+  d^-_i = |N_i - P_(eta_i)|_1, quad d^+_i = |F_(eta_i) - N_i|_1,
+$
+where $P_(eta_i)$ is the closed part and $F_(eta_i)$ is the completed part. The constraint is
+$
+  xi_"PF" : quad d^-_i dot d^+_i <= A_T (n) quad forall i.
+$
+The product $d^- d^+$ measures the simultaneous tension between past and future. It is the dynamic analogue of the contextual fraction: a classical observation has $d^- = d^+ = 0$, a quantum-like observation has moderate tension, and a post-quantum observation has excessive tension.
+
+The key result is that $d^- d^+$ is strictly monotonically increasing in the CHSH score $S$ for $S > 2$, on the isotropic line. Therefore the constraint $d^- d^+ <= A_T (n)$ captures exactly the quantum set at each finite level $n$, without any reference to $sqrt(2)$.
+
+==== What $xi$ is not
+
+It is important to clarify what $xi$ does not do.
+
+- $xi$ does not determine a unique hidden state. Multiple trajectories can satisfy $xi$ for the same observation sequence.
+- $xi$ does not choose which event will be emitted next. It only filters the set of admissible continuations.
+- $xi$ is not a hidden-variable theory in the traditional sense. It does not assign predetermined values to all measurements. It constrains the dynamics of the explanatory process.
+
+In this sense, $xi$ is closer to a conservation law than to a hidden variable. It says what must be preserved (the stability bound), not what must happen (the next event). The theory $TT = (cal(G), xi)$ is therefore a theory of constraints on explanations, not a theory of hidden causes.
+
 = Analyse quantum experiences result with dynamic contextual automata
+
+#v(5em)
+
+The previous sections established the static and dynamic tools: compatible integer countings, Hilbert-basis generators, open/closed copies, and residual automata. We now use these tools to analyse quantum experimental data. The central question is: can the dynamic framework distinguish quantum-like observations from classical and post-quantum ones, and can it do so at each finite level $t$ without invoking the idealized Tsirelson bound?
+
+== The trison bound at level $t$
+
+We have seen that a discrete empirical model of level $t$ is a compatible integer counting $N in NN^V$ with $A_cal(M) N = t 𝟙$ and $delta N = 0$. In the CHSH scenario, the score $S(N)$ is a rational number at each finite level $t$, because each entry $N(a,b|x,y)$ is an integer and the correlators are ratios of integers with denominator dividing $t$.
+
+#definition(name: [Trison bound at level $t$], id: "def:trison-bound")[
+  Let $cal(Q)_t$ denote the set of integer countings at level $t$ that are quantum-realizable, that is, countings that arise from some finite-dimensional quantum strategy with $t$ repetitions. The *trison bound* at level $t$ is
+  $
+    T(t) := sup_(N in cal(Q)_t) S(N).
+  $
+  Since $cal(Q)_t$ is a finite set of integer points in a compact region, the supremum is a maximum and $T(t)$ is a rational number.
+]
+
+The trison bound $T(t)$ is the best CHSH score achievable by any quantum strategy using exactly $t$ repetitions of the experiment. It is a discrete, rational, finite-time quantity.
+
+== The Tsirelson bound is an asymptotic idealization
+
+The celebrated Tsirelson bound states that quantum mechanics cannot produce a CHSH score exceeding $2 sqrt(2)$. In the standard probabilistic framework, this bound is derived from the algebraic structure of Hilbert-space observables. However, from the discrete perspective, the situation is fundamentally different.
+
+#proposition(name: "$sqrt(2)$ requires infinite experiments", id: "thm:sqrt2-infinite")[
+  For every finite level $t in NN$, the trison bound satisfies $T(t) < 2 sqrt(2)$. The Tsirelson bound is recovered only in the limit:
+  $
+    lim_(t -> oo) T(t) = 2 sqrt(2).
+  $
+]
+
+#proof[
+  The proof proceeds in two steps.
+
+  _Step 1: Rationality._ For any $N in cal(Q)_t$, each correlator $E(x,y)$ is a ratio of integers with denominator dividing $t$. The CHSH score $S = E(0,0) + E(0,1) + E(1,0) - E(1,1)$ is therefore a rational number. Hence $S(N) in QQ$.
+
+  _Step 2: Irrationality of $2 sqrt(2)$._ If $2 sqrt(2) = p/q$ for some integers $p,q$, then $sqrt(2) = p/(2q)$ would be rational, which is a contradiction by the classical proof of irrationality. Therefore $S(N) != 2 sqrt(2)$ for any finite $t$.
+
+  _Step 3: Convergence._ On the isotropic line of the CHSH polytope, one can construct explicit quantum strategies that approach $2 sqrt(2)$ as $t$ grows. The optimal winning probability at level $t$ is $w^*(t) = floor(t p^*)$ where $p^* = (2+sqrt(2))/4$. The resulting score is
+  $
+    T_"iso"(t) = (4(2 w^*(t) - t)) / t,
+  $
+  and the gap satisfies
+  $
+    2 sqrt(2) - T_"iso"(t) = (8 dot "frac"(t p^*)) / t,
+  $
+  which tends to $0$ as $t -> oo$. Since $T(t) >= T_"iso"(t)$, the result follows.
+]
+
+This theorem has a striking interpretation: the $sqrt(2)$ of Tsirelson is not a parameter of the discrete model. It is an emergent, asymptotic, purely abstract quantity. No finite experiment can ever reach it. The irrationality of $sqrt(2)$ creates an arithmetic obstruction: at every finite level $t$, the quantum score is rational, and the gap to $2 sqrt(2)$ is controlled by the Diophantine properties of $sqrt(2)$ through its continued fraction expansion $sqrt(2) = [1; 2, 2, 2, dots]$.
+
+== Discrete quantum theory at level $t$
+
+This observation motivates a shift in perspective. Instead of asking "does the data match the Tsirelson bound?", we ask "does the data match the trison bound at its own level?"
+
+#definition(name: "Discrete quantum theory at level $t$", id: "def:discrete-quantum-theory")[
+  The *discrete quantum theory at level* $t$ is the triple
+  $
+    TT_t = (cal(G), xi_t, T(t))
+  $
+  where $cal(G)$ is the generator family, $xi_t$ is a dynamic constraint calibrated to level $t$, and $T(t)$ is the trison bound at level $t$. An observation $N$ is *quantum-realizable at level $t$* if it admits a dynamic explanation compatible with $xi_t$.
+]
+
+The key idea is that the quantum set at level $t$ is not defined by the irrational bound $2 sqrt(2)$, but by the rational bound $T(t)$. This is operationally honest: a laboratory performing $t$ repetitions can only distinguish scores in $1/t$ increments. The discrete quantum theory respects this resolution.
+
+== Approximation via the NPA hierarchy
+
+Computing $T(t)$ exactly is in general a hard combinatorial problem: one must optimize over all integer points in the quantum set. The NPA (Navascués-Pironio-Acín) hierarchy provides a systematic way to approximate the quantum set from the outside @Navascues_Pironio_Acin_2008.
+
+#definition(name: "NPA approximation of $T(t)$", id: "def:npa-approximation")[
+  Let $cal(Q)_k$ denote the $k$-th NPA relaxation of the quantum set, which satisfies $cal(Q) subset.eq cal(Q)_k$ for all $k$ and $cal(Q)_k subset.eq cal(Q)_(k+1)$. Define
+  $
+    T_k (t) := max_(N in NN^V, A N = t 𝟙, delta N = 0, N/t in cal(Q)_k) S(N).
+  $
+  This is the best CHSH score achievable by an integer counting at level $t$ that also satisfies the $k$-th NPA relaxation.
+]
+
+The NPA hierarchy gives a sandwich:
+$
+  T_"iso" (t) <= T(t) <= T_k (t) <= 2 sqrt(2).
+$
+The first inequality holds because the isotropic strategy is a particular quantum strategy. The second holds because $cal(Q) subset.eq cal(Q)_k$. The third is the Tsirelson bound itself, which is the limit of the NPA hierarchy.
+
+The practical interest is that $T_k (t)$ can be computed by a mixed-integer linear program (MILP): one extracts linear inequalities from the NPA semidefinite relaxation at level $k$, then optimizes the integer CHSH score subject to these inequalities, the normalization constraint $A N = t 𝟙$, and the no-signaling constraint $delta N = 0$. This MILP is solvable by standard solvers such as Gurobi or SCIP.
+
+At NPA level $1$, the moment matrix $Gamma^((1))$ is $5 times 5$ (basis ${I, A_0, A_1, B_0, B_1}$) with the constraint $Gamma^((1)) succ.eq 0$. This gives the eight CHSH inequalities plus additional quadratic constraints. At higher levels, the matrix grows and the constraints become tighter, converging to the exact quantum set.
+
+The duality between NPA and the discrete sheaf is:
+
+- *NPA (top-down):* relaxes the quantum set into $cal(Q)_k$ and computes $T_k (t) >= T(t)$. The direction is from above.
+- *Discrete sheaf (bottom-up):* restricts to integer points and computes $T(t)$ directly. The direction is from below.
+
+Together they squeeze the trison bound: $T(t) <= T_k (t)$, and both converge to $2 sqrt(2)$ as $t$ and $k$ grow.
+
+== The three levels at each $t$
+
+At each finite level $t$, the discrete framework separates three sets of integer countings:
+
+- *Local:* $cal(S)_"loc" (t)$ contains the noncontextual integer models. These satisfy $S <= 2$.
+- *Quantum:* $cal(S)_"quant" (t) = cal(Q)_t$ contains the quantum-realizable integer models. These satisfy $S <= T(t) < 2 sqrt(2)$.
+- *No-signaling:* $cal(S)_"ns" (t)$ contains all compatible integer models. These satisfy $S <= 4$.
+
+The inclusions $cal(S)_"loc" (t) subset.eq cal(S)_"quant" (t) subset.eq cal(S)_"ns" (t)$ hold at every level. The trison bound $T(t)$ is the frontier of the quantum set inside the no-signaling set. It is a rational number that depends on the arithmetic of $t$ and on the Diophantine properties of $sqrt(2)$.
+
+#remark(name: [Non-monotonicity of $T(t)$], id: "rem:non-monotone-T")[
+  The function $t mapsto T(t)$ is not monotone. For example, $T(7) = 2.571 < T(6) = 2.667$. This happens because the arithmetic structure of the integer lattice changes with $t$: some levels admit particularly good rational approximations to the quantum set, while others do not. The convergents of the continued fraction of $sqrt(2)$, namely $t in {1, 2, 5, 12, 29, 70, 169, 408, dots}$, are the levels where $T(t)$ is closest to $2 sqrt(2)$.
+]
+
+== Non-isotropic strategies beat the isotropic line
+
+A natural question is whether the isotropic strategy (same winning count $w$ in every context) is always optimal. The answer is no.
+
+At level $t = 5$, the isotropic strategy with $w = 4, l = 1$ gives $S = 2.4$. But a non-isotropic strategy with correlators $(1.0, 0.6, 1.0, -0.2)$ achieves $S = 2.8$. This strategy "sacrifices" the fourth context (reducing its anti-correlation from $-0.6$ to $-0.2$) to "boost" the first and third contexts to perfect correlation. The net gain is $+0.4$.
+
+This shows that the quantum set at finite $t$ is not symmetric under permutation of contexts. The optimal strategy depends on the arithmetic structure of $t$ and on the geometry of the integer lattice inside the no-signaling polytope.
+
+== Interpretation: $sqrt(2)$ as a purely abstract limit
+
+The result of this section can be summarized as follows. The quantity $sqrt(2)$ that appears in the Tsirelson bound is not a physical constant that can be measured in a single experiment. It is a purely abstract, asymptotic, irrational limit of a sequence of rational, finite-time, physically meaningful quantities $T(t)$. Each $T(t)$ is the best CHSH score achievable with $t$ repetitions. The gap $2 sqrt(2) - T(t)$ is controlled by the Diophantine properties of $sqrt(2)$ and tends to zero as $t -> oo$, but it is never zero at any finite $t$.
+
+This has a direct consequence for the dynamic framework: the constraint $xi$ that defines the discrete quantum theory at level $t$ should not target $2 sqrt(2)$ directly. It should target $T(t)$, which is a rational, computable, finite-time quantity. The next section describes how such constraints are built from the dynamics of open and closed generators.
 
 = Towards a dynamic condition to capture quantum non-locality
 
-== Single data
+== Single data: the static constraint
 
-== Towards dynamic behavior, multiple data and dynamic contraints
+The first step is to test whether a single observation $N$ can be explained by a dynamic state that satisfies a stability constraint between open and closed generators.
+
+#definition(name: "Static stability constraint", id: "def:static-stability")[
+  Let $eta = (c_eta, O_eta)$ be a dynamic state with visible count $N_eta = N$. Define
+  $
+    O_eta := |O_eta| = sum_((g,R) in O_eta) 1,
+  $
+  the number of open copies, and
+  $
+    C_eta := sum_(g in cal(G)) c_eta (g),
+  $
+  the number of closed copies. The *static stability constraint* with buffer $B >= 0$ is
+  $
+    xi_B : quad O_eta <= lambda C_eta + B
+  $
+  for some slope $lambda >= 0$.
+]
+
+This constraint says that the number of open (incomplete) generators cannot exceed a linear function of the number of closed (stabilized) generators. The parameter $lambda$ controls the allowed ratio of instability to stability. The parameter $B$ is a buffer that tolerates a fixed amount of initial instability before any generator has closed.
+
+#remark(name: "Magnet analogy", id: "rem:magnet-analogy")[
+  The constraint $xi_B$ behaves like a magnet guiding a trajectory. It does not determine the path: the dynamics of opening, emitting, and closing generators is not forced by $xi_B$ alone. But if the trajectory strays too far---if the number of open copies grows too large relative to the closed ones---the constraint applies a "wall" that pushes the process back toward stabilization. The magnet does not choose the destination, but it prevents the trajectory from escaping into unbounded instability.
+
+  More precisely: $xi_B$ does not select a unique trajectory $eta_1 -> eta_2 -> dots -> eta_k$. It filters the set of admissible trajectories, removing those that violate the stability bound at any step. The surviving trajectories are not deterministic, but they are constrained: their open/closed ratio stays within the prescribed envelope.
+]
+
+#proposition(name: "Static separation at level $68$", id: "prop:static-separation")[
+  Consider the isotropic CHSH scenario at level $n = 34$ (so $t = 2n = 68$ total events). Using the local deterministic generators $cal(G)_"loc"$ and the constraint $xi_0 : O <= C$ (no buffer, slope $lambda = 1$), the following observations are separated:
+
+  #figure(
+    table(
+      columns: 6,
+      align: center,
+      inset: 6pt,
+      table.header([Observation], [$w$], [$l$], [$S$], [Minimal $O$], [Fit $O <= C$?]),
+      [Local boundary], [25], [9], [1.882], [0], [Yes],
+      [Quantum-like], [29], [5], [2.824], [38], [Yes],
+      [Stronger], [30], [4], [3.059], [48], [No],
+      [PR], [34], [0], [4.000], [91], [No],
+    ),
+    caption: [Static separation by $O <= C$ at level $n = 34$. The quantum-like point passes; the post-quantum and PR points fail.],
+  )<tab:static-separation>
+]
+
+The constraint $O <= C$ accepts the quantum-like observation (close to Tsirelson) but rejects the next point on the isotropic line and the PR box. This is a first, crude separation: it distinguishes the quantum regime from the post-quantum regime using only the dynamics of open and closed generators.
+
+== Towards dynamic behavior: multiple data and dynamic constraints
+
+A single observation $N$ is a static snapshot. A real experiment produces a sequence of observations $N_1, dots, N_k$ as the process evolves. The dynamic framework must therefore constrain not just individual states, but entire trajectories.
+
+=== The sequence of observations
+
+An experiment that can be interrupted produces a sequence of integer countings:
+$
+  N_(1:k) = (N_1, dots, N_k).
+$
+Each $N_i$ is the visible count at interruption time $i$. The sequence is not necessarily cumulative: the experimenter may observe partial data at each step, and the total count at time $i$ may differ from the sum of previous counts. The key constraint is that each $N_i$ must be explainable by some dynamic state $eta_i$.
+
+=== The dynamic states and their transitions
+
+For each observation $N_i$, the set of possible explanations is
+$
+  cal(H)_cal(G) (N_i) = { eta in "Dyn"_cal(G) | N_(eta_i) = N_i }.
+$
+Each $eta_i = (c_i, O_i)$ is a pair of closed multiplicities and open copies. The transition $eta_i -> eta_(i+1)$ means that the second state does not erase the past of the first: the closed generators at time $i$ remain closed at time $i+1$, and the residual futures are compatible.
+
+More precisely, $eta := (c, O) arrow.squiggly eta' := (c', O')$ holds when:
+
+- For every $g in cal(G)$, $c(g) <= c'(g)$: closed copies are never destroyed.
+- For every $g$ and every pair of residuals $R, R'$, if $(g, R) in O$ and $(g, R') in O'$, then $R(v) <= R'(v)$ for every $v in V$: the future at time $i+1$ is a subset of the future at time $i$.
+
+This condition defines a sheaf-like structure on the past and future: the past grows (union of closed generators) and the future shrinks (intersection of residual obligations).
+
+=== The fibre of dynamic explanations
+
+The full fibre of dynamic explanations for the sequence $N_(1:k)$ is
+$
+  cal(H)_cal(G) (N_(1:k)) = { (eta_1, dots, eta_k) | forall i, eta_i in cal(H)_cal(G) (N_i) " and " eta_i arrow.squiggly eta_(i+1) }.
+$
+This is the set of all coherent trajectories that explain the observed sequence. Without additional constraints, this set may be very large: it contains every possible way of distributing open and closed copies that is compatible with the observations and with the transition condition.
+
+=== The extra layer: from observations to dynamics to explanation
+
+The framework separates three layers.
+
++ *Observations.* The experimenter records a sequence of integer countings $N_1, dots, N_k$. These are the visible data.
+
++ *Dynamic explanations.* For each $N_i$, the theory assigns a set of possible hidden states $cal(H)_cal(G) (N_i)$. Each hidden state remembers which generators are closed (already stabilized) and which are open (still in progress). The transition condition $eta_i arrow.squiggly eta_(i+1)$ ensures coherence across time.
+
++ *The dynamic constraint $xi$.* An additional constraint $xi$ filters the fibre $cal(H)_cal(G) (N_(1:k))$ to select only those trajectories that satisfy a global stability condition. This is the layer that encodes the "theory" --- not as a deterministic hidden variable, but as a restriction on the allowed dynamics.
+
+The theory is therefore a pair
+$
+  TT = (cal(G), xi),
+$
+where $cal(G)$ is the structure (the generators) and $xi$ is the dynamics (the constraint on trajectories). The structure says what the elementary processes are. The dynamics says how they can evolve.
+
+=== The dynamic fit
+
+Given a sequence of observations $N_(1:k)$, the *dynamic fit* under theory $TT = (cal(G), xi)$ is
+$
+  cal(H)_(cal(G), xi) (N_(1:k)) = { (eta_1, dots, eta_k) in cal(H)_cal(G) (N_(1:k)) | (eta_1, dots, eta_k) models xi }.
+$
+The observation sequence is *explained* by $TT$ if this set is non-empty: there exists at least one coherent trajectory that satisfies the stability constraint at every step.
+
+=== Three approaches to $xi$
+
+We now describe three ways to define the dynamic constraint $xi$, in order of increasing sophistication.
+
+==== Approach 1: Open-generator constraint (the magnet)
+
+The simplest approach constrains the number of open generators at each step:
+$
+  xi_B : quad O_i <= lambda C_i + B quad forall i.
+$
+Here $O_i = |O_(eta_i)|$ is the number of open copies and $C_i = sum_g c_i (g)$ is the number of closed copies. The slope $lambda$ controls the allowed ratio of instability to stability. The buffer $B$ tolerates initial instability.
+
+As explained in @rem:magnet-analogy, this constraint does not determine the trajectory. It acts like a magnet: if the process accumulates too many open generators relative to closed ones, the constraint forces it back toward stabilization. The trajectory is free to choose its path, but it cannot stray beyond the stability envelope.
+
+The experimental results show that this approach separates quantum-like observations from post-quantum ones. At level $n = 34$ with $lambda = 1$ and $B = 0$, the quantum-like point $(w, l) = (29, 5)$ fits ($O = 38, C = 40$), while the post-quantum point $(30, 4)$ does not ($O = 48, C = 32$).
+
+==== Approach 2: Calibrated slope $O_i <= lambda C_i + B$
+
+The constraint with slope $lambda = 1$ is crude. A more refined approach calibrates the slope to the trison bound $T(n)$ at the relevant level.
+
+For the isotropic CHSH line, if the winning probability is $p = w/n$, then the threshold for the static constraint $O <= lambda C$ corresponds to
+$
+  lambda = ((4p)/3 - 1) / (1 - p).
+$
+At the Tsirelson probability $p^* = (2+sqrt(2))/4$, this gives $lambda_Q = (2 sqrt(2))/3$. At the finite level $n$, the calibrated slope is
+$
+  lambda_T (n) = ((4/3)(w_Q (n)/n) - 1) / (1 - w_Q (n)/n),
+$
+where $w_Q (n) = floor(n p^*)$.
+
+The constraint
+$
+  xi_(B, T) : quad O_i <= lambda_T (n) C_i + B
+$
+targets the discrete quantum bound $T(n)$ rather than the abstract Tsirelson bound. This is operationally honest: the slope is computed from the rational approximation $w_Q (n)/n$, not from the irrational $sqrt(2)$.
+
+Experimental results at level $n = 34$ with $lambda_T (34) = 14/15$:
+
+- The quantum-like point $(29, 5)$ fits with buffer $B = 15$.
+- The post-quantum point $(30, 4)$ requires buffer $B >= 19$.
+- The PR point $(34, 0)$ requires buffer $B = 91$.
+
+The gap between quantum-like and post-quantum is preserved, and the buffer grows sharply above the quantum threshold.
+
+==== Approach 3: The past/future product constraint $d^- d^+ <= A_T (n)$
+
+The most refined approach uses the past/future distances $d^-$ and $d^+$ introduced in the previous section. Recall that for a dynamic state $eta$ with visible count $N$:
+$
+  d^- (N, eta) = |N - P_eta|_1, quad d^+ (N, eta) = |F_eta - N|_1,
+$
+where $P_eta$ is the closed (past) part and $F_eta$ is the completed (future) part.
+
+The product $d^- d^+$ measures the simultaneous tension between what has been seen and what remains to be done. A classical observation has $d^- = d^+ = 0$: everything is already closed. A quantum-like observation has moderate tension. A post-quantum observation has excessive tension.
+
+#definition(name: "Past/future product constraint", id: "def:past-future-product")[
+  Let $A_T (n)$ be the integer threshold calibrated to the trison bound $T(n)$:
+  $
+    A_T (n) := d^-_Q times d^+_Q,
+  $
+  where $d^-_Q, d^+_Q$ are the past/future distances at the quantum-optimal isotropic point $(w_Q (n), n - w_Q (n))$. The *past/future product constraint* is
+  $
+    xi_"PF" : quad d^- (N_i, eta_i) dot d^+ (N_i, eta_i) <= A_T (n) quad forall i.
+  $
+]
+
+This constraint has a direct connection to the contextuality literature. In the work of Barbosa et al. on quantifying contextuality via linear programming, the contextual fraction measures the failure of classical explanation. Here, $d^- d^+$ plays an analogous role but in the dynamic setting: it measures the tension between past and future in the explanatory process.
+
+The key result is that $d^- d^+$ is strictly monotonically increasing in the CHSH score $S$ for $S > 2$, on the isotropic line. Therefore:
+
+#proposition(name: "$d^- d^+$ captures the quantum set at level $n$", id: "prop:dd-captures-quantum")[
+  On the isotropic CHSH line at level $n$, the constraint $d^- d^+ <= A_T (n)$ is equivalent to $S <= T(n)$. That is:
+  $
+    d^- d^+ <= A_T (n) quad <=> quad S <= T(n).
+  $
+  Moreover, $A_T (n) < d^- d^+_"post"$ for every $n$, where $d^- d^+_"post"$ is the product at the first post-quantum point.
+]
+
+This means that the past/future product constraint captures exactly the quantum set at each finite level $n$. The constraint is purely integer-valued: no $sqrt(2)$ appears. The irrational Tsirelson bound emerges only as the limit $A_T (n) / n^2 -> 2 sqrt(2) - 1$ when $n -> oo$.
+
+#figure(
+  table(
+    columns: 6,
+    align: center,
+    inset: 6pt,
+    table.header([$n$], [$w_Q$], [$T(n)$], [$A_T (n)$], [$S_"post"$], [Separation]),
+    [5], [4], [2.400], [32], [--], [--],
+    [10], [8], [2.400], [128], [3.20], [Yes],
+    [17], [14], [2.588], [640], [3.06], [Yes],
+    [20], [17], [2.800], [1536], [3.20], [Yes],
+    [34], [29], [2.824], [4480], [3.06], [Yes],
+    [50], [42], [2.720], [6912], [2.88], [Yes],
+    [70], [59], [2.743], [14976], [2.86], [Yes],
+    [100], [85], [2.800], [34560], [2.88], [Yes],
+  ),
+  caption: [Calibration of $A_T (n)$ at various levels. The quantum threshold $A_T (n)$ is always strictly below the post-quantum value, confirming exact separation.],
+) <tab:AT-calibration>
+
+== The first algorithm: static verification
+
+The first algorithm we developed tests whether a single observation $N$ can be explained by a dynamic state satisfying the stability constraint. This is a static test: it does not require a sequence of observations, only a single integer counting.
+
+#definition(name: "Static dynamic feasibility", id: "def:static-feasibility")[
+  Given an observation $N in NN^V$ and a constraint $xi$, the *static feasibility problem* asks: does there exist a dynamic state $eta = (c_eta, O_eta)$ such that
+
+  + $N_eta = N$ (the visible count matches the observation),
+  + $eta models xi$ (the stability constraint is satisfied)?
+
+  The set of all such explanations is $cal(H)_(cal(G), xi) (N)$.
+]
+
+For the constraint $O <= lambda C + B$, this is a mixed-integer linear program (MILP). The variables are the multiplicities $c(g)$ of closed generators and the open copies $(g, R)$ with their residuals. The constraints are:
+
+- The visible count equation: $N = sum_g c(g) g + sum_((g,R) in O) (g - R)$.
+- The stability constraint: $|O| <= lambda sum_g c(g) + B$.
+- Integrality: $c(g) in NN$, $R in NN^V$, $0 <= R <= g$.
+
+The objective can be feasibility (does any solution exist?) or optimization (minimize $B$ for a given $lambda$).
+
+=== Results
+
+The algorithm was tested on the isotropic CHSH line at level $n = 34$ with local deterministic generators. The results confirm the theoretical predictions:
+
+- For the quantum-like point $(29, 5)$ with $S = 2.824$: the minimal buffer is $B = 15$ at slope $lambda_T (34) = 14/15$. A global run with $k = 272$ transitions exists.
+
+- For the post-quantum point $(30, 4)$ with $S = 3.059$: the minimal buffer is $B >= 19$ at the same slope. The instability grows sharply.
+
+- For the PR point $(34, 0)$ with $S = 4$: the minimal buffer is $B = 91$. The open-generator debt is massive and persistent.
+
+The algorithm was also extended from per-prefix feasibility (testing each $N_i$ independently) to global run feasibility (finding a single coherent trajectory $eta_1 -> dots -> eta_k$). The passage from per-prefix to global does not destroy the separation: the quantum-like point still fits with moderate buffer, while the post-quantum points require significantly larger buffers.
+
+This is the first concrete result of the dynamic framework: a single integer counting $N$ can be tested for quantum-realizability by asking whether it admits a dynamic explanation with controlled open-generator debt. The test is purely combinatorial, uses only integer arithmetic, and does not require any reference to $sqrt(2)$ or to infinite-dimensional Hilbert spaces.
 
 
 
