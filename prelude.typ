@@ -32,4 +32,4 @@
 }
 
 // $attach(in, t: star)$
-#let ins = $attach(in, tr: star)$
+#let ins = $mono("in")$

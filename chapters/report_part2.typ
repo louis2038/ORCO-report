@@ -11,9 +11,7 @@ Contextuality is the failure of a family of local observations to come from one 
 
 This report uses this standard idea in a discrete form. Instead of starting from normalized real probabilities, we keep integer counts. A local table is therefore not only a point of a convex polytope, but a finite record of occurrences. Compatibility becomes equality of marginal counts on overlaps, and contextuality asks whether these compatible integer data can be reconstructed from deterministic global sections.
 
-
-
-== Introduction
+=== Classical sheaf theory
 
 In the following, we will use the same notation that in @Abramsky_Brandenburger_2011. We will add our theory on the top of this formalisze and we will discuss how consider discrete contextuality with this notation.
 
@@ -80,6 +78,7 @@ The technical point of this section is the following. A context table is only lo
   Thus the superscript is the level: $𝒟_R^t$ means exact level $t$, while $𝒟_R^∙$ means that the level is not fixed. The argument $Y$ is the underlying set of outcomes. In the probabilistic case one usually fixes $R = RR_(>=0)$ and $t = 1$. In the discrete setting one takes $R = NN$ and keeps $t in NN$ as the number of counted trials.
 ]
 
+The graded object $𝒟_R^∙$ is the starting point of the present report. In the standard probabilistic setting, one works directly with normalized distributions ($t=1$) and the grading is invisible. Here, we keep the grading explicit: each level $t$ defines a slice of the theory, and the passage from one level to the next carries empirical meaning.
 
 === Empirical models as $𝒟_R ∘ ℰ$
 
@@ -91,7 +90,7 @@ An element $d_U in 𝒟_R (ℰ(U))$ assigns a weight to each local section $s : 
 
 In all the following we suppose that $cal(M)$ is a *measurement cover*, meaning $union_(C in cal(M)) C = X$, and that it is an antichain, meaning $C subset.eq D$ with $C,D in cal(M)$ implies $C = D$.
 
-=== Compatibility before the level
+=== Compatibility
 
 The first notion is compatibility. It comes from the sheaf-theoretic idea that two local observations must agree on the part that they have in common.
 
@@ -255,7 +254,17 @@ In total, the hypergraph has $12$ hyperedges. A vector $N in NN^V$ represents a 
 
 Each hyperedge constrains its vertices: in the probabilistic setting, the sum of their probabilities must equal $1$; in the counting setting, the sum of their counts must equal the same level $t$.
 
-=== How compatibility creates the level
+=== Global sections and contextuality
+
+A global section is an assignment of an outcome to every measurement at once. Formally, it is an element $g ∈ ℰ(X)$, or equivalently a function $g : X → O$. The intuitive meaning is simple: before any context is chosen, every measurement $x ∈ X$ already has a predetermined outcome value $g(x) ∈ O$.
+Thus, a global section represents a deterministic *hidden-variable* assignment. If the experimenter later chooses a context $C ∈ ℳ$, the observed local outcome is not chosen anew; it is just the restriction $g|_C : C → O$ of the already fixed global assignment.
+In other words, determinism means that all counterfactual outcomes are jointly defined. Even if two measurements cannot be performed together, such as $a$ and $a'$ in the Bell scenario, a deterministic model still assigns values to both of them in advance.
+
+== From probabilities to integer counts: the discrete level
+
+The classical sheaf-theoretic framework, as presented above, works with $R$-valued distributions for an arbitrary semiring $R$. In the probabilistic case ($R = RR_(>=0)$), one normalizes to $t=1$ and obtains a single convex space. Our contribution begins with a different choice: we take $R = NN$ and keep the level $t$ as an explicit parameter. This changes the normalization condition from $sum_s e_C (s) = 1$ to $sum_s N_C (s) = t$, and replaces the convex structure by a graded semigroup structure. The level $t$ is not imposed by hand; it emerges from compatibility, as the next proposition shows.
+
+=== Compatibility creates the level
 
 For a local counting $N_C$, define its local level by $t_C := |N_C| = sum_(s in ℰ(C)) N_C (s).$
 At first, the numbers $t_C$ may depend on the context $C$. The point is that compatibility can force them to become equal.
@@ -301,6 +310,8 @@ This is the reason why the transition to automata is natural. If the level recor
 
 The conceptual chain is therefore the following. The level $t$ describes closed stabilized observations. The Hilbert basis gives elementary closed bricks. Generator automata describe how these bricks can be produced step by step. Residuals record the future that is still needed for closure. The dynamic model below is designed to keep exactly this missing information: what has already been seen, and what still has to happen for the process to close.
 
+== The discrete framework: vectors, hypergraphs, and semigroups
+
 === Vector and hypergraph packaging
 
 The vector notation is only a packaging of the sheaf-theoretic definition above. Define the visible event space
@@ -336,12 +347,6 @@ also belongs to $𝒮$. Hence the appropriate algebraic object is not first a co
 The analogue of a convex decomposition is therefore a Hilbert-basis decomposition. The Hilbert basis $ℋ(𝒮)$ of $𝒮$ is the finite set of irreducible elements of the semigroup. Its elements are the elementary compatible counting models that cannot be decomposed into smaller compatible counting models. Thus, instead of asking whether a model is a convex mixture of deterministic models, we ask which Hilbert generators are required to build it as an integer sum.
 
 === Discrete noncontextuality and strong contextuality
-
-A global section is an assignment of an outcome to every measurement at once. Formally, it is an element $g ∈ ℰ(X)$, or equivalently a function $g : X → O$. The intuitive meaning is simple: before any context is chosen, every measurement $x ∈ X$ already has a predetermined outcome value $g(x) ∈ O$.
-
-Thus, a global section represents a deterministic *hidden-variable* assignment. If the experimenter later chooses a context $C ∈ ℳ$, the observed local outcome is not chosen anew; it is just the restriction $g|_C : C → O$ of the already fixed global assignment.
-
-In other words, determinism means that all counterfactual outcomes are jointly defined. Even if two measurements cannot be performed together, such as $a$ and $a'$ in the Bell scenario, a deterministic model still assigns values to both of them in advance.
 
 Given a global section $g : X → O$, we define its deterministic counting vector $d_g ∈ ℕ^V$ by
 $d_g (C,s) :=
@@ -420,22 +425,16 @@ We therefore keep three levels distinct:
 - *noncontextuality*: the compatible model decomposes as an integer sum of deterministic global sections;
 - *strong contextuality*: not even one deterministic global section is compatible with the support of the model.
 
-#lou[Tout ce qu'il y a au dessus est PARFAIT]
+== First results: Contextuality viewed by Ehrhart Eugène
 
-== First result #lou[c mieux !!Contextuality viewed by  Bratostene]
+These first results show that Ehrhart polynomials can be used to characterise exactly the integer models of a semigroup of compatible countings.
 
-What follow was discover way before the link with the sheaf-theory, it was the first result obtain that motivate us to pursue this line of research.
-#med[remarque apres commentaire]
-#med[The first result consist at obtaining a polynomial representation of contextuall extreme points ]
 To be clear, the $(2,2,2)$ scenario refers to the case with two parties, each having two measurement settings, and each measurement having two possible outcomes. The $"CHSH"$ setting refers to a game following the $(2,2,2)$ scenario where the winning condition is $a xor b = x and y$.
 
 We now record the elementary consequences of the previous definitions for the $(2,2,2)$ scenario. In this subsection, $N$ denotes the counting vector. The entries of $N$ are the integer variables that we study.
-
 For a context $C in cal(M)$ and a local section $s in ℰ(C)$, the coordinate $N(C,s)$ may also be written $N(s | C)$. In the Bell notation this becomes $N(a b | x y)$: conditionally on the chosen questions $(x,y)$, one counts the observed answers $(a,b)$.
-
 In CHSH the vertex set is $V = { (a b | x y) | a,b,x,y in {0,1} }$, hence $|V| = 16$. The contextual hypergraph has $12$ hyperedges: four context-normalization edges and eight non-signaling marginal edges. Each edge has size $4$, and each vertex belongs to exactly $3$ edges. If $A_("aug")$ is the corresponding incidence matrix (encoding both context normalization and marginal compatibility), then the discrete non-signaling equation is
 $A_("aug") N = t 𝟙$.
-
 This is the same object as the non-signaling polytope, but seen before normalization. Indeed, if
 $G_("NS") := { p in RR_(>=0)^V | A_("aug") p = 𝟙 }$,
 then the equation $A_("aug") N = t 𝟙$ is equivalent, for $t > 0$, to $p := N/t in G_("NS")$. Thus
@@ -452,11 +451,8 @@ $
 The polytope $G_("NS")$ is the normalized slice $t=1$ of this cone, while the discrete models at level $t$ are the integer points in the dilated slice $t G_("NS")$.
 The local part is obtained by replacing $G_("NS")$ by the local polytope
 $L_("loc") := "conv" { d_lambda | lambda " deterministic" }.$
-
 The first admissible nonzero level is therefore $t=1$, equivalently $k=4$. At this level, $A_("aug") N = 𝟙$ forces $N$ to select exactly one event on every hyperedge. These exact transversals are precisely the local deterministic strategies, i.e. assignments $a = f(x)$ and $b = g(y)$. Thus the first level contains only classical generators.
-
 The first intrinsically non-local CHSH generators occur at $t=2$, equivalently $k=8$. Because a PR box has probabilities in ${0,1/2}$ and therefore is not an integer point at level $t=1$. Multiplying it by $2$ gives an integer vector $r in {0,1}^16$ with $A_("aug") r = 2 𝟙$. Hence its first discrete lift is at level $t=2$.
-
 Let $d_lambda in {0,1}^16$ denote the $16$ local deterministic generators, with $A_("aug") d_lambda = 𝟙$, and let $r_mu = 2 p_mu^"PR" in {0,1}^16$ denote the $8$ lifted PR generators, with $A_("aug") r_mu = 2 𝟙$. The natural candidate Hilbert basis, i.e. the set of points that generate any other points in $𝒮_"ns"$ is
 $
   ℋ_("ns") := { (d_lambda,1) }_(lambda=1)^16 union { (r_mu,2) }_(mu=1)^8.

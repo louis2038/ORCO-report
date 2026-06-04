@@ -39,7 +39,7 @@ At this stage, we do not need to assume that these are the only possible generat
 This condition is the closed, semi group-level requirement. It says that the chosen generators can explain every completed compatible counting. When $cal(G)$ is the Hilbert basis of $𝒮$, this condition is automatic. In practice, the choice of $cal(G)$ must be made carefully: if it is too small, some counts cannot be explained; if it is too large, the explanation loses structure.
 *This point is crucial for understanding the framework:* the model, or theory, chosen to account for a phenomenon can be more or less fine-grained. The choice of generators is therefore part of the modelling process. A more precise theory requires families of generators with higher levels $l(g)$, whereas a less precise theory may only require generators of lower levels.
 
-In all the following, we assume that we have *fixed* a closed-complete generator family $cal(G)$ for the semi group $𝒮$.
+In all the following, we assume that we have *fixed* a closed-complete generator family $cal(G)$ for the semi group $𝒮$. #lou[NONNN !]
 
 === The automaton of one generator
 
@@ -67,7 +67,7 @@ The first term is already visible. The second term is the future required to clo
 
 === Global states and open generators
 
-An experiment can contain several copies of generators at the same time. Some copies are already closed. Other copies are open and have only been partially emitted. The correct hidden state must remember this distinction. To define this notion properly, we first introduce the concept of a multiset, that is, a set whose elements may appear with multiplicity. Traditionally, a multiset is represented by a set together with a multiplicity function. In our setting, we instead write expressions such as sums or universal quantifications of the form $x ins M$ to indicate that the elements of the multiset $M$ are enumerated together with their multiplicities.
+An experiment can contain several copies of generators at the same time. Some copies are already closed. Other copies are open and have only been partially emitted. The correct hidden state must remember this distinction. To define this notion properly, we first introduce the concept of a multiset, that is, a set whose elements may appear with multiplicity. Traditionally, a multiset is represented by a set together with a multiplicity function. In our setting, instead of writing expressions such as $sum_(x in M) x dot m(x)$ where $m$ is the multiplicity function, we use the notation $sum_(x ins M) x$, which can be read as a sum over an array in the sense of a programming language. The $x ∈ M$ represents the condition that $x$ is an element of the multiset $M$.
 
 #definition(name: "Dynamic state", id: "def:dynamic-state")[
   A *dynamic state* is a pair
@@ -105,7 +105,7 @@ It records both the stabilized visible count (the past) and the completed count 
   There is no reason for the map $eta -> N_eta$ to be injective. Two different hidden states may have the same visible count but different open generators and different residual futures. This is why the dynamic theory cannot be reduced to the visible counting vector alone.
 ]
 
-In the following, we extend the notation $N_η$ to $c_η : 𝒢 -> ℕ$ that is the number of closed generators, but also to $o_η : 𝒢 -> ℕ$ that is the number of open generators, don't confuse with $O_η$ the multi set.
+In the following, we extend the notation $N_η$ to $c_η : 𝒢 -> ℕ$ that is the number of closed generators, but also to $o_η : 𝒢 -> ℕ$ that is the number of open generators. Then by consequence $∀g in 𝒢, sum_(0 <= R <= g) 𝕞_η (g,R) = 𝕞_η (g,0) + sum_(0 < R <= g) 𝕞_η (g,R) = c_η + o_η$.
 
 === Petri-net reading and concurrency
 
@@ -145,18 +145,22 @@ For each observation $N_i$, the theory assigns a set of possible _hidden explana
 $cal(H)_cal(G) (N_i) = { eta_i = (c_i, O_i) | N_(eta_i) = N_i }$.
 Each $eta_i$ remembers which generators are closed (stabilized) and which are open (still in progress). The _transition condition_ $eta_i arrow.squiggly eta_(i+1)$ says that the explanation at time $i+1$ is compatible with the explanation at time $i$. No copy that already exists may disappear. Moreover, a copy cannot change its generator, and its residual future can only shrink. Thus the dynamics preserves the identity of the elementary process while allowing part of its remaining future to be emitted.
 
-To define this condition formally, we use the extended multiset $OO_eta$ rather than $O_eta$. Recall that $OO_eta$ also contains closed copies, represented as pairs $(g,0)$. Since $OO_eta$ is a multiset, the map below is understood as a map between occurrences, so two identical copies are still treated as two distinct elements.
+To define this condition formally, we use the extended multiset $OO_eta$ rather than $O_eta$. Recall that $OO_eta$ also contains closed copies, represented as pairs $(g,0)$. Since $OO_eta$ is a multiset, a function between two multisets must distinguish individual occurrences. We therefore introduce the *occurrence set* of a multiset $OO$:
+$
+  hat(OO) := { (g, R, i) | (g,R) ins OO, quad 1 <= i <= 𝕞(g,R) }.
+$
+Each triple $(g, R, i)$ represents one specific copy: $g$ is the generator, $R$ is the residual, and $i$ distinguishes copies that share the same pair $(g,R)$.
 
 #definition(name: "Transition condition", id: "def:transition-condition")[
-  Let $eta$ and $eta'$ be two dynamic states. We define the condition $eta arrow.squiggly eta'$ by
-  $exists phi : OO_eta -> OO_(eta')$
-  such that $phi$ is injective and, for every occurrence $(g,R) in OO_eta$,
-  $phi(g, R) = (g,R')
-  quad "with" quad
-  0 <= R' <= R$.
+  Let $eta$ and $eta'$ be two dynamic states. We define the condition $eta arrow.squiggly eta'$ by the existence of a function
+  $phi : hat(OO)_eta -> hat(OO)_eta'$
+  such that:
+
+  + $phi$ is injective: for all $x, y in hat(OO)_eta$, if $x != y$ then $phi(x) != phi(y)$;
+  + $phi$ preserves the generator and reduces the residual: for every $(g, R, i) in hat(OO)_eta$, if $phi(g, R, i) = (g', R', i')$, then $g' = g$ and $0 <= R' <= R$.
 ]
 
-The injectivity of $phi$ means that two old copies cannot be identified with the same new copy. The equality of the first component means that a copy of $g$ remains a copy of $g$. The inequality $R' <= R$ means that the residual future has decreased. In particular, if $R = 0$, then $R' = 0$, so closed generators remain closed.
+The injectivity of $phi$ means that two old copies cannot be identified with the same new copy. The second condition means that a copy of $g$ remains a copy of $g$, and its residual future has decreased. In particular, if $R = 0$, then $R' = 0$, so closed generators remain closed.
 
 The full fibre of _dynamic explanations_ for the sequence is
 $
@@ -171,29 +175,42 @@ This fibre may contain many trajectories. Two different trajectories can explain
 ]
 
 #proof[
-  It is enough to prove the claim for one transition $eta arrow.squiggly eta'$. By definition, there exists an injective map $phi : OO_eta -> OO_(eta')$ such that every occurrence of $OO_eta$ is sent to an occurrence of $OO_(eta')$ with the same generator and a smaller residual.
-
-  Let $x$ be an occurrence of $OO_eta$. Write $x = (g_x, R_x)$. Since $eta arrow.squiggly eta'$, we can write $phi(x) = (g_x, S_x)$ with $0 <= S_x <= R_x$. The visible contribution of $x$ in $eta$ is $g_x - R_x$, whereas the visible contribution of $phi(x)$ in $eta'$ is $g_x - S_x$. Since $S_x <= R_x$, we have
-  $g_x - R_x <= g_x - S_x$
-  componentwise.
-
-  Because $phi$ is injective, these inequalities can be summed over all occurrences of $OO_eta$ without identifying two distinct old copies. Therefore
-  $sum_(x ins OO_eta) (g_x - R_x)
-  <=
-  sum_(x ins OO_eta) (g_x - S_x)$.
-  The right-hand sum is the visible contribution of the image $phi(OO_eta)$ inside $OO_(eta')$. All remaining occurrences of $OO_(eta')$ have non-negative visible contribution. Hence
-  $sum_(x ins OO_eta) (g_x - S_x)
-  <=
-  sum_((g,S) ins OO_(eta')) (g - S)$.
-  By the definition of the visible counting, this gives $N_eta <= N_(eta')$.
+  It is enough to prove the claim for one transition $eta arrow.squiggly eta'$. By definition, there exists an injective map $phi : hat(OO)_eta -> hat(OO)_eta'$ such that every $(g, R, i) in hat(OO)_eta$ is sent to some $(g, S, j)$ with $S <= R$.
+  For each $x = (g, R, i) in hat(OO)_eta$, write $phi(x) = (g, S_x, j_x)$ with $S_x <= R$. The visible contribution of $x$ in $eta$ is $g - R$, whereas the visible contribution of $phi(x)$ in $eta'$ is $g - S_x$. Since $S_x <= R$, we have $g - R <= g - S_x$ componentwise.
+  We now sum over all occurrences. The total visible contribution of $OO_eta$ is $N_eta = sum_(x in hat(OO)_eta) (g_x - R_x)$. We claim that $N_eta <= N_(eta')$. The argument proceeds in three steps:
+  $
+    N_eta
+    = sum_(x in hat(OO)_eta) (g_x - R_x)
+    <=_1 sum_(x in hat(OO)_eta) (g_x - S_x)
+    =_2 sum_(y in phi(hat(OO)_eta)) (g_y - S_y)
+    <=_3 sum_(y in hat(OO)_eta') (g_y - S_y)
+    = N_(eta').
+  $
+  + For each $x in hat(OO)_eta$, the term $g_x - R_x <= g_x - S_x$ componentwise, because $S_x <= R_x$.
+  + Since $phi$ is injective, the map $x mapsto phi(x)$ is a bijection from $hat(OO)_eta$ onto $phi(hat(OO)_eta)$. Reindexing the sum over the image gives $sum_(x in hat(OO)_eta) (g_x - S_x) = sum_(y in phi(hat(OO)_eta)) (g_y - S_y)$.
+  + Since $phi(hat(OO)_eta) subset.eq hat(OO)_eta'$, we decompose:
+  $
+    sum_(y in hat(OO)_eta') (g_y - S_y)
+    =
+    sum_(y in phi(hat(OO)_eta)) (g_y - S_y)
+    +
+    underbrace(sum_(y in hat(OO)_eta' without phi(hat(OO)_eta)) (g_y - S_y), >= 0 " since " S_y <= g_y).
+  $
+  Dropping the non-negative remainder gives the inequality.
   Now let $(eta_1, dots, eta_k) in cal(H)_cal(G) (N_(1:k))$. For every $i < k$, the definition of the fibre gives $eta_i arrow.squiggly eta_(i+1)$ and $N_(eta_i) = N_i$. Applying the previous paragraph gives
   $N_i = N_(eta_i) <= N_(eta_(i+1)) = N_(i+1)$.
   Thus $N_1 <= N_2 <= dots <= N_k$.
 ]
 
+#remark(name: [Monotonicity is independent of $cal(G)$], id: "rem:monotonicity-independent")[
+  The implication proved in @prop:visible-counts-monotone does not require any completeness assumption on $cal(G)$. Once a trajectory of dynamic states exists, monotonicity follows only from the transition condition: old copies are mapped injectively to new copies, and their residuals can only decrease.
+
+  The converse question is different. A monotone sequence $N_1 <= dots <= N_k$ admits a dynamic explanation for every choice of visible countings if and only if $cal(G)$ is complete. This notion is defined in the appendix @def:dynamic-complete. There, @prop:dynamic-complete-support shows that dynamic completeness is equivalent to the condition that the generators cover all visible events, and @prop:converse-monotonicity-dynamic-complete proves the converse of monotonicity under this assumption.
+]
+
 === Layer 3: The dynamic constraint $xi$
 
-The fibre $cal(H)_cal(G) (N_(1:k))$ is typically too large to be useful by itself. It contains every possible way of explaining the observations, including explanations that accumulate unbounded open-generator debt. The third layer introduces a constraint $xi$ that filters the fibre to select only those trajectories that satisfy a global stability condition.
+The fibre $cal(H)_cal(G) (N_(1:k))$ is typically too large to be useful by itself. The third layer introduces a constraint $xi$ that filters the fibre to select only those trajectories that satisfy a global stability condition.
 
 The dynamic fit under constraint $xi$ is
 $
@@ -212,9 +229,9 @@ The *structure* $cal(G)$ specifies the elementary processes: which generators ar
 The *dynamics* $xi$ specifies how the generators can evolve over time. It does not determine a unique trajectory. It constrains the set of admissible trajectories, removing those that violate a stability condition. The dynamics is what makes the theory predictive: it says not only what can be observed, but how the hidden process must behave between observations.
 
 #remark[
-  If $cal(G)$ is not closed-complete, then the choice of $cal(G)$ already imposes a structural restriction: some completed observations cannot be generated. If $cal(G)$ is closed-complete, however, the structure alone does not select a proper subclass of completed observations. It only re-expresses them as sums of elementary bricks. In that case, a non-trivial theory requires an additional constraint on admissible trajectories. This is the role of $xi$.
+  If $cal(G)$ is not complete (see @def:dynamic-complete), then the choice of $cal(G)$ already imposes a structural restriction: some completed observations cannot be generated. If $cal(G)$ is complete, however, the structure alone does not select a proper subclass of completed observations. It only re-expresses them as sums of elementary bricks. In that case, a non-trivial theory requires an additional constraint on admissible trajectories. This is the role of $xi$.
 ]
-=== The three approaches to $xi$
+=== The three approaches to $xi$ #lou[a modifier en fonction]
 
 We now describe three ways to define the dynamic constraint $xi$, in order of increasing sophistication.
 
