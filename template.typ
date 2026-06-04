@@ -175,7 +175,7 @@
   body,
 ) = {
   set text(font: "New Computer Modern")
-  set par(first-line-indent: (amount: INDENT, all: false), justify: true, spacing: 0.5em + 1pt, leading: 0.5em + 1pt)
+  set par(first-line-indent: (amount: INDENT, all: false), justify: true, spacing: 0.55em + 1pt, leading: 0.5em + 1pt)
   set enum(indent: INDENT, numbering: "1.")
   set terms(hanging-indent: INDENT)
 

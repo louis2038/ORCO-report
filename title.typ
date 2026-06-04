@@ -53,7 +53,7 @@
       Is under the supervision of _mehdi mhalla_.
 
       Defended before a jury composed of:
-      #list(marker: $arrow.r.hook$)[Van-Dat Cung][Nadia Brauner]
+      #list(marker: $arrow.r.hook$)[Van-Dat Cung][Nadia Brauner][Hippolyte Dourdent]
     ])
   })
 

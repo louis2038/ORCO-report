@@ -1,4 +1,4 @@
-#import "@local/tool-box-louis:1.0.0" as tool
+#import "non-local-game.typ" as tool
 #import "@preview/cetz:0.5.2" as cetz
 #import "@preview/dashy-todo:0.1.3": *
 
@@ -30,3 +30,6 @@
     }
   }
 }
+
+// $attach(in, t: star)$
+#let ins = $attach(in, tr: star)$

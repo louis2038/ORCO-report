@@ -6,7 +6,6 @@
 #import "title.typ": title-page-report
 
 #set page(paper: "us-letter")
-#set par(spacing: 1.2em, first-line-indent: 0pt)
 
 #show: book.with(
   title: [Contextuality as Automata: Open Generators and the Dynamics of Quantum Phenomena],
@@ -17,6 +16,8 @@
 #include "prelude.typ"
 
 // ====================================== //
+
+#include "abstract.typ"
 
 #outline(title: "Review", target: figure.where(kind: "todo"))
 

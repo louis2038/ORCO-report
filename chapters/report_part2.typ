@@ -4,7 +4,7 @@
 = Technical Preliminaries
 
 In this section we will introduce the technical concept from generic contextuality to our all new theory of discrete contextuality.
-
+#med[couper en deux  litterature puis t refinement semiring Nat]
 == What is contextuality ?
 
 Contextuality is the failure of a family of local observations to come from one global assignment. In a measurement scenario $chevron.l X, cal(M), O chevron.r$, each context $C in cal(M)$ specifies a set of measurements that can be performed together, and a local outcome is a section $s : C arrow.r O$. A classical deterministic explanation would require a single global section $g : X arrow.r O$ whose restriction $g|_C$ explains the outcome seen in every context. Thus contextuality is not merely randomness: it is an obstruction to gluing compatible local descriptions into one global description.
@@ -422,8 +422,11 @@ We therefore keep three levels distinct:
 
 #lou[Tout ce qu'il y a au dessus est PARFAIT]
 
-== First result #lou[A travailler]
+== First result #lou[c mieux !!Contextuality viewed by  Bratostene]
 
+What follow was discover way before the link with the sheaf-theory, it was the first result obtain that motivate us to pursue this line of research.
+#med[remarque apres commentaire]
+#med[The first result consist at obtaining a polynomial representation of contextuall extreme points ]
 To be clear, the $(2,2,2)$ scenario refers to the case with two parties, each having two measurement settings, and each measurement having two possible outcomes. The $"CHSH"$ setting refers to a game following the $(2,2,2)$ scenario where the winning condition is $a xor b = x and y$.
 
 We now record the elementary consequences of the previous definitions for the $(2,2,2)$ scenario. In this subsection, $N$ denotes the counting vector. The entries of $N$ are the integer variables that we study.
@@ -437,7 +440,7 @@ This is the same object as the non-signaling polytope, but seen before normaliza
 $G_("NS") := { p in RR_(>=0)^V | A_("aug") p = 𝟙 }$,
 then the equation $A_("aug") N = t 𝟙$ is equivalent, for $t > 0$, to $p := N/t in G_("NS")$. Thus
 $
-  { N in NN^V | A_("aug") N = t 𝟙 }
+  { N in ℕ^V | A_("aug") N = t 𝟙 }
   = t G_("NS") inter ZZ^V.
 $
 The semigroup $𝒮_("ns")$ is therefore the semigroup of integer points in the cone over $G_("NS")$:
@@ -449,7 +452,6 @@ $
 The polytope $G_("NS")$ is the normalized slice $t=1$ of this cone, while the discrete models at level $t$ are the integer points in the dilated slice $t G_("NS")$.
 The local part is obtained by replacing $G_("NS")$ by the local polytope
 $L_("loc") := "conv" { d_lambda | lambda " deterministic" }.$
-If we define $Q_("NS")(t) := \#(t G_("NS") inter ZZ^V)$ and $Q_("loc")(t) := \#(t L_("loc") inter ZZ^V)$, then these functions count the number of discrete models at level $t$ in the non-signaling and local cases.
 
 The first admissible nonzero level is therefore $t=1$, equivalently $k=4$. At this level, $A_("aug") N = 𝟙$ forces $N$ to select exactly one event on every hyperedge. These exact transversals are precisely the local deterministic strategies, i.e. assignments $a = f(x)$ and $b = g(y)$. Thus the first level contains only classical generators.
 
@@ -459,15 +461,6 @@ Let $d_lambda in {0,1}^16$ denote the $16$ local deterministic generators, with 
 $
   ℋ_("ns") := { (d_lambda,1) }_(lambda=1)^16 union { (r_mu,2) }_(mu=1)^8.
 $
-
-#proposition[
-  Assuming the support lemma verified by exhaustive enumeration of the CHSH supports, $ℋ_("CHSH")$ is the Hilbert basis of $𝒮_("ns")("CHSH")$.
-]
-
-#proof[
-  The deterministic elements are irreducible because their level is $1$. A lifted PR element is also irreducible: a nontrivial decomposition of $(r_mu,2)$ would split it into two level-$1$ elements, hence into two deterministic local models, which would write a PR box as a convex combination of local deterministic boxes. This is impossible. For generation, the support lemma states that every nonzero $(N,t) in 𝒮_("ns")("CHSH")$ contains the support of some element $(u,s) in ℋ_("CHSH")$. Then $(N-u,t-s)$ is again in $𝒮_("ns")("CHSH")$, and induction on $t$ gives a decomposition into elements of $ℋ_("CHSH")$.
-]
-
 
 #proposition[
   The set of integer models $ℋ_"ns"$ is an Hilbert basis of the semigroup $𝒮_"ns"$.
@@ -502,24 +495,16 @@ $
     If this system has no solution, then no element of $cal(S)_"ns"$ can have support $S$. Indeed, any integer element $(m,t)$ with support $S$ would also be a real solution by taking $q=m$ and $tau=t$.
 
     If the system has a solution, then $S$ is realizable. The matrix $A$ and all support constraints have rational coefficients. Hence a feasible rational point exists whenever the rational polyhedron is nonempty. Multiplying by a common denominator gives an integer vector $m in NN^16$ and an integer level $t in NN$ such that
-    $
-      A m = t bold(1)
-      quad "and" quad
-      "supp"(m) = S.
-    $
-    Thus $(m,t) in cal(S)_("CHSH")$.
+    $A m = t bold(1)$ and $"supp"(m) = S$.
+    Thus $(m,t) in cal(S)_("ns")$.
 
     The exhaustive computation then applies a second test to every realizable support $S$. It checks whether there exists one of the proposed generators
-    $
-      (u,s) in cal(H)_("CHSH")
-    $
+    $(u,s) in cal(H)_("ns")$
     such that
-    $
-      "supp"(u) subset.eq S.
-    $
+    $"supp"(u) subset.eq S$.
     The computation verifies that this condition holds for every realizable nonempty support $S subset.eq V$.
 
-    We now use this finite verification to prove the lemma. Let $(m,t) in cal(S)_("CHSH")$ be nonzero, and set $S := "supp"(m)$. Then $S$ is a realizable nonempty support. By the exhaustive verification, there is a generator $(u,s) in cal(H)_("CHSH")$ with $"supp"(u) subset.eq S$.
+    We now use this finite verification to prove the lemma. Let $(m,t) in cal(S)_("ns")$ be nonzero, and set $S := "supp"(m)$. Then $S$ is a realizable nonempty support. By the exhaustive verification, there is a generator $(u,s) in cal(H)_("ns")$ with $"supp"(u) subset.eq S$.
 
     Every deterministic generator and every lifted PR generator has entries in ${0,1}$. Therefore, for each vertex $v in V$, there are two cases. If $u_v = 0$, then $u_v <= m_v$ is immediate. If $u_v = 1$, then $v in "supp"(u) subset.eq S = "supp"(m)$, so $m_v >= 1$ and again $u_v <= m_v$. Hence
     $
@@ -529,7 +514,7 @@ $
     Thus every nonzero element of the semigroup contains one of the $24$ proposed generators as a sub-counting. This proves the lemma.
   ]
 
-  We now prove generation by induction on the level $t$. The case $t=0$ was treated above. Assume that every element of level strictly smaller than $t$ is generated by $cal(H)_"CHSH"$, and let $(N,t) in cal(S)_"ns"$ with $t >= 1$.
+  We now prove generation by induction on the level $t$. The case $t=0$ was treated above. Assume that every element of level strictly smaller than $t$ is generated by $cal(H)_"ns"$, and let $(N,t) in cal(S)_"ns"$ with $t >= 1$.
 
   By the support lemma, there exists a generator $(u,s) in cal(H)_"ns"$ such that $u_v <= N_v$ for every $v in V$. Hence the difference
   $
@@ -539,16 +524,16 @@ $
   $
     A M = A(N-u) = (t-s) bb(1).
   $
-  Thus $(M, t-s) in cal(S)_("CHSH")$. Moreover, $s in {1,2}$, so $t-s < t$. By the induction hypothesis, $(M, t-s)$ is a sum of elements of $cal(H)_"CHSH"$. Adding $(u,s)$ to this sum gives a decomposition of $(N,t)$.
+  Thus $(M, t-s) in cal(S)_("ns")$. Moreover, $s in {1,2}$, so $t-s < t$. By the induction hypothesis, $(M, t-s)$ is a sum of elements of $cal(H)_"ns"$. Adding $(u,s)$ to this sum gives a decomposition of $(N,t)$.
 
-  Therefore, $cal(H)_"CHSH"$ generates $cal(S)_("CHSH")$. Finally, no element of $cal(H)_"CHSH"$ belongs to the subsemigroup generated by the others, since this would give a non-trivial decomposition of an irreducible element. Hence $cal(H)_"CHSH"$ is minimal, with respect to inclusion, among generating families. In other words, it is a Hilbert basis.
+  Therefore, $cal(H)_"ns"$ generates $cal(S)_("ns")$. Finally, no element of $cal(H)_"ns"$ belongs to the subsemigroup generated by the others, since this would give a non-trivial decomposition of an irreducible element. Hence $cal(H)_"ns"$ is minimal, with respect to inclusion, among generating families. In other words, it is a Hilbert basis.
 ]
 
-This means that, at the discrete level, CHSH non-signaling models are built from two types of irreducible bricks: local deterministic bricks of level $1$ and PR bricks of level $2$.
+This means that, at the discrete level, non-signaling models are built from two types of irreducible bricks: local deterministic bricks of level $1$ and PR bricks of level $2$ like you can see in the @fig:cone.
 
-Finally, counting the number of int @Miller2005. Let $G_("NS") = { p in RR_(>=0)^16 | A_("aug") p = 𝟙 }$ be the CHSH non-signaling polytope and let $L_("loc")$ be the local polytope. Define $Q_("NS")(t) := \# (t G_("NS") inter ZZ^16)$ and $Q_("loc")(t) := \# (t L_("loc") inter ZZ^16)$. Since the affine dimension is $8$, these functions have degree $8$; $Q_("loc")$ is an Ehrhart polynomial, while $Q_("NS")$ is a quasi-polynomial of period $2$ because PR vertices have denominator $2$.
+Finally, we could ask how many integer points are in this semigroup. Let $G_("NS") = { p in RR_(>=0)^16 | A_("aug") p = 𝟙 }$ be the CHSH non-signaling polytope and let $L_("loc")$ be the local polytope. We define $Q_("NS")(t) := \#(t G_("NS") inter ZZ^V)$ and $Q_("loc")(t) := \#(t L_("loc") inter ZZ^V)$, then these functions count the number of discrete models at level $t$ in the non-signaling and local cases. Since the affine dimension is $8$, these functions have degree $8$; $Q_("loc")$ is an Ehrhart polynomial @Miller2005, while $Q_("NS")$ is a quasi-polynomial of period $2$ because PR vertices have denominator $2$.
 
-A direct interpolation from exact integer-point counts gives
+A direct interpolation from exact integer-point counts gives \
 $Q_("loc")(t) = 1 + 71/21 t + 6053/1260 t^2 + 697/180 t^3 + 91/45 t^4 + 13/18 t^5 + 31/180 t^6 + 31/1260 t^7 + 1/630 t^8$
 and
 $Q_("NS")(t) = 17/10080 t^8 + 17/630 t^7 + 7/36 t^6 + 37/45 t^5 + 1607/720 t^4 + 359/90 t^3 + 290/63 t^2 + 332/105 t + 63/64 + (-1)^t / 64$.
