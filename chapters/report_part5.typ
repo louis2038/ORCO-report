@@ -1,11 +1,15 @@
-#import "../template.typ": book, corollary, definition, lemma, proof, proposition, remark
+#import "../template.typ": book, corollary, definition, example, lemma, proof, proposition, remark
 #import "../prelude.typ": *
 
 = fractionnal contextuality is equivalent to half distance
 
+#v(4em)
+
 The previous sections introduced the past/future product $d^- d^+$ as a dynamic measure of tension between what has been emitted and what remains to be closed. We now show that this construction recovers, as a first coordinate, the contextual fraction of Abramsky, Barbosa, and Mansfield @Abramsky_Barbosa_Mansfield_2016. The goal is to translate their entire argument into the integer counting setting and to show that the two frameworks coincide at the level of the non-contextual part.
 
-== Step 0: The probabilistic setting (recap)
+In first part we will consider classical sheaf-theory setting with $R = ℝ_(>=0)$.
+
+== Overview of @Abramsky_Barbosa_Mansfield_2016
 
 In the standard sheaf-theoretic approach, an empirical model is a compatible family of probability distributions
 $
@@ -13,112 +17,127 @@ $
   quad e_C in cal(D)_(RR_(>=0)) (cal(E)(C)),
   quad sum_(s in cal(E)(C)) e_C (s) = 1.
 $
-Compatibility means $e_C|_(C inter D) = e_D|_(C inter D)$ for all contexts $C, D$. A global section $g : X -> O$ is *consistent* with $e$ if $e_C(g|_C) > 0$ for every context $C$. The set of consistent global sections is
+Compatibility means $e_C|_(C inter D) = e_D|_(C inter D)$ for all contexts $C, D$. A global section $g : X -> O$ is *consistent* with $e$ if $e_C (g|_C) > 0$ for every context $C$. The set of consistent global sections is
 $
   S_e (X) = { g in cal(E)(X) | forall C in cal(M), e_C (g|_C) > 0 }.
 $
 When $S_e (X) = emptyset$, the model is strongly contextual: no single global assignment is compatible with the support of every context.
-
-== Step 1: Relaxing to a fraction (probabilistic)
-
 If no global section explains the entire model, one can ask whether a global section explains a *fraction* of it.
-
-#definition(name: [Global sections consistent with a fraction $r$], id: "def:Se-geq-r")[
-  For $r in (0,1]$, define
-  $
-    S_e^(>= r) (X) = { g in cal(E)(X) | forall C in cal(M), e_C (g|_C) >= r }.
-  $
-  A global section $g in S_e^(>= r) (X)$ is one whose restriction to each context has probability at least $r$.
-]
-
+For $r in (0,1]$, define
+$
+  S_e^(>= r) (X) = { g in cal(E)(X) | forall C in cal(M), e_C (g|_C) >= r }.
+$
+A global section $g in S_e^(>= r) (X)$ is one whose restriction to each context has probability at least $r$.
 The sets form an anti-monotone family: if $r <= r'$, then $S_e^(>= r)(X) supset.eq S_e^(>= r')(X)$. Their union recovers the possibilistic notion:
-$
-  union.big_(r in (0,1]) S_e^(>= r)(X) = S_e (X).
-$
-
+$union.big_(r in (0,1]) S_e^(>= r)(X) = S_e (X)$.
 The key observation is that a global section in $S_e^(>= r)(X)$ can explain away a fraction $r$ of the model.
 
-#proposition(name: [Decomposition via a consistent fraction], id: "prop:decomposition-fraction")[
+#proposition(name: [See @Abramsky_Barbosa_Mansfield_2016[Proposition 3.2]], id: "prop:decomposition-fraction")[
   If $g in S_e^(>= r)(X)$, then $e$ admits a convex decomposition
-  $
-    e = r delta_g + (1-r) e'
-  $
-  where $delta_g$ is the deterministic model at $g$ and $e'$ is another empirical model.
+  $e = r delta_g + (1-r) e'$
+  where $delta_g ∈ 𝒟_(ℝ_(>=0)) ℰ (X)$ is the deterministic model at $g$, i.e. $δ_g (g') = cases(1 "if" g = g', 0 "otherwise")$ and $e'$ is another empirical model.
 ]
 
-#proof[
-  At each context $C$, since $e_C(g|_C) >= r$, we can write
-  $
-    e_C = r delta_(g|_C) + (1-r) e'_C
-  $
-  where $e'_C = (e_C - r delta_(g|_C)) / (1-r)$ is a well-defined distribution because $e_C(g|_C) >= r$ ensures non-negativity. Compatibility of $e$ and linearity of the no-signaling condition imply that $e'$ is also compatible.
-]
+// #proof[
+//   At each context $C$, since $e_C (g|_C) >= r$, we can write
+//   $e_C = r delta_(g|_C) + (1-r) e'_C$
+//   where $e'_C = (e_C - r delta_(g|_C)) / (1-r)$ is a well-defined distribution because $e_C (g|_C) >= r$ ensures non-negativity. Compatibility of $e$ and linearity of the no-signaling condition imply that $e'$ is also compatible.
+// ]
 
 This says: a fraction $r$ of the model is explained by the classical history $g$. The remainder $(1-r)$ is another model $e'$.
 
-== Step 2: The overlap problem
+=== The overlap problem
 
 Now suppose we find *two* global sections:
 
 - $g_1 in S_e^(>= r_1)(X)$, explaining a fraction $r_1$;
 - $g_2 in S_e^(>= r_2)(X)$, explaining a fraction $r_2$.
 
-Can we combine them to explain a fraction $r_1 + r_2$?
+Can we combine them to explain a fraction $r_1 + r_2$ such that
+$e =^? r_1 delta_(g_1) + r_2 delta_(g_2) + (1 - r_1 - r_2) e''$.
 
-$
-  e ?^= r_1 delta_(g_1) + r_2 delta_(g_2) + (1 - r_1 - r_2) e''.
-$
-
-The answer is *no*, in general. The problem is that $g_1$ and $g_2$ may explain the *same part* of the model. If both assign the same local outcome $s$ in a context $C$, and $e_C(s) = 0.6$, then $r_1 = 0.4$ and $r_2 = 0.4$ would require $r_1 + r_2 = 0.8 > 0.6 = e_C(s)$, which is impossible. The explanations *overlap*.
-
+The answer is *no*, in general. The problem is that $g_1$ and $g_2$ may explain the *same part* of the model. If both assign the same local outcome $s$ in a context $C$, and $e_C (s) = 0.6$, then $r_1 = 0.4$ and $r_2 = 0.4$ would require $r_1 + r_2 = 0.8 > 0.6 = e_C (s)$, which is impossible. The explanations *overlap*.
 In the possibilistic case, this is harmless: $1 or 1 = 1$. In the probabilistic case, $0.4 + 0.4 = 0.8 > 0.6$: double counting is real.
 
-== Step 3: The solution --- subdistributions
+#example(name: [Why fractional sections cannot be naively added], id: "ex:overlap")[
+  Consider three measurements $X = {a, b, c}$ with contexts
+  $C_1 = {a,b}$, $C_2 = {b,c}$, $C_3 = {a,c}$ and outcomes $O = {0,1}$.
+  The following is a compatible (no-signaling) probability model:
 
-To handle overlap, Abramsky, Barbosa, and Mansfield introduce *subdistributions*: functions whose weights sum to *at most* $1$, instead of exactly $1$.
 
-#definition(name: [Subdistribution], id: "def:subdistribution")[
-  An *$RR$-subdistribution* on a set $S$ is a function $c : S -> RR_(>=0)$ with finite support and total weight
-  $
-    omega(c) = sum_(s in S) c(s) <= 1.
-  $
-  The weight $omega(c)$ is the fraction of the model explained by $c$.
+  #table(
+    columns: 6,
+    align: center,
+    inset: 6pt,
+    table.header([$C$], [$(0,0)$], [$(1,0)$], [$(0,1)$], [$(1,1)$], [total]),
+    [${a,b}$], [$0.35$], [$0.15$], [$0.25$], [$0.25$], [$1$],
+    [${b,c}$], [$0.30$], [$0.20$], [$0.10$], [$0.40$], [$1$],
+    [${a,c}$], [$0.30$], [$0.10$], [$0.20$], [$0.40$], [$1$],
+  )
+
+
+  Pick two global sections:
+  - $g_1 = (a|->0, b|->0, c|->0)$: its restrictions are $(0,0)$ in every context, with
+    probabilities $0.35$, $0.30$, $0.30$. So $g_1 in S_e^(>= 0.30)(X)$.
+  - $g_2 = (a|->0, b|->0, c|->1)$: its restrictions are $(0,0)$ in $C_1$,
+    $(0,1)$ in $C_2$, $(0,1)$ in $C_3$, with probabilities $0.35$, $0.10$, $0.20$.
+    So $g_2 in S_e^(>= 0.10)(X)$.
+
+  Both sections are in $S_e (X)$: every restriction has positive weight.
+  Each one, taken alone, yields a valid decomposition:
+  $e = 0.30 delta_(g_1) + 0.70 e'$ and $e = 0.10 delta_(g_2) + 0.90 e''$.
+  Now try to *combine* them:
+  $e =^? 0.30 delta_(g_1) + 0.10 delta_(g_2) + 0.60 e'''$.
+  At context $C_1$, both $g_1$ and $g_2$ restrict to the *same* local assignment
+  $(a|->0, b|->0)$. The proposed mixture places mass
+  $0.30 + 0.10 = 0.40$ on this event, but $e_(C_1)(a|->0, b|->0) = 0.35 < 0.40$.
+  This forces $e'''_(C_1)(a|->0, b|->0) < 0$: *impossible*.
+
+  The root cause is that $g_1$ and $g_2$ draw from the same local pool of probability.
+  Each one individually can claim up to $0.35$ from the event $(a|->0, b|->0)$ in $C_1$,
+  but not both at once. The fractional weights $r_1$ and $r_2$ are #emph[not independent]:
+  they compete at shared local assignments.
 ]
 
+This is the overlap problem: fractional explanations cannot simply be added because they may draw from the same pool of probability at some context. The next construction, subdistributions, is designed to prevent exactly this double counting.
+
+=== Subdistributions
+
+To handle overlap, @Abramsky_Barbosa_Mansfield_2016 introduce _subdistributions_: functions whose weights sum to *at most* $1$, instead of exactly $1$.
+An _$RR$-subdistribution_ on a set $S$ is a function $c : S -> RR_(>=0)$ with finite support and total weight
+$omega(c) = sum_(s in S) c(s) <= 1$.
+The weight $omega(c)$ is the fraction of the model explained by $c$.
 The subdistribution framework allows multiple global sections to be combined without exceeding the probability of any local event.
+The set of _consistent subdistributions_ is
+$
+  C_e (X) = { c in cal(S)cal(D)_(RR_(>=0)) (cal(E)(X)) | forall C in cal(M), forall s in cal(E)(C), e_C (s) >= c|_C (s) }.
+$
+where $𝒮 𝒟_(RR_(>=0)) : sans("Set") -> sans("Set")$ is the _subdistributions functor_ #footnote[This is categorial theory notation, see @Abramsky_Barbosa_Mansfield_2016 to more details].
+The condition $e_C (s) >= c|_C (s)$ means: the mass that $c$ places on global assignments restricting to $s$ must not exceed the probability that $e$ gives to $s$.
+This condition prevents double counting: if two global sections $g_1$ and $g_2$ both restrict to $s$ in context $C$, then $c(g_1) + c(g_2) <= e_C (s)$.
 
-#definition(name: [Consistent subdistributions], id: "def:Ce")[
-  The set of *consistent subdistributions* is
-  $
-    C_e (X) = { c in cal(S)cal(D)_(RR_(>=0)) (cal(E)(X)) | forall C in cal(M), forall s in cal(E)(C), e_C(s) >= c|_C (s) }.
-  $
-  The condition $e_C(s) >= c|_C(s)$ means: the mass that $c$ places on global assignments restricting to $s$ must not exceed the probability that $e$ gives to $s$.
-]
-
-This condition prevents double counting: if two global sections $g_1$ and $g_2$ both restrict to $s$ in context $C$, then $c(g_1) + c(g_2) <= e_C(s)$.
-
-#proposition(name: [Decomposition via a consistent subdistribution], id: "prop:decomposition-subdistribution")[
-  If $c in C_e(X)$, then
+#proposition(name: [See @Abramsky_Barbosa_Mansfield_2016[Proposition 3.5]], id: "prop:decomposition-subdistribution")[
+  If $c in C_e (X)$, then
   $
     e = (sum_(g in cal(E)(X)) c(g) delta_g) + (1 - omega(c)) e'.
   $
   This decomposes $e$ into a non-contextual part of weight $omega(c)$ and a remainder $e'$.
 ]
 
-#proof[
-  At each context $C$ and each local outcome $s in cal(E)(C)$, the constraint $e_C(s) >= sum_{g|_C = s} c(g)$ ensures that
-  $
-    e_C(s) - sum_(g|_C = s) c(g) >= 0.
-  $
-  The remainder, normalized by $1 - omega(c)$, defines $e'_C(s)$. Compatibility follows from linearity.
-]
+// #proof[
+//   At each context $C$ and each local outcome $s in cal(E)(C)$, the constraint $e_C(s) >= sum_{g|_C = s} c(g)$ ensures that
+//   $
+//     e_C(s) - sum_(g|_C = s) c(g) >= 0.
+//   $
+//   The remainder, normalized by $1 - omega(c)$, defines $e'_C(s)$. Compatibility follows from linearity.
+// ]
 
-== Step 4: The non-contextual fraction
+=== The non-contextual fraction
 
 The *non-contextual fraction* of $e$ is the maximum weight achievable by a consistent subdistribution:
 
 $
-  "NCF"(e) = max { omega(c) | c in C_e(X) }.
+  "NCF"(e) = max { omega(c) | c in C_e (X) }.
 $
 
 The *contextual fraction* is

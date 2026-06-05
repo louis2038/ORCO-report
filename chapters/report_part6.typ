@@ -1,4 +1,4 @@
-#import "../template.typ": book, corollary, definition, lemma, proof, proposition, remark
+#import "../template.typ": book, corollary, definition, example, lemma, proof, proposition, remark
 #import "../prelude.typ": *
 
 = Towards a dynamic condition to capture quantum non-locality

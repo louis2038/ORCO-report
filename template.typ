@@ -174,7 +174,17 @@
   title-page-fct: none,
   body,
 ) = {
-  set text(font: "New Computer Modern")
+  // set text(font: "New Computer Modern", size: 10.5pt)
+
+  set text(
+    font: "STIX Two Text",
+    weight: 350,
+    size: 10pt,
+  )
+
+  show math.equation: set text(
+    font: "STIX Two Math",
+  )
   set par(first-line-indent: (amount: INDENT, all: false), justify: true, spacing: 0.55em + 1pt, leading: 0.5em + 1pt)
   set enum(indent: INDENT, numbering: "1.")
   set terms(hanging-indent: INDENT)
@@ -457,10 +467,10 @@
 #let lemma = thm-env("Lemma", fmt: smallcaps-strong, body-fmt: emph)
 #let corollary = thm-env("Corollary", fmt: smallcaps-strong, body-fmt: emph)
 #let definition = thm-env("Definition", fmt: smallcaps-strong, body-fmt: body-fmt)
-#let example = thm-env("Example", fmt: it => strong(it), counter-type: "example")
 #let solution = thm-env("Solution", fmt: emph, numbered: false)
 #let proof = thm-env("Proof", fmt: emph, numbered: false, body-fmt: fmt-proof)
-#let remark = thm-env("Remark", fmt: it => strong(emph(it)), numbered: false)
+#let example = thm-env("Example", fmt: it => strong(emph(it)), counter-type: "example", body-fmt: fmt-proof)
+#let remark = thm-env("Remark", fmt: it => strong(emph(it)), numbered: false, body-fmt: fmt-proof)
 
 /// Quick macro to "glue" text to the next element.
 //
