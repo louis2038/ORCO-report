@@ -215,3 +215,117 @@ $ omega^*(cal(G)) = sup_(d >= 1) sup_(|psi chevron.r in CC^d times.o CC^d) sup_(
 and the supremum over $d$ is _essential_. For a halting machine with halting time $T$, the dimension $d$ of the optimal strategy may grow as a function of $T$, and no uniform bound on $d$ exists across all instances. In other words, the full power of $mipstar = RE$ relies on the provers' ability to use shared entanglement of _arbitrarily large dimension_.
 
 *Remark.* If the dimension is bounded by a fixed constant $d$, the resulting class $mipstar (2,1,s,d)$ is known _not_ to capture all of $RE$; indeed, for fixed $d$, the entangled value $omega^*_d (cal(G))$ is computable by semidefinite programming, so the class collapses to a decidable complexity class.
+
+== Detailed calculations for the gap formulas<part:details-calculations-1>
+
+This appendix records the explicit algebraic steps behind two identities used in the main text. Both concern the gap between the Tsirelson bound $2 sqrt(2)$ and the isotropic trison score $T_"iso"(t)$ at finite level $t$.
+
+=== Notation and starting point
+
+We recall the definitions used throughout.
+
+- $p^* := (2+sqrt(2)) \/ 4$ is the optimal winning probability on the isotropic line.
+- $w^* (t) := floor(t p^*)$ is the largest integer winning count compatible with the quantum set at level $t$.
+- $T_"iso" (t) := (4(2 w^* (t) - t)) \/ t$ is the isotropic trison score at level $t$.
+- $"frac" (x) := x - floor(x)$ denotes the fractional part of a real number $x$.
+
+The goal is to prove two equalities:
+
++ $2 sqrt(2) - T_"iso" (t) = (8 dot "frac"(t p^*)) \/ t$,
++ $2 sqrt(2) - T_"iso" (t) = 2 (sqrt(2) - r_t)$, where $r_t := (4 w^*(t) - 2t) \/ t$.
+
+=== Derivation 1: The fractional-part formula
+
+We want to show:
+
+$
+  2 sqrt(2) - T_"iso"(t) = (8 dot "frac"(t p^*)) / t.
+$
+Since $p^* = (2+sqrt(2))/4$, we have $4p^* = 2 + sqrt(2)$, hence $sqrt(2) = 4p^* - 2$, and therefore
+$2 sqrt(2) = 8 p^* - 4$.
+By definition,
+
+$
+  T_"iso" (t) = (4(2 w^*(t) - t)) / t = (8 w^*(t) - 4t) / t = (8 w^*(t)) / t - 4.
+$
+
+We compute the gap:
+$
+  2 sqrt(2) - T_"iso"(t) & = (8 p^* - 4) - ((8 w^*(t)) / t - 4) \
+                         & = 8 p^* - 4 - (8 w^*(t)) / t + 4 \
+                         & = 8 p^* - (8 w^*(t)) / t \
+                         & = (8 t p^* - 8 w^*(t)) / t \
+                         & = (8(t p^* - w^*(t))) / t.
+$
+
+Then we identify the fractional part.
+By definition, $w^*(t) = floor(t p^*)$. Therefore
+$
+  t p^* - w^*(t) = t p^* - floor(t p^*) = "frac"(t p^*).
+$
+Substituting:
+$
+  2 sqrt(2) - T_"iso" (t) = (8 dot "frac"(t p^*)) / t.
+$
+
+=== Derivation 2: The rational-approximation formula
+
+We want to show:
+$
+  2 sqrt(2) - T_"iso" (t) = 2 (sqrt(2) - r_t),
+$
+where $r_t := (4 w^*(t) - 2t) \/ t$ is the rational approximation to $sqrt(2)$ at level $t$.
+
+First, verify that $r_t$ approximates $sqrt(2)$.
+From the definition of $T_"iso"(t)$:
+$
+  T_"iso" (t) = (8 w^*(t) - 4t) / t = (4(2 w^*(t) - t)) / t.
+$
+Define $c_t := (2 w^*(t) - t) \/ t$. This is the integer correlator at level $t$, normalized by $t$. Then $T_"iso" (t) = 4 c_t$, and
+$
+  r_t = (4 w^*(t) - 2t) / t = 2 dot (2 w^*(t) - t) / t = 2 c_t.
+$
+At the quantum optimum, each correlator equals $sqrt(2) \/ 2$, so $c^* = sqrt(2) \/ 2$ and $r^* = 2 c^* = sqrt(2)$. Thus $r_t$ is the rational approximation to $sqrt(2)$ obtained by replacing the ideal correlator $c^*$ with the finite-level correlator $c_t$.
+
+Then, we express the gap in terms of $r_t$.
+From Derivation 1, we already know:
+$
+  2 sqrt(2) - T_"iso"(t) = 8 p^* - (8 w^*(t)) / t.
+$
+Now substitute $p^* = (2+sqrt(2))/4$:
+$
+  8 p^* = 8 dot (2+sqrt(2))/4 = 2(2+sqrt(2)) = 4 + 2 sqrt(2).
+$
+Also,
+$
+  (8 w^*(t)) / t = 2 dot (4 w^*(t)) / t = 2 dot (4 w^*(t) - 2t + 2t) / t = 2(r_t + 2) = 2 r_t + 4.
+$
+Therefore:
+$
+  2 sqrt(2) - T_"iso"(t) = (4 + 2 sqrt(2)) - (2 r_t + 4) = 2 sqrt(2) - 2 r_t = 2(sqrt(2) - r_t).
+$
+
+=== Summary: The two equivalent forms
+
+The gap admits three equivalent expressions:
+
+$
+  2 sqrt(2) - T_"iso"(t)
+  = (8 dot "frac"(t p^*)) / t
+  = 2 (sqrt(2) - r_t)
+  = 2 dot (sqrt(2) - 2 c_t),
+$
+
+where $c_t = (2 w^*(t) - t) \/ t$ is the normalized integer correlator.
+
+The first form makes the Diophantine nature explicit: the gap is controlled by how close $t p^*$ is to an integer. The second form shows that the gap is twice the error of the rational approximation $r_t$ to $sqrt(2)$. The third form decomposes this further: the per-correlator gap is $sqrt(2)/2 - c_t$, and the total CHSH gap is four times this value (since there are four correlators), which simplifies to $2(sqrt(2) - 2 c_t)$.
+
+=== Connection to the CHSH game structure
+
+The factor of $2$ in the formula $2(sqrt(2) - r_t)$ has a structural origin. The CHSH score decomposes into two complementary pairs of contexts:
+$
+  S = underbrace((E(0,0) + E(1,0)), "pair 1") + underbrace((E(0,1) - E(1,1)), "pair 2").
+$
+On the isotropic line, each pair has the same value $2 c_t$. At the quantum optimum, each pair equals $sqrt(2)$. The per-pair deficit is therefore $sqrt(2) - 2 c_t = sqrt(2) - r_t$, and the total deficit is twice this value.
+Equivalently, the CHSH game has three positive contexts and one negative context. The gap from the three positive contexts is $3(sqrt(2) - r_t)$ (they are below ideal), and the gap from the negative context is $-(sqrt(2) - r_t)$ (it is above ideal, i.e., less anti-correlated than optimal). The net gap is $3(sqrt(2) - r_t) - (sqrt(2) - r_t) = 2(sqrt(2) - r_t)$.
+This factor of $2$ is therefore a consequence of the CHSH game structure ($3$ positive minus $1$ negative gives a net coefficient of $2$), not an artifact of the approximation.

@@ -35,8 +35,11 @@
 // Quantum view by dynamic contextual automata
 #include "chapters/report_part4.typ"
 
-// Towards a dynamic condition to capture quantum non-locality
+// fractionnal contextuality is equivalent to half distance
 #include "chapters/report_part5.typ"
+
+// Towards a dynamic condition to capture quantum non-locality
+#include "chapters/report_part6.typ"
 
 #include "chapters/report_appendix.typ"
 
