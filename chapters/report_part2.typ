@@ -1,7 +1,7 @@
 #import "../template.typ": book, corollary, definition, lemma, proof, proposition, remark
 #import "../prelude.typ": *
 
-= Technical Preliminaries
+= Technical Preliminaries <chap:technical-preliminaries>
 
 In this section we will introduce the technical concept from generic contextuality to our all new theory of discrete contextuality.
 #med[couper en deux  litterature puis t refinement semiring Nat]
@@ -143,7 +143,7 @@ Again the marginals coincide. The same check works for every shared measurement 
 
 In summary, compatibility means that each measurement, when it appears in two different contexts, induces the same marginal distribution. The table is not free: the $16$ entries are constrained by $8$ independent marginal equations (two for each shared measurement), leaving only $8$ degrees of freedom. This is precisely the condition $delta N = 0$ applied to the CHSH cover. This can be called the no-signaling condition, because it says that the choice of measurement on one side does not affect the marginal distribution on the other side, that is the precise definition of what signaling mean.
 
-=== From sheaves to hypergraphs
+=== From presheaves to hypergraphs
 
 The sheaf-theoretic formulation and the hypergraph formulation describe the same local-to-global problem from two complementary viewpoints. In the sheaf-theoretic approach of Abramsky and Brandenburger, the event presheaf $ℰ$ assigns to each set of measurements $U subset.eq X$ the set of local sections $ℰ(U)=O^U$. Contextuality is then an obstruction to gluing local data into a global section @Abramsky_Brandenburger_2011.
 
@@ -425,7 +425,7 @@ We therefore keep three levels distinct:
 - *noncontextuality*: the compatible model decomposes as an integer sum of deterministic global sections;
 - *strong contextuality*: not even one deterministic global section is compatible with the support of the model.
 
-== First results: Contextuality viewed by Ehrhart Eugène
+== First results: Contextuality viewed with integer polynomials
 
 These first results show that Ehrhart polynomials can be used to characterise exactly the integer models of a semigroup of compatible countings.
 

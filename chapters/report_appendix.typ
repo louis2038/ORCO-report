@@ -1,7 +1,7 @@
 #import "../template.typ": book, corollary, definition, lemma, proof, proposition, remark
 #import "../prelude.typ": *
 
-= Appendix
+= Appendix <chap:appendix>
 
 == Dynamic completeness
 
@@ -80,6 +80,57 @@ The main text uses only the monotonicity direction: if a dynamic trajectory exis
   This is well-defined because $r <= 𝕞_i (g,R) <= 𝕞_(i+1) (g,R)$, so $(g,R,r)$ is also an occurrence of $OO_(eta_(i+1))$. The map $phi_i$ is injective, it preserves the generator, and it leaves the residual unchanged. Hence the residual condition is $R <= R$, which holds. Therefore $eta_i arrow.squiggly eta_(i+1)$ for every $i < k$.
   Thus $(eta_1,dots,eta_k) in cal(H)_cal(G)(N_(1:k))$, so the fibre is non-empty.
 ]
+
+== The overlap problem in the integer setting<annex:overlap-integer>
+
+The overlap problem of @ex:overlap has an exact integer counterpart.
+Recall the scenario: three measurements $X = {a, b, c}$, contexts
+$C_1 = {a,b}$, $C_2 = {b,c}$, $C_3 = {a,c}$, and binary outcomes.
+The probabilistic model of @ex:overlap lifts to an integer counting at level $t = 20$:
+
+#figure(
+  table(
+    columns: 6,
+    align: center,
+    inset: 6pt,
+    table.header([$C$], [$(0,0)$], [$(1,0)$], [$(0,1)$], [$(1,1)$], [total]),
+    [${a,b}$], [$7$], [$3$], [$5$], [$5$], [$20$],
+    [${b,c}$], [$6$], [$4$], [$2$], [$8$], [$20$],
+    [${a,c}$], [$6$], [$2$], [$4$], [$8$], [$20$],
+  ),
+  caption: [Integer counting at level $t = 20$, obtained by multiplying the probabilities of @ex:overlap by $20$.],
+)
+
+The same two global sections appear, now with integer multiplicities:
+
+- $g_1 = (a|->0, b|->0, c|->0)$: restrictions $(0,0)$ in every context, with counts $7, 6, 6$.
+  The maximum multiplicity is $z(g_1) = min(7, 6, 6) = 6$.
+- $g_2 = (a|->0, b|->0, c|->1)$: restrictions $(0,0)$ in $C_1$, $(0,1)$ in $C_2$, $(0,1)$ in $C_3$,
+  with counts $7, 2, 2$.
+  The maximum multiplicity is $z(g_2) = min(7, 2, 2) = 2$.
+
+Individually, each gives a valid subcounting: $M z_1 <= N$ with $z_1 = (6, 0, dots, 0)$,
+and $M z_2 <= N$ with $z_2 = (0, 0, dots, 2, 0, dots)$.
+But their #emph[sum] fails. At context $C_1$, both $g_1$ and $g_2$ restrict to the same local
+event $(a|->0, b|->0)$. The combined multiplicity is $6 + 2 = 8$, while $N_(C_1)(a|->0, b|->0) = 7$.
+The constraint
+$
+  sum_(g|_(C_1) = (a|->0, b|->0)) z(g) <= 7
+$
+is violated. In the language of generators: we are trying to place $8$ copies of a deterministic
+explanation on an event that was only observed $7$ times. The constraint $M z <= N$ prevents this.
+
+The integer and probabilistic overlap problems are the #emph[same linear inequality],
+only seen at different scales. Dividing by $t = 20$ recovers the probabilistic version:
+$6/20 + 2/20 = 0.40 > 0.35 = 7/20$.
+The constraint $M z <= N$ is the integer form of $M c <= e_N$ with $c = z / t$.
+In both cases, the root cause is identical: two global sections compete for the same local
+event, and their combined mass exceeds what the model allows.
+
+This is why the consistent subcounting set $C_N (X)$ is defined with a $<=$ constraint
+rather than equality. The $<=$ allows multiple global sections to share a local event,
+up to its observed count. Without it, any attempt to combine generators would either
+overcount or force a rigid assignment that may not exist.
 
 == The initial state of the art and the initial subjet
 

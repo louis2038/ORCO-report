@@ -2,8 +2,8 @@
   let footer = [This work is supported by the French National Research Agency in the framework of the
     "France 2030” program: ANR 15 IDEX 02 and ANR-11-LABX-0025-01 for the LabEx PERSYVAL.]
 
-  let citation = [oui oui]
-  let citation_author = [moi]
+  let citation = [How an actual entity becomes constitutes what that actual entity is; so that the two descriptions of an actual entity are not independent. Its ‘being’ is constituted by its ‘becoming.’ This is the ‘principle of process’.]
+  let citation_author = [Alfred North Whitehead]
 
   let date = datetime(
     year: 2026,
@@ -69,8 +69,9 @@
         inset: (top: 12pt, bottom: 12pt, left: 6pt, right: 6pt),
         width: 80%,
         align(left, text(
-          size: 1.4em,
+          size: 1.1em,
           [
+            #set par(justify: true)
             #emph(citation)
             #align(right, box(text(size: 0.7em)[--- #citation_author]))
           ],

@@ -2,7 +2,7 @@
 #import "../prelude.typ": *
 
 
-= Quantum viewed by dynamic contextual automata
+= Quantum viewed by dynamic contextual automata <chap:quantum-dynamic-automata>
 
 #v(4em)
 
@@ -132,32 +132,7 @@ More precisely, if $Gamma succ.eq 0$, one can construct a Hilbert space, a state
 
 === From SDP to linear inequalities
 
-The SDP dual produces a finite system of linear inequalities that outer-approximates $cal(Q)_k$. The primal SDP has the form
-
-$
-  max quad c^T gamma quad "s.c." quad Gamma succ.eq 0, quad "linear constraints on" gamma,
-$
-
-where $gamma$ is the vector of independent entries of $Gamma$. The dual SDP has the form
-
-$
-  min quad b^T y quad "s.c." quad sum_i y_i F_i succ.eq C,
-$
-
-where $F_i, C$ are the constraint matrices. By strong duality, at optimality $c^T gamma^* = b^T y^*$.
-Each dual feasible point $y$ gives a valid inequality on the probabilities. The dual constraint $sum_i y_i F_i succ.eq C$ implies, for every primal feasible $Gamma$:
-
-$
-  c^T gamma <= "tr"((sum_i y_i F_i) Gamma) = sum_i y_i "tr"(F_i Gamma) = b^T y.
-$
-
-Expanding $c^T gamma$ and $b^T y$ in terms of the probabilities $p(a,b|x,y)$ gives a linear inequality
-
-$
-  sum_(a,b,x,y) alpha_(a,b,x,y)^((m)) p(a,b|x,y) <= beta_m, quad m = 1, dots, M.
-$
-
-By solving the dual SDP for several objective functions, one obtains a finite system of $M$ linear inequalities that outer-approximates $cal(Q)_k$.
+By solving the dual SDP for several objective functions, one obtains a finite system of $M$ linear inequalities that outer-approximates $cal(Q)_k$. The detailed derivation of this passage is given in @Navascues_Pironio_Acin_2008.
 
 === The MILP for $T_k (t)$
 
@@ -191,6 +166,26 @@ This MILP is solvable by standard solvers (Gurobi, SCIP, CPLEX). The NPA cuts pr
 ]
 
 The both direct and NPA approch squeeze the trison bound: $T(t) <= T_k (t)$, and both converge to $2 sqrt(2)$ as $t$ and $k$ grow.
+
+=== The see-saw method for lower bounds
+
+The NPA hierarchy approximates the quantum set $cal(Q)$ from the outside. It therefore gives upper bounds on $T(t)$. Lower bounds require explicit quantum strategies whose normalized countings have high CHSH scores at level $t$. Since such strategies are hard to find by direct enumeration, one can use the #emph[see-saw method], also called alternating optimization @Abbott_Mhalla_Pocreau_2024.
+
+The idea is to relax the optimization over quantum strategies as a sequence of semidefinite programs. Fix a dimension $d$ for the Hilbert space. Starting from a randomly chosen quantum state $rho in cal(H)_A times.circle cal(H)_B$ and measurement operators ${A_x^a}, {B_y^b}$, the algorithm alternates between three steps:
+
++ *Fix the state, optimize the measurements.* For each party separately, solve an SDP to find the measurement operators that maximize the CHSH score while keeping $rho$ and the other party's measurements fixed.
++ *Fix the measurements, optimize the state.* Solve an SDP to find the state $rho$ that maximizes the CHSH score given the current measurements.
++ *Repeat* until convergence (or for a fixed number of iterations).
+
+The best CHSH score found across multiple random initializations provides a lower bound $T_"seesaw" (t)$ on $T(t)$.
+
+#remark(name: [See-saw: no convergence guarantee], id: "rem:seesaw-convergence")[
+  The see-saw method is a heuristic. The optimization landscape is biconvex (convex in the state when the measurements are fixed, and vice versa), but *not jointly convex*. Therefore:
+  - There is no guarantee of convergence to the global optimum.
+  - The algorithm may get stuck in local optima.
+  - Different random initializations may yield different results.
+]
+
 
 == The three levels at each $t$
 

@@ -1,15 +1,15 @@
 #import "../template.typ": book, corollary, definition, lemma, proof, proposition, remark
 #import "../prelude.typ": *
 
-= Main concept : dynamic contextual automata
+= Main concept : dynamic contextual automata <chap:dynamic-contextual-automata>
 
-The previous section described compatible counts as elements of an affine semi group. This is a static description. It tells us which completed integer tables are possible at each level $t$. The level is important because it records the scale at which the observation has stabilized.
+The previous section described compatible counts as elements of an affine semigroup. This is a static description. It tells us which completed integer tables are possible at each level $t$. The level is important because it records the scale at which the observation has stabilized.
 
 In CHSH, a completed compatible count has total size $k = 4t$. Hence, completed objects appear only at sizes divisible by $4$. The dynamic question is therefore unavoidable: what can be said after only one, two, or three visible events have occurred ? Such a prefix is not a completed empirical model, but it may still be the beginning of a process that will later close into one.
 
 The aim of dynamic contextual automata is to describe these intermediate states without reducing them to noise. A completed count is built from elementary generators. An interrupted count is built from completed generators and from generators that are still open. The open part contains information about the future: it records what must still be emitted in order to close the process. This makes the later definition of a dynamic state almost forced: it must contain closed copies, open copies, and the residual future of each open copy.
 
-The following sections present the result of our work, from the initial definitions and motivations to the final proposition. The first part introduces the foundations of our meta-theory of theories. The second part shows how this framework can account for simple examples of contextuality. We also emphasize the advantage of replacing probabilistic models with an integer-based dynamic model. #lou[A modifier en fonction]
+The following sections present the result of our work, from the initial definitions and motivations to the final proposition. The first part introduces the foundations of our meta-theory of theories. The second part shows how this framework can account for simple examples of contextuality. We also emphasize the advantage of replacing probabilistic models with an integer-based dynamic model.
 
 == Basic of dynamic contextual automata
 
@@ -17,7 +17,7 @@ The following sections present the result of our work, from the initial definiti
 
 Let $V$ be the visible event space introduced above. A count is an element of $NN^V$. A generator is a finite counting vector $g in NN^V$ that is regarded as one elementary complete process.
 Generators are not introduced as arbitrary formal objects. They are meant to be elementary bricks of stabilization. A closed empirical table is not explained by a probability point alone, but by a finite production of such bricks.
-In $(2,2,2)$ bell scenarios, the previous semi group computation gives the intended examples. The local deterministic generators are the minimal classical bricks. The lifted PR generators are the minimal non-local bricks of the compatible semi group. A local deterministic generator has total size $4$. A lifted PR generator has total size $8$. The automata below do not change these bricks. They only describe their progressive production.
+In $(2,2,2)$ bell scenarios, the previous semigroup computation gives the intended examples. The local deterministic generators are the minimal classical bricks. The lifted PR generators are the minimal non-local bricks of the compatible semigroup. A local deterministic generator has total size $4$. A lifted PR generator has total size $8$. The automata below do not change these bricks. They only describe their progressive production.
 
 At this stage, we do not need to assume that these are the only possible generators in every scenario. The set of generators is a modelling choice, but it is a constrained choice: it must be rich enough to reconstruct the completed countings that we want to explain, and structured enough to make intermediate states meaningful.
 
@@ -36,10 +36,8 @@ At this stage, we do not need to assume that these are the only possible generat
   $
 ]
 
-This condition is the closed, semi group-level requirement. It says that the chosen generators can explain every completed compatible counting. When $cal(G)$ is the Hilbert basis of $𝒮$, this condition is automatic. In practice, the choice of $cal(G)$ must be made carefully: if it is too small, some counts cannot be explained; if it is too large, the explanation loses structure.
+This condition is the closed, semigroup-level requirement. It says that the chosen generators can explain every completed compatible counting. When $cal(G)$ is the Hilbert basis of $𝒮$, this condition is automatic. In practice, the choice of $cal(G)$ must be made carefully: if it is too small, some counts cannot be explained; if it is too large, the explanation loses structure.
 *This point is crucial for understanding the framework:* the model, or theory, chosen to account for a phenomenon can be more or less fine-grained. The choice of generators is therefore part of the modelling process. A more precise theory requires families of generators with higher levels $l(g)$, whereas a less precise theory may only require generators of lower levels.
-
-In all the following, we assume that we have *fixed* a closed-complete generator family $cal(G)$ for the semi group $𝒮$. #lou[NONNN !]
 
 === The automaton of one generator
 
@@ -87,6 +85,9 @@ An experiment can contain several copies of generators at the same time. Some co
   We will note $𝕞(g, R)$ the multiplicity of the open copy $(g,R)$ in $OO_eta$.
 ]
 The first sum is the contribution of closed copies. The second sum is the contribution of open copies: each open copy has already emitted $g-R$ and still owes the residual $R$.
+
+#lou[problem : R c'est la completions ici pas le residus !]
+
 The future residual of the state is
 $R_eta := sum_((g,R) ins O_eta) R$.
 If no new generator is opened, then closing all current open copies would produce the completed count
@@ -231,40 +232,38 @@ The *dynamics* $xi$ specifies how the generators can evolve over time. It does n
 #remark[
   If $cal(G)$ is not complete (see @def:dynamic-complete), then the choice of $cal(G)$ already imposes a structural restriction: some completed observations cannot be generated. If $cal(G)$ is complete, however, the structure alone does not select a proper subclass of completed observations. It only re-expresses them as sums of elementary bricks. In that case, a non-trivial theory requires an additional constraint on admissible trajectories. This is the role of $xi$.
 ]
-=== The three approaches to $xi$ #lou[a modifier en fonction]
+=== A first example of $xi$: bounding open generators
 
-We now describe three ways to define the dynamic constraint $xi$, in order of increasing sophistication.
+The symbol $xi$ denotes a constraint on trajectories of hidden states. It is not fixed by the definition of a dynamic contextual automaton. It is an additional modelling choice. A first possible choice, and the one that initially motivated this layer, is to bound the number of open copies of each generator.
 
-*Approach 1: Open-generator constraint.* The simplest constraint limits the number of open generators relative to closed ones:
+For a state $eta$, write
+$o_eta (g) := sum_(0 < R <= g) 𝕞_eta (g,R)$
+for the number of open copies of $g$, and write $c_eta (g) := 𝕞_eta (g,0)$ for the number of closed copies of $g$. Fix a slope $lambda >= 0$ and a tolerance $B in NN$. The open-generator constraint is
 $
-  xi_B : quad O_i <= lambda C_i + B quad forall i.
+  xi_B : quad o_(eta_i) (g) <= lambda c_(eta_i) (g) + B
+  quad ∀i ∈ [k] , quad forall (η_1,dots,η_k) ∈ ℋ_𝒢 (N_(1:k)), quad forall g in cal(G).
 $
-Here $O_i$ is the number of open copies and $C_i$ is the number of closed copies. This constraint acts like a magnet: it does not determine the trajectory, but if the process accumulates too many open generators, the constraint forces it back toward stabilization. The trajectory is free to choose its path within the stability envelope.
+This condition says that a trajectory is admissible only if, at each interruption time, each generator has a controlled number of open copies relative to its closed copies. The tolerance $B$ allows a bounded amount of unfinished work. The slope $lambda$ allows the system to carry more unfinished copies once it has already stabilized many closed copies of the same generator.
 
-*Approach 2: Calibrated slope.* A refined version calibrates the slope $lambda$ to the trison bound $T(n)$ at the relevant level:
+This simple constraint already has a dynamic effect. Suppose that an observation $N$ forces many open copies of a generator $g$. This can be measured by the minimal open pressure
 $
-  xi_(B,T) : quad O_i <= lambda_T (n) C_i + B quad forall i,
+  omega_g (N)
+  :=
+  min_(eta in cal(H)_cal(G) (N))
+  (o_eta (g) - lambda c_eta (g)).
 $
-where $lambda_T (n)$ is computed from the rational approximation $w_Q (n)/n$ of the Tsirelson probability. This targets the discrete quantum bound rather than the abstract irrational limit.
+If $omega_g (N) > B$, then every hidden explanation of $N$ violates $xi_B$. Hence no trajectory satisfying $xi_B$ can pass through this observation. If $omega_g (N)$ is close to $B$, then the trajectory is not yet impossible, but its future is strongly constrained: it cannot keep opening new copies of $g$ without also emitting residual events that help existing copies close.
 
-*Approach 3: Past/future product constraint.* The most refined approach uses the past/future distances $d^-$ and $d^+$. For each dynamic state $eta_i$, define
-$
-  d^-_i = |N_i - P_(eta_i)|_1, quad d^+_i = |F_(eta_i) - N_i|_1,
-$
-where $P_(eta_i)$ is the closed part and $F_(eta_i)$ is the completed part. The constraint is
-$
-  xi_"PF" : quad d^-_i dot d^+_i <= A_T (n) quad forall i.
-$
-The product $d^- d^+$ measures the simultaneous tension between past and future. It is the dynamic analogue of the contextual fraction: a classical observation has $d^- = d^+ = 0$, a quantum-like observation has moderate tension, and a post-quantum observation has excessive tension.
+#remark(name: "Magnet analogy", id: "rem:magnet-analogy")[
+  The constraint $xi_B$ behaves like a magnet guiding a trajectory. It does not determine the path: the dynamics of opening, emitting, and closing generators is not fixed by $xi_B$ alone. But if the trajectory strays too far, meaning that the number of open copies grows too large relative to the closed ones, the constraint creates a wall that pushes the process back toward stabilization.
+  The magnet does not choose the destination. It prevents the trajectory from escaping into unbounded instability. More precisely, $xi_B$ does not select a unique trajectory $eta_1 arrow.squiggly eta_2 arrow.squiggly dots arrow.squiggly eta_k$. It filters the set of admissible trajectories by removing those that violate the stability bound at some step. The surviving trajectories are not deterministic, but their open/closed ratio stays inside the prescribed envelope.
+]
 
-The key result is that $d^- d^+$ is strictly monotonically increasing in the CHSH score $S$ for $S > 2$, on the isotropic line. Therefore the constraint $d^- d^+ <= A_T (n)$ captures exactly the quantum set at each finite level $n$, without any reference to $sqrt(2)$.
+*What $xi$ is not.* It is important to clarify the status of this constraint.
 
-=== What $xi$ is not
+- $xi$ does not determine a unique hidden state. The same observation sequence may have several admissible trajectories.
+- $xi$ does not choose which event will be emitted next. It only removes continuations that would make the hidden state unstable.
+- $xi$ is not a hidden-variable assignment in the usual sense. It does not assign predetermined values to all measurements. It constrains the evolution of the explanatory process.
+- $xi$ is not part of the visible data. It is a theoretical filter placed on the fibre $cal(H)_cal(G) (N_(1:k))$.
 
-It is important to clarify what $xi$ does not do.
-
-- $xi$ does not determine a unique hidden state. Multiple trajectories can satisfy $xi$ for the same observation sequence.
-- $xi$ does not choose which event will be emitted next. It only filters the set of admissible continuations.
-- $xi$ is not a hidden-variable theory in the traditional sense. It does not assign predetermined values to all measurements. It constrains the dynamics of the explanatory process.
-
-In this sense, $xi$ is closer to a conservation law than to a hidden variable. It says what must be preserved (the stability bound), not what must happen (the next event). The theory $TT = (cal(G), xi)$ is therefore a theory of constraints on explanations, not a theory of hidden causes.
+In this sense, $xi$ is closer to a stability law than to a hidden cause. It says which dynamic explanations are admissible. It does not say that one specific explanation is the real one.

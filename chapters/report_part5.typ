@@ -1,7 +1,7 @@
 #import "../template.typ": book, corollary, definition, example, lemma, proof, proposition, remark
 #import "../prelude.typ": *
 
-= fractionnal contextuality is equivalent to half distance
+= fractionnal contextuality is equivalent to half distance <chap:contextual-fraction>
 
 #v(4em)
 
@@ -134,25 +134,24 @@ This condition prevents double counting: if two global sections $g_1$ and $g_2$ 
 
 === The non-contextual fraction
 
-The *non-contextual fraction* of $e$ is the maximum weight achievable by a consistent subdistribution:
+The _non-contextual fraction_ of $e$ is the maximum weight achievable by a consistent subdistribution:
 
 $
   "NCF"(e) = max { omega(c) | c in C_e (X) }.
 $
 
-The *contextual fraction* is
+The _contextual fraction_ is
 
 $
   "CF"(e) = 1 - "NCF"(e).
 $
 
-This maximum exists because $C_e(X)$ is closed and bounded in $RR^(|cal(E)(X)|)$, hence compact by Heine--Borel, and $omega$ is continuous.
-
+This maximum exists because $C_e (X)$ is closed and bounded in $RR^(|cal(E)(X)|)$, hence compact by Heine--Borel, and $omega$ is continuous.
 The dual linear program produces a Bell inequality whose normalised violation by $e$ equals $"CF"(e)$. Thus the contextual fraction is both a measure of non-classicality and a witness of Bell violation.
 
-== Step 5: Translation to integer counts
+== Translation to integer counts
 
-We now translate the entire construction into the integer counting setting. Let $N in NN^V$ be a compatible integer counting of level $t$. The normalized model is $e_N = N / t$.
+We now translate the entire construction into the integer counting setting. Let $N in NN^V$ be a compatible integer counting of level $t$. The normalized model is $e_N = N\/t$. Because we have the same problem of overlap problem, see @annex:overlap-integer, we want to define an integer analogue of consistent subdistributions.
 
 #definition(name: [Integer consistent subcountings], id: "def:CN")[
   The set of *consistent subcountings* is
@@ -168,11 +167,22 @@ We now translate the entire construction into the integer counting setting. Let 
 
 The weight of a subcounting $z$ is $omega(z) = sum_g z(g) = bold(1)^tack.t z$.
 
+#remark(name: [Subcountings as closed generators], id: "rem:subcounting-generator")[
+  In the integer setting, $C_N (X)$ has a direct interpretation in terms of the dynamic framework.
+  A vector $z in NN^(cal(E)(X))$ assigns to each global section $g$ a multiplicity $z(g) in NN$:
+  the number of times $g$ is used as a closed (deterministic) generator.
+  The constraint $M z <= N$, or equivalently $sum_(g : g|_C = s) z(g) <= N_C (s)$ for every
+  local event $(C, s)$, says exactly that the closed generators must #emph[fit inside] $N$:
+  no local event receives more mass from the deterministic explanation than was actually observed.
+  In the notation of the dynamic framework, if $eta$ is a dynamic state with closed part
+  $P_eta = M z$, then $z(g) = c_eta (g)$ counts how many times $g$ appears as a closed generator.
+  The condition $z in C_N (X)$ is then simply $P_eta <= N$, i.e. the closed part does not exceed
+  the observation.
+]
+
 #proposition(name: [Integer decomposition], id: "prop:integer-decomposition")[
-  If $z in C_N(X)$, then
-  $
-    N = M z + R
-  $
+  If $z in C_N (X)$, then
+  $N = M z + R$
   where $R = N - M z >= 0$. Here $M z$ is the *closed part* (a combination of deterministic global sections) and $R$ is the *open part* (the residue not yet explained by classical histories).
 ]
 
@@ -182,23 +192,21 @@ The weight of a subcounting $z$ is $omega(z) = sum_g z(g) = bold(1)^tack.t z$.
 
 This decomposition is the integer analogue of Proposition~@prop:decomposition-subdistribution. It says exactly what the dynamic framework says: an observation $N$ splits into a closed part $M z$ (stabilized, non-contextual) and an open part $R$ (still in progress, potentially contextual).
 
-== Step 6: The first coordinate recovers the contextual fraction
+== The first coordinate recovers the contextual fraction
 
 We now state the main theorem linking the two frameworks.
 
 #proposition(name: [The closed deficit equals the contextual fraction], id: "thm:closed-deficit-equals-CF")[
-  Let $N in NN^V$ be a compatible integer counting of level $t$, and let $e_N = N / t$. Define the *closed deficit* as the minimal mass not explained by deterministic global sections:
+  Let $N in NN^V$ be a compatible integer counting of level $t$, and let $e_N = N \/ t$. Define the _closed deficit_ as the minimal mass not explained by deterministic global sections:
   $
-    D^-(N) := min_(z in C_N(X)) |N - M z|_1.
+    D^-(N) := min_(z in C_N (X)) |N - M z|_1.
   $
   Then
   $
     D^-(N) = |N|_1 dot "CF"(e_N).
   $
   Equivalently,
-  $
-    (D^-(N)) / (|N|_1) = "CF"(e_N).
-  $
+  $(D^-(N)) / (|N|_1) = "CF"(e_N)$.
 ]
 
 #proof[
@@ -218,60 +226,88 @@ We now state the main theorem linking the two frameworks.
 
 This theorem says: the minimal mass of a compatible counting that cannot be explained by deterministic global sections is *exactly* the contextual fraction of the normalized model, multiplied by the total count.
 
-== Step 7: The dynamic enrichment
+== The dynamic enrichment<subchap:dynamic-enrichemnt>
 
-The sheaf-theoretic framework stops at the contextual fraction: it measures *how much* of the model is non-classical. The dynamic framework adds a second layer: it measures *how far* the non-classical residue is from being closed.
+#lou[a voir encore]
 
-For a dynamic state $eta$ explaining $N$, the past/future distances are
-$
-  d^-_eta = |N - P_eta|_1, quad d^+_eta = |F_eta - N|_1,
-$
-where $P_eta = M z$ is the closed part and $F_eta = P_eta + sum_((g,R) in O_eta) g$ is the completed part.
+The sheaf-theoretic framework stops at the contextual fraction: it measures *how much* of the model is non-classical. The dynamic framework adds a second layer: it measures *how far* the non-classical residue is from being closed. For this reason, the distances should first be defined for a dynamic state itself, and only then minimized over the dynamic explanations of a fixed observation.
 
-When the closed part is *maximized* (i.e. $z$ solves the LP above), we have
-$
-  d^-_eta = D^-(N) = |N|_1 dot "CF"(e_N).
-$
-Thus the first coordinate of the dynamic measure recovers the contextual fraction exactly. The second coordinate, $d^+_eta$, measures the additional cost of completing the non-contextual residue:
-$
-  d^+_eta = |F_eta - N|_1 = |sum_((g,R) in O_eta) R|_1.
-$
+#definition(name: [Past and future distances], id: "def:past-future-distances")[
+  Let $cal(G)$ be a family of generators, and let $eta = (c_eta,O_eta)$ be a dynamic state. Its closed part is
+  $P_eta := sum_(g in cal(G)) c_eta (g) g$.
+  Its visible emitted counting is
+  $N_eta := P_eta + sum_((g,R) ins O_eta) (g - R)$.
+  Its completed counting is
+  $F_eta := P_eta + sum_((g,R) ins O_eta) g$,
+  obtained by closing every open generator.
+  The *past and future distances* of $eta$ are
+  $
+    d^-_eta := |N_eta - P_eta|_1,
+    quad
+    d^+_eta := |F_eta - N_eta|_1.
+  $
+  Thus $d^-_eta$ is the emitted mass carried by open generators, while $d^+_eta$ is the residual mass still needed to close them.
+]
 
-The product $d^-_eta d^+_eta$ is therefore
+If $eta$ explains the observed counting $N$, this means $N_eta = N$. In that case the same quantities may be written as $d^-_eta = |N - P_eta|_1$ and $d^+_eta = |F_eta - N|_1$, but $N$ is not part of the intrinsic definition of the distances.
+
+For a fixed observed counting $N$, let $cal(H)_cal(G)(N) := {eta | N_eta = N}$ be the set of dynamic explanations of $N$ over $cal(G)$. We define
+$D^-(N) := min_(eta in cal(H)_cal(G)(N)) d^-_eta$.
+We can see that this obviously the same that
+$min_(z in C_N (X)) |N - M z|_1$.
+
+For the future distance we have two possible choice, either we fixed $η$ to me the one realize the minimum for $D^-(N)$ and we define the $D^+ (N) := d_η^+$, or we minimize over all explanations of $N$ without constraint. The second choice would be more natural if we were only interested in the future distance as a measure of how far $N$ is from being closed. But our goal is to enrich the contextual fraction, which is already captured by the past distance. We want to measure how far the *residue* left by the optimal past choice is from being closed. This is why we define a tied past/future product: we first minimize the past distance, and then among the explanations that realize this minimum, we minimize the future distance.
+The future distance should not be minimized independently if the goal is to enrich the contextual fraction. The reason is that $D^-(N)$ already selects the largest closed, non-contextual part of $N$. The relevant future cost is therefore the cost of completing the residue left by such an optimal past choice. We define the residual distance
 $
-  d^-_eta d^+_eta
+  D^(arrow.loop)(N) := min { d^+_eta | eta in cal(H)_cal(G)(N) and d^-_eta = D^-(N) }.
+$
+The extra minimization over the states with $d^-_eta = D^-(N)$ removes arbitrary choices when several optimal closed parts exist.
+
+#definition(name: "Tight distances", id: "def:tight-distances")[
+  Let $𝒢$ be a complete family of generators. Thus, for every
+  visible counting $N ∈ ℕ^V$, the fibre $ℋ_𝒢 (N)$ is non-empty.
+  For a dynamic state $η ∈ ℋ_𝒢 (N)$, let
+  $P_η$ denote its closed part and let $F_η$ denote its completed part,
+  obtained by closing all open generators. We define
+  $d^-_η := |N - P_η|_1$ and $d^+_η := |F_η - N|_1$. \
+  The *integer contextual deficit* of $N$, i.e. the non-normalised contextual fraction of the empirical model associated with $N$, is
+  $
+    D^-(N)
+    :=
+    min_(η ∈ ℋ_𝒢 (N)) d^-_η .
+  $
+  The *contextual completion deficit* of $N$ is the minimal future
+  deficit among the states that already minimize the past deficit:
+  $
+    D^(arrow.loop)(N)
+    :=
+    min { d^+_η
+      | η ∈ ℋ_𝒢 (N) " and " d^-_η = D^- (N) } .
+  $
+
+  The pair
+  $
+    (D^-(N), D^(arrow.loop)(N))
+  $
+  is called the *tight contextual profile* of $N$.
+  We define the dual of this contextual profile, or *dual tight contextual profile* as the following pair :
+  $
+    (D^(arrow.l.loop)(N),D^+ (N)) := (min{d_η^- | η ∈ ℋ_𝒢 (N) " and " d_η^+ = D^+ (N)},min{d_η^+ | η ∈ ℋ_𝒢 (N)})
+  $
+]
+
+The corresponding _tight contextual product_ is therefore
+$
+  D^-(N) D^(arrow.loop)(N)
   =
   underbrace(|N|_1 dot "CF"(e_N), "contextual fraction (sheaf theory)")
   dot
-  underbrace(d^+_eta, "completion cost (dynamic)").
+  underbrace(D^(arrow.loop)(N), "completion cost after optimal past extraction")
 $
-The first factor is purely static: it depends only on the model $e_N$. The second factor is dynamic: it depends on the choice of generators, the residuals, and the degree of openness of the explanation.
+or $(D^(arrow.l.loop)(N),D^+ (N))$ for the _dual tight contextual product_.
+The first factor is purely static: it depends only on the model $e_N$. The second factor is dynamic: it depends on the generator family, the residuals, and the degree of openness of the optimal explanations.
 
-#figure(
-  table(
-    columns: 3,
-    align: center,
-    inset: 8pt,
-    table.header([Quantity], [Origin], [What it measures]),
-    [$"CF"(e_N)$], [Sheaf theory], [Fraction non-explained by global sections],
-    [$D^-(N) / |N|_1$], [Dynamic (closed part)], [Same quantity, integer version],
-    [$d^+_eta$], [Dynamic (open part)], [Cost to complete the non-classical residue],
-    [$d^-_eta d^+_eta$], [Dynamic (product)], [Tension between past and future],
-  ),
-  caption: [Decomposition of the dynamic measure. The first coordinate recovers the contextual fraction; the second adds the completion cost.],
-) <tab:decomposition-measure>
-
-== Step 8: The overlap problem in the integer setting
-
-The integer setting has exactly the same overlap problem as the probabilistic one, but now with counts instead of probabilities.
-
-Consider a context $C$ with $N_C(s_1) = 6$ and $N_C(s_2) = 4$ (so $t = 10$). Suppose two global sections $g_1$ and $g_2$ both restrict to $s_1$ in context $C$. If we naively assign $z(g_1) = 4$ and $z(g_2) = 4$, the total mass on $s_1$ is $4 + 4 = 8 > 6 = N_C(s_1)$. This is impossible: we are trying to explain $8$ occurrences of an event that was only observed $6$ times.
-
-The constraint $sum_{g|_C = s} z(g) <= N_C(s)$ in the definition of $C_N(X)$ prevents exactly this. It is the integer analogue of the subdistribution condition $e_C(s) >= c|_C(s)$.
-
-In the possibilistic case, $1 or 1 = 1$: double counting is harmless. In the integer case, $4 + 4 = 8 > 6$: double counting is real and must be controlled.
-
-== Step 9: Summary of the correspondence
+== Summary of the correspondence
 
 The following table summarizes the parallel between the probabilistic and integer frameworks.
 
@@ -285,10 +321,11 @@ The following table summarizes the parallel between the probabilistic and intege
     [$sum_s e_C(s) = 1$], [$sum_s N_C(s) = t$], [normalization],
     [$S_e^(>= r)(X)$], [$S_N^(>= r)(X)$], [same definition],
     [$e = r delta_g + (1-r)e'$], [$N = r delta_g + R$], [fractional decomposition],
-    [$C_e(X) = {c : M c <= e}$], [$C_N(X) = {z : M z <= N}$], [$c = z / t$],
+    [$C_e (X) = {c : M c <= e}$], [$C_N (X) = {z : M z <= N}$], [$c = z / t$],
     [$e = sum c(g) delta_g + (1-omega(e))e'$], [$N = M z + R$], [subdistribution decomposition],
     [$"NCF"(e) = max omega(c)$], [$"NCF"(e_N) = max bold(1)^tack.t z / t$], [same LP],
-    [$"CF"(e) = 1 - "NCF"(e)$], [$D^-(N) / |N|_1 = "CF"(e_N)$], [#strong[main theorem]],
+    [$"CF"(e) = 1 - "NCF"(e)$], [$(D^-(N)) / (|N|_1) = "CF"(e_N)$], [#strong[main theorem]],
+    [$crossmark$], [$D^(arrow.loop)(N)$], [*dynamic enrichment*],
   ),
   caption: [Complete correspondence between the probabilistic sheaf-theoretic framework and the integer counting framework.],
 ) <tab:correspondence>
