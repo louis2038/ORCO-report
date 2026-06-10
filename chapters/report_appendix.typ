@@ -81,6 +81,92 @@ The main text uses only the monotonicity direction: if a dynamic trajectory exis
   Thus $(eta_1,dots,eta_k) in cal(H)_cal(G)(N_(1:k))$, so the fibre is non-empty.
 ]
 
+== What look like $ℋ_("ns")$?
+
+#let local_generators = (
+  // D[a0=0,a1=0,b0=0,b1=0]
+  ((1, 0, 1, 0), (0, 0, 0, 0), (1, 0, 1, 0), (0, 0, 0, 0)),
+  // D[a0=0,a1=0,b0=0,b1=1]
+  ((1, 0, 0, 1), (0, 0, 0, 0), (1, 0, 0, 1), (0, 0, 0, 0)),
+  // D[a0=0,a1=0,b0=1,b1=0]
+  ((0, 1, 1, 0), (0, 0, 0, 0), (0, 1, 1, 0), (0, 0, 0, 0)),
+  // D[a0=0,a1=0,b0=1,b1=1]
+  ((0, 1, 0, 1), (0, 0, 0, 0), (0, 1, 0, 1), (0, 0, 0, 0)),
+  // D[a0=0,a1=1,b0=0,b1=0]
+  ((1, 0, 1, 0), (0, 0, 0, 0), (0, 0, 0, 0), (1, 0, 1, 0)),
+  // D[a0=0,a1=1,b0=0,b1=1]
+  ((1, 0, 0, 1), (0, 0, 0, 0), (0, 0, 0, 0), (1, 0, 0, 1)),
+  // D[a0=0,a1=1,b0=1,b1=0]
+  ((0, 1, 1, 0), (0, 0, 0, 0), (0, 0, 0, 0), (0, 1, 1, 0)),
+  // D[a0=0,a1=1,b0=1,b1=1]
+  ((0, 1, 0, 1), (0, 0, 0, 0), (0, 0, 0, 0), (0, 1, 0, 1)),
+  // D[a0=1,a1=0,b0=0,b1=0]
+  ((0, 0, 0, 0), (1, 0, 1, 0), (1, 0, 1, 0), (0, 0, 0, 0)),
+  // D[a0=1,a1=0,b0=0,b1=1]
+  ((0, 0, 0, 0), (1, 0, 0, 1), (1, 0, 0, 1), (0, 0, 0, 0)),
+  // D[a0=1,a1=0,b0=1,b1=0]
+  ((0, 0, 0, 0), (0, 1, 1, 0), (0, 1, 1, 0), (0, 0, 0, 0)),
+  // D[a0=1,a1=0,b0=1,b1=1]
+  ((0, 0, 0, 0), (0, 1, 0, 1), (0, 1, 0, 1), (0, 0, 0, 0)),
+  // D[a0=1,a1=1,b0=0,b1=0]
+  ((0, 0, 0, 0), (1, 0, 1, 0), (0, 0, 0, 0), (1, 0, 1, 0)),
+  // D[a0=1,a1=1,b0=0,b1=1]
+  ((0, 0, 0, 0), (1, 0, 0, 1), (0, 0, 0, 0), (1, 0, 0, 1)),
+  // D[a0=1,a1=1,b0=1,b1=0]
+  ((0, 0, 0, 0), (0, 1, 1, 0), (0, 0, 0, 0), (0, 1, 1, 0)),
+  // D[a0=1,a1=1,b0=1,b1=1]
+  ((0, 0, 0, 0), (0, 1, 0, 1), (0, 0, 0, 0), (0, 1, 0, 1)),
+)
+
+#let pr_generators = (
+  // PR[alpha=0,beta=0,gamma=0]
+  ((1, 0, 1, 0), (0, 1, 0, 1), (1, 0, 0, 1), (0, 1, 1, 0)),
+  // PR[alpha=0,beta=0,gamma=1]
+  ((0, 1, 0, 1), (1, 0, 1, 0), (0, 1, 1, 0), (1, 0, 0, 1)),
+  // PR[alpha=0,beta=1,gamma=0]
+  ((1, 0, 0, 1), (0, 1, 1, 0), (1, 0, 1, 0), (0, 1, 0, 1)),
+  // PR[alpha=0,beta=1,gamma=1]
+  ((0, 1, 1, 0), (1, 0, 0, 1), (0, 1, 0, 1), (1, 0, 1, 0)),
+  // PR[alpha=1,beta=0,gamma=0]
+  ((1, 0, 1, 0), (0, 1, 0, 1), (0, 1, 1, 0), (1, 0, 0, 1)),
+  // PR[alpha=1,beta=0,gamma=1]
+  ((0, 1, 0, 1), (1, 0, 1, 0), (1, 0, 0, 1), (0, 1, 1, 0)),
+  // PR[alpha=1,beta=1,gamma=0]
+  ((1, 0, 0, 1), (0, 1, 1, 0), (0, 1, 0, 1), (1, 0, 1, 0)),
+  // PR[alpha=1,beta=1,gamma=1]
+  ((0, 1, 1, 0), (1, 0, 0, 1), (1, 0, 1, 0), (0, 1, 0, 1)),
+)
+
+#figure(
+  table(
+    columns: (1fr, 1fr, 1fr, 1fr),
+    align: center + horizon,
+    stroke: none, // Pas de bordures pour un look plus minimaliste
+    ..local_generators
+      .enumerate()
+      .map(((i, vec)) => [
+        #set text(0.8em, gray)
+        $mat(..vec)$
+      ])
+  ),
+  caption: [The local generator ${ (d_lambda,1) }_(lambda=1)^16$ can be views like @fig:chsh-matrix, with a matrix representation of a counting vector $N ∈ ℕ^V$ in the CHSH scenario. Rows correspond to Alice’s pairs $(𝑎|𝑥)$, columns to Bob’s pairs $(𝑏|𝑦)$, and each cell to the joint event $(𝑎, 𝑏|𝑥, 𝑦)$. In represent the matrix with the following order $0|0;1|0; 0|1 ; 1|1$ for the two axis Alice and Bob.],
+)<fig:local-generator>
+
+#figure(
+  table(
+    columns: (1fr, 1fr, 1fr, 1fr),
+    align: center + horizon,
+    stroke: none, // Pas de bordures pour un look plus minimaliste
+    ..pr_generators
+      .enumerate()
+      .map(((i, vec)) => [
+        #set text(0.8em, gray)
+        $mat(..vec)$
+      ])
+  ),
+  caption: [The PR generator (or lifted) ${ (r_mu,2) }_(mu=1)^8$ can be views like @fig:local-generator],
+)<fig:PR-generator>
+
 == The overlap problem in the integer setting<annex:overlap-integer>
 
 The overlap problem of @ex:overlap has an exact integer counterpart.

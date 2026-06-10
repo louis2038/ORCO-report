@@ -86,79 +86,34 @@ $
 
 And in the dynamic case where we have a sequence of observation $N_(1:k)$ we have the following choice :
 
-
-== Experimental part: testing the product constraint
-
-This section collects the computational experiments. The aim is not to prove the equivalence $N in 𝕋_q <=> N in cal(Q)_t$. The aim is to test whether the tight product debt $d^- d^+$ behaves like a finite, integer witness of the quantum/post-quantum transition.
-
-=== Goal
-
-Given a candidate theory $𝕋_A^"PF" = (𝒢_"loc",ξ_A^"PF")$ and an observed sequence of countings $N_(1:k)$, we want to know whether there exists a coherent hidden trajectory
 $
-  eta_1 arrow.squiggly eta_2 arrow.squiggly dots arrow.squiggly eta_k
+  ξ : quad & max_i d_(eta_i)^- d_(eta_i)^+ <= A quad ∀ (eta_1,dots,η_k) ∈ ℋ_𝒢 (N_(1:k)) quad & bold((A_"dyn")) \
+           & min_((eta_1,dots,η_k) ∈ ℋ_𝒢 (N_(1:k))) max_i d_(eta_i)^- d_(eta_i)^+ <= A       & bold((B_"dyn")) \
+           & max_i D^-(N_i) D^+(N_i) <= A                                                    & bold((D_"dyn")) \
+           & max_i D^-(N_i) D^(arrow.loop)_α (N_i) <= A                                      & bold((E_"dyn")) \
+           & dots
 $
-such that $N_(eta_i) = N_i$ for every $i$ and $d^-_i d^+_i <= A$ for every $i$. If such a trajectory exists, the data fit the tight product constraint at threshold $A$. The score $A_"PF"^*(N_(1:k))$ is the smallest threshold for which this is possible.
 
-=== Method
+The next step of this internship is to test these different constraints, each following a distinct intuition, in order to determine which of them can capture quantum phenomena.
 
-The current implementation is a prototype for the CHSH isotropic line. It uses the following modelling choices.
+== Algorithmic implementation
 
-+ The generator family is $𝒢_"loc"$, the $16$ local deterministic CHSH generators. Each generator emits one event in each of the four CHSH contexts.
-+ An isotropic counting is specified by two integers $(w,l)$: each winning event has count $w$, and each losing event has count $l$.
-+ The counting is expanded into a trace $τ = (e_1,dots,e_k)$ of visible events. In the code, the trace is obtained by shuffling the multiset of events with a fixed random seed.
-+ The cumulative prefix countings are
-  $
-    N_i := sum_(j <= i) epsilon_(e_j),
-    quad i = 1,dots,k.
-  $
-+ A hidden state records which generator copies are open, which generator each copy belongs to, and which events of that generator have already been emitted.
-+ For each prefix, the algorithm computes $d^-_i$ as the emitted mass carried by open copies and $d^+_i$ as their residual mass.
-+ A trajectory is accepted at threshold $A$ if $d^-_i d^+_i <= A$ at every prefix.
+We use Constraint Programming (CP) to encode and test the various constraints of our model. The primary objective is to decide feasibility, do we have $ℋ_(𝒢,ξ) (N_(1:k)) != emptyset$? A secondary objective, useful for debugging and exploration, is to enumerate all feasible solutions and CP is well suited to this task.
 
-The Rust prototype in `chsh_global_peak` implements this pipeline. The dynamic-programming code records the two quantities $d^-$ and $d^+$ and filters configurations by the product threshold. The MILP code is an auxiliary feasibility prototype; it is useful for global trajectory constraints, but the product constraint is the main quantity to implement and test.
+We model our problem as a CP instance over integer variables. In practice, we use CP-SAT, which integrates an integer solver and supports both feasibility checking and solution enumeration.
 
-=== Algorithm
-
-The experimental algorithm can be written as follows.
-
-+ *Choose a candidate theory.* Fix $𝒢_"loc"$ and the product constraint $ξ_A^"PF"$.
-+ *Generate the observation.* Choose an isotropic CHSH counting $N(w,l)$ and expand it into a trace $τ = (e_1,dots,e_k)$.
-+ *Build prefixes.* For each time $i$, compute $N_i = sum_(j <= i) epsilon_(e_j)$.
-+ *Build the hidden transition system.* Enumerate all open states $(g,R)$ and all event-labelled transitions: start, advance, and close.
-+ *Search for a trajectory.* For a fixed threshold $A$, test whether there exists $eta_1,dots,eta_k$ with $N_(eta_i)=N_i$, $eta_i arrow.squiggly eta_(i+1)$, and $d^-_i d^+_i <= A$ for every $i$.
-+ *Optimize the threshold.* Perform a binary search on $A$ and record the minimal feasible value $A_"PF"^*$.
-+ *Compare with the quantum threshold.* Compare $A_"PF"^*$ with the value calibrated at the finite trison threshold.
-
-=== Preliminary product calibration
-
-On the isotropic line, the first calibration is static. Let $w_Q(n) = floor(n p^*)$ be the finite quantum winning count. Let $A_T(n)$ be the product $d^- d^+$ at the quantum-optimal isotropic point of level $n$. The intended test is:
 $
-  d^- d^+ <= A_T(n)
+  italic("Variables : ") & bold(m_(g,R)^i) ∈ ℕ quad g ∈ 𝒢 , 0 <= R <= g , i ∈ [k] \
+  & bold(f_(R -> S)^(g,i)) ∈ ℕ quad g ∈ 𝒢 , 0 <= S <= R <= g , i ∈ [k] \
+  \
+  italic("Constraints : ") & ∑_(g ∈ 𝒢) ∑_(0 <= R <= g) (g minus R) · m_(g,R)^i = N_i quad & ∀i ∈ [k] \
+  & sum_(S : S <= R) f_(R -> S)^(g,i) = m_(g,R)^i & g ∈ 𝒢 , 0 <= R <= g , i ∈ [k]\
+  & sum_(S : S >= R) f_(R -> S)^(g,i) <= m_(g,R)^(i+1) & g ∈ 𝒢 , 0 <= R <= g , i ∈ [k-1] \
+  & ξ
 $
-for quantum-like countings, and violation of this inequality for the first post-quantum countings above the finite trison threshold.
 
-#figure(
-  table(
-    columns: 6,
-    align: center,
-    inset: 6pt,
-    table.header([$n$], [$w_Q$], [$T(n)$], [$A_T(n)$], [$S_"post"$], [Separation]),
-    [5], [4], [2.400], [32], [--], [--],
-    [10], [8], [2.400], [128], [3.20], [Yes],
-    [17], [14], [2.588], [640], [3.06], [Yes],
-    [20], [17], [2.800], [1536], [3.20], [Yes],
-    [34], [29], [2.824], [4480], [3.06], [Yes],
-    [50], [42], [2.720], [6912], [2.88], [Yes],
-    [70], [59], [2.743], [14976], [2.86], [Yes],
-    [100], [85], [2.800], [34560], [2.88], [Yes],
-  ),
-  caption: [Preliminary calibration of the product threshold $A_T(n)$ on the isotropic CHSH line.],
-) <tab:product-calibration>
+The choice of CP is further justified by the nature of the constraints collected in $ξ$. These include product constraints of the form $D^-(N) · D^+(N)$, which arise from the interaction between residuals and generators. Such bilinear constraints are naturally expressed in a CP framework, whereas a pure integer linear solver would require additional reformulation.
 
-This table is the main preliminary evidence for the product constraint. It suggests that the past/future product is sensitive to the finite quantum threshold. The result is still restricted to the isotropic line and to the chosen generator family, so it should be read as a guide for the next experiments rather than as a theorem.
-
-=== Interpretation and next step
-
-The working hypothesis is now sharper. Quantum-like observations are not characterized by having no debt. They are characterized by having a controlled product of debts: the unexplained past and the residual future can both be non-zero, but their simultaneous tension remains below the calibrated threshold. Post-quantum observations should force the product above this threshold.
-
-The next implementation step is to make the global trajectory search fully centered on $ξ_A^"PF"$. Concretely, the solver should compute $A_"PF"^*(τ) = min_eta max_i d^-_i d^+_i$ for many traces, seeds, levels, and generator families. The comparison with the NPA approximation of $cal(Q)_t$ from @chap:quantum-dynamic-automata will then test whether this product constraint is a plausible candidate for the dynamic part $ξ_q$ of the desired theory $𝕋_q$.
+#remark[
+  This problem is equivalent to a *multi-commodity flow* problem. The commodities are the $k$ counting vectors $N_1 , … , N_k$ to be decomposed. Each commodity $i$ must be transported through the network of generators: the source is the target vector $N_i$, and the admissible paths are sequences of generators $g ∈ 𝒢$ selected with residual $R$ at each step. The variables $m_(g,R)^i$ record how many units of commodity $i$ are routed through the node $(g,R)$, while the flow variables $f_(R -> S)^(g,i)$ track how residual capacity evolves from $R$ to $S$ between consecutive levels. The conservation constraints ensure that the total inflow into each node matches the outflow, and the coupling constraint $sum_(S : S >= R) f_(R -> S)^(g,i) ≤ m_(g,R)^(i+1)$ prevents a commodity from consuming more residual capacity than is available at the next level.
+]
