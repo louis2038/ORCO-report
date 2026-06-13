@@ -8,7 +8,7 @@
   let date = datetime(
     year: 2026,
     month: 6,
-    day: 22,
+    day: 24,
   ).display()
 
   place(top + center, {
@@ -50,7 +50,7 @@
     align(center, text(size: 0.9em)[
       This internship was done at the _Laboratory of Informatics of Grenoble_ (LIG) \ in the _CAPP - Calculi, Algorithms, Programs and Proofs_ team.
 
-      Is under the supervision of _mehdi mhalla_.
+      Is under the supervision of _Mehdi Mhalla_.
 
       Defended before a jury composed of:
       #list(marker: $arrow.r.hook$)[Van-Dat Cung][Nadia Brauner][Hippolyte Dourdent]

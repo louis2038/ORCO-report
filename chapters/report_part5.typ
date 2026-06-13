@@ -295,6 +295,31 @@ $
   $
 ]
 
+#import "@preview/cetz:0.5.2"
+
+#figure(
+  cetz.canvas({
+    import cetz.draw: *
+    let cblue(it) = text(fill: blue, it)
+    let cred(it) = text(fill: red, it)
+
+    content((3, 0), $N$, name: "N")
+    polygon((0, -3), 9, name: "past", stroke: (blue))
+    circle((6, -3), radius: 2, name: "futur", stroke: red)
+    polygon((6, -3), 4, name: "subfutur")
+    content("past.north", $cblue({P_η}_η)$, anchor: "south")
+    content("futur.north", $cred({F_η}_η)$, anchor: "south")
+
+    line("N", "past", name: "line1", mark: (end: ">>"))
+    line("past.north-east", "subfutur", name: "line2", mark: (end: ">>"))
+    content("line1", angle: "line1.start", anchor: "south", [$D^- (N) = "CF"(e_N)$])
+
+    content("subfutur", $D^(arrow.loop) (N)$)
+  }),
+  //placement: top,
+  caption: [Representation of the integer contextual deficit and the contextual completion deficit. The polygon ${P_η}$ and the circle ${F_η}$ represent the set of all possible past $P_η$ and completion $F_η$ such that $η ∈ ℋ_𝒢 (N)$.],
+)<fig:repres>
+
 == Summary of the correspondence
 
 The following table summarizes the parallel between the probabilistic and integer frameworks.

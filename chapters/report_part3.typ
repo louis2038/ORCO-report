@@ -1,17 +1,17 @@
 #import "../template.typ": book, corollary, definition, lemma, proof, proposition, remark
 #import "../prelude.typ": *
 
-= Main concept : dynamic contextual automata <chap:dynamic-contextual-automata>
+= Viewing contextuality as an automaton process <chap:dynamic-contextual-automata>
 
 The previous section described compatible counts as elements of an affine semigroup. This is a static description. It tells us which completed integer tables are possible at each level $t$. The level is important because it records the scale at which the observation has stabilized.
 
 In CHSH, a completed compatible count has total size $k := |N|_1 = 4t$. Hence, completed objects appear only at sizes divisible by $4$. The dynamic question is therefore unavoidable: what can be said after only one, two, or three visible events have occurred? Such a prefix is not a completed empirical model, but it may still be the beginning of a process that will later close into one.
 
-The aim of dynamic contextual automata is to describe these intermediate states without reducing them to noise. A completed count is built from elementary generators. An interrupted count is built from completed generators and from generators that are still open. The open part contains information about the future: it records what must still be emitted in order to close the process. This makes the later definition of a dynamic state almost forced: it must contain closed copies and the residual future of each copy.
+The automaton model introduced here is a way to make this dynamic reading concrete. It does not redefine contextuality. It gives a constructive description of how a compatible count can be produced, interrupted, and later completed. A completed count is built from elementary generators. An interrupted count keeps track of the generators that have already closed and of those that are still open. The open part contains information about what remains to be emitted in order to close the process.
 
-The following sections present the result of our work, from the initial definitions and motivations to the final proposition. The first part introduces the foundations of our meta-theory of theories. The second part shows how this framework allows us to express a wide range of theories. We also emphasize the advantage of replacing probabilistic models with an integer-based dynamic model.
+The following sections develop this automaton model step by step. We first introduce generators as elementary complete processes. We then attach residual automata to them, define hidden dynamic states, and finally add constraints that select which trajectories are admissible. The goal is to keep the constructive information that is lost when one records only the final probability table.
 
-== Basic of dynamic contextual automata
+== Basic automaton model
 
 === Generators as complete processes
 
@@ -162,6 +162,37 @@ $
 $
 This fibre may contain many trajectories. Two different trajectories can explain the same observation sequence with different distributions of open and closed copies, different residual futures, and different intermediate costs.
 
+=== Layer 3: The dynamic constraint $xi$
+
+The fibre $cal(H)_cal(G) (N_(1:k))$ is typically too large to be useful by itself. The third layer introduces a constraint $xi$ that filters the fibre to select only those trajectories that satisfy a global stability condition.
+
+The dynamic fit under constraint $xi$ (*predicate*) is
+$
+  bold(cal(H)_(cal(G), xi) (N_(1:k))) := { (eta_1, dots, eta_k) in cal(H)_cal(G) (N_(1:k)) | (eta_1, dots, eta_k) models xi }.
+$
+The observation sequence is *explained* by the theory $(cal(G), xi)$ if this set is non-empty.
+
+
+=== The theory $TT = (cal(G), xi)$
+
+A dynamic contextual theory is a pair
+$TT = (cal(G), xi)$,
+where $cal(G)$ is the *structure* and $xi$ is the *dynamics*.
+
+The *structure* $cal(G)$ specifies the elementary processes: which generators are available, what their levels are, and how they decompose compatible countings. The choice of $cal(G)$ is a modelling decision. A coarse theory uses only low-level generators. A fine-grained theory uses higher-level generators that can explain more complex observations.
+
+The *dynamics* $xi$ specifies how the generators can evolve over time. It does not determine a unique trajectory. It constrains the set of admissible trajectories, removing those that violate a stability condition. The dynamics is what makes the theory predictive: it says not only what can be observed, but how the hidden process must behave between observations.
+
+#remark[
+  If $cal(G)$ is not complete (see @def:dynamic-complete), then the choice of $cal(G)$ already imposes a structural restriction: some completed observations cannot be generated. If $cal(G)$ is complete, however, the structure alone does not select a proper subclass of completed observations. It only re-expresses them as sums of elementary bricks. In that case, a non-trivial theory requires an additional constraint on admissible trajectories. This is the role of $xi$.
+]
+
+=== The transition condition is a modelling choice
+
+The transition condition $eta arrow.squiggly eta'$ is part of the modelling assumptions of the meta-theory. It is not forced by the static semigroup description. Other choices could be imagined, for example allowing a copy to split, two copies to merge, or a copy to change its generator. We do not include such transitions here.
+
+The choice made in @def:transition-condition is more restrictive. It assumes that a copy keeps its identity through time, keeps the same generator, and can only decrease its residual part. In other words, an elementary process may continue to emit events, but it cannot become another process and it cannot erase what has already been emitted. This gives a simple class of theories in which interruptions have a stable meaning. This class seams natural for the automaton interpretation developed here.
+
 #proposition(name: "Monotonicity of visible counts", id: "prop:visible-counts-monotone")[
   Let $𝒢$ a generator family, if $(eta_1, dots, eta_k) in cal(H)_cal(G) (N_(1:k))$, then the observed countings are monotone:
   $N_1 <= N_2 <= dots <= N_k$
@@ -202,30 +233,6 @@ This fibre may contain many trajectories. Two different trajectories can explain
   The converse question is different. A monotone sequence $N_1 <= dots <= N_k$ admits a dynamic explanation for every choice of visible countings if and only if $cal(G)$ is complete. This notion is defined in the appendix @def:dynamic-complete. There, @prop:dynamic-complete-support shows that dynamic completeness is equivalent to the condition that the generators cover all visible events, and @prop:converse-monotonicity-dynamic-complete proves the converse of monotonicity under this assumption.
 ]
 
-=== Layer 3: The dynamic constraint $xi$
-
-The fibre $cal(H)_cal(G) (N_(1:k))$ is typically too large to be useful by itself. The third layer introduces a constraint $xi$ that filters the fibre to select only those trajectories that satisfy a global stability condition.
-
-The dynamic fit under constraint $xi$ (*predicate*) is
-$
-  bold(cal(H)_(cal(G), xi) (N_(1:k))) := { (eta_1, dots, eta_k) in cal(H)_cal(G) (N_(1:k)) | (eta_1, dots, eta_k) models xi }.
-$
-The observation sequence is *explained* by the theory $(cal(G), xi)$ if this set is non-empty.
-
-
-=== The theory $TT = (cal(G), xi)$
-
-A dynamic contextual theory is a pair
-$TT = (cal(G), xi)$,
-where $cal(G)$ is the *structure* and $xi$ is the *dynamics*.
-
-The *structure* $cal(G)$ specifies the elementary processes: which generators are available, what their levels are, and how they decompose compatible countings. The choice of $cal(G)$ is a modelling decision. A coarse theory uses only low-level generators. A fine-grained theory uses higher-level generators that can explain more complex observations.
-
-The *dynamics* $xi$ specifies how the generators can evolve over time. It does not determine a unique trajectory. It constrains the set of admissible trajectories, removing those that violate a stability condition. The dynamics is what makes the theory predictive: it says not only what can be observed, but how the hidden process must behave between observations.
-
-#remark[
-  If $cal(G)$ is not complete (see @def:dynamic-complete), then the choice of $cal(G)$ already imposes a structural restriction: some completed observations cannot be generated. If $cal(G)$ is complete, however, the structure alone does not select a proper subclass of completed observations. It only re-expresses them as sums of elementary bricks. In that case, a non-trivial theory requires an additional constraint on admissible trajectories. This is the role of $xi$.
-]
 === A first example of $xi$: bounding open generators
 
 The symbol $xi$ denotes a constraint on trajectories of hidden states. It is not fixed by the definition of a dynamic contextual automaton. It is an additional modelling choice. A first possible choice, and the one that initially motivated this layer, is to bound the number of open copies of each generator.

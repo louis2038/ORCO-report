@@ -179,7 +179,7 @@
   set text(
     font: "STIX Two Text",
     weight: 350,
-    size: 10pt,
+    size: 11pt,
   )
 
   show math.equation: set text(
@@ -192,7 +192,8 @@
   set cite(style: "alphanumeric")
   set bibliography(style: bytes(csl_bib))
 
-  show cite: it => text(fill: blue, it)
+  // show cite: it => text(fill: blue, it)
+  show ref: it => text(fill: blue, it)
 
   // break block equations; don't break inline eqs
   show math.equation: set block(breakable: true)
@@ -333,7 +334,7 @@
     block(
       sticky: true,
       (
-        emph(text(size: 0.8em, counter(heading).display()))
+        emph(text(size: 1em, counter(heading).display()))
           + "."
           + h(0.5em)
           + body-fmt(it.body)
@@ -360,7 +361,12 @@
     v(1.25em, weak: true) + it + v(0.75em, weak: true)
   }
 
-  show heading.where(level: 4): heading-func
+  show heading.where(level: 4): it => heading-func(body-fmt: body => text(weight: 600, body), it)
+  show heading.where(level: 4): set text(size: 0.85em)
+  show heading.where(level: 4): it => {
+    set block(above: 0em, below: 0em)
+    v(1em, weak: true) + it + v(0.75em, weak: true)
+  }
 
   show heading.where(level: 1): set heading(supplement: [Chapter])
   show heading.where(level: 1): it => {
