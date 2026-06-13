@@ -228,8 +228,6 @@ This theorem says: the minimal mass of a compatible counting that cannot be expl
 
 == The dynamic enrichment<subchap:dynamic-enrichemnt>
 
-#lou[a voir encore]
-
 The sheaf-theoretic framework stops at the contextual fraction: it measures *how much* of the model is non-classical. The dynamic framework adds a second layer: it measures *how far* the non-classical residue is from being closed. For this reason, the distances should first be defined for a dynamic state itself, and only then minimized over the dynamic explanations of a fixed observation.
 
 #definition(name: [Past and future distances], id: "def:past-future-distances")[
@@ -253,15 +251,14 @@ If $eta$ explains the observed counting $N$, this means $N_eta = N$. In that cas
 
 For a fixed observed counting $N$, let $cal(H)_cal(G)(N) := {eta | N_eta = N}$ be the set of dynamic explanations of $N$ over $cal(G)$. We define
 $D^-(N) := min_(eta in cal(H)_cal(G)(N)) d^-_eta$.
-We can see that this obviously the same that
+We can see that this is the same that
 $min_(z in C_N (X)) |N - M z|_1$.
 
-For the future distance we have two possible choice, either we fixed $η$ to me the one realize the minimum for $D^-(N)$ and we define the $D^+ (N) := d_η^+$, or we minimize over all explanations of $N$ without constraint. The second choice would be more natural if we were only interested in the future distance as a measure of how far $N$ is from being closed. But our goal is to enrich the contextual fraction, which is already captured by the past distance. We want to measure how far the *residue* left by the optimal past choice is from being closed. This is why we define a tied past/future product: we first minimize the past distance, and then among the explanations that realize this minimum, we minimize the future distance.
-The future distance should not be minimized independently if the goal is to enrich the contextual fraction. The reason is that $D^-(N)$ already selects the largest closed, non-contextual part of $N$. The relevant future cost is therefore the cost of completing the residue left by such an optimal past choice. We define the residual distance
+For the future distance we have two possible choice, either we fixed $η$ to me the one realize the minimum for $D^-(N)$ and we define the $D^+ (N) := d_η^+$, or we minimize overall explanations of $N$ without constraint. The second choice would be more natural if we were only interested in the future distance as a measure of how far $N$ is from being closed. But our goal is to enrich the contextual fraction, which is already captured by the past distance. We want to measure how far the *residue* left by the optimal past choice is from being closed.
+The reason is that $D^-(N)$ already selects the largest closed, non-contextual part of $N$. The relevant future cost is therefore the cost of completing the residue left by such an optimal past choice. We define the residual distance
 $
   D^(arrow.loop)(N) := min { d^+_eta | eta in cal(H)_cal(G)(N) and d^-_eta = D^-(N) }.
 $
-The extra minimization over the states with $d^-_eta = D^-(N)$ removes arbitrary choices when several optimal closed parts exist.
 
 #definition(name: "Tight distances", id: "def:tight-distances")[
   Let $𝒢$ be a complete family of generators. Thus, for every
@@ -287,25 +284,16 @@ The extra minimization over the states with $d^-_eta = D^-(N)$ removes arbitrary
 
   The pair
   $
-    (D^-(N), D^(arrow.loop)(N))
+    (D^-(N), D^(arrow.loop)(N)) = ( underbrace(|N|_1 dot "CF"(e_N), "contextual fraction (sheaf theory)")
+      , underbrace(D^(arrow.loop)(N), "completion cost after optimal past extraction")
+    )
   $
   is called the *tight contextual profile* of $N$.
   We define the dual of this contextual profile, or *dual tight contextual profile* as the following pair :
   $
-    (D^(arrow.l.loop)(N),D^+ (N)) := (min{d_η^- | η ∈ ℋ_𝒢 (N) " and " d_η^+ = D^+ (N)},min{d_η^+ | η ∈ ℋ_𝒢 (N)})
+    (D^(arrow.l.loop)(N),D^+ (N)) & := (min{d_η^- | η ∈ ℋ_𝒢 (N) " and " d_η^+ = D^+ (N)},min{d_η^+ | η ∈ ℋ_𝒢 (N)})
   $
 ]
-
-The corresponding _tight contextual product_ is therefore
-$
-  D^-(N) D^(arrow.loop)(N)
-  =
-  underbrace(|N|_1 dot "CF"(e_N), "contextual fraction (sheaf theory)")
-  dot
-  underbrace(D^(arrow.loop)(N), "completion cost after optimal past extraction")
-$
-or $(D^(arrow.l.loop)(N),D^+ (N))$ for the _dual tight contextual product_.
-The first factor is purely static: it depends only on the model $e_N$. The second factor is dynamic: it depends on the generator family, the residuals, and the degree of openness of the optimal explanations.
 
 == Summary of the correspondence
 

@@ -1,7 +1,85 @@
-#import "../template.typ": book, corollary, definition, lemma, proof, proposition, remark
+#import "../template.typ": book, corollary, definition, example, lemma, proof, proposition, remark
 #import "../prelude.typ": *
 
 = Appendix <chap:appendix>
+
+== Example of an interruption profile
+
+#example(name: "Two-coordinate interruption profile", id: "ex:interruption-profile-two-coordinates")[
+  This example illustrates the integer construction of the interruption profile and its moments. Consider a dynamic explanation with two visible coordinates. Let
+  $
+    P_η = (4,2),
+    quad
+    F_η = (6,10).
+  $
+  The total heights between past and future are
+  $
+    h_η = F_η - P_η = (2,8).
+  $
+  Hence the common resolution is
+  $
+    Δ_η = "lcm"(2,8) = 8.
+  $
+  The local resolution factors are therefore
+  $
+    q_η (1) = 8 / 2 = 4,
+    quad
+    q_η (2) = 8 / 8 = 1.
+  $
+
+  Now choose the interrupted visible state
+  $
+    N_η = (5,4).
+  $
+  Then the emitted part after the closed past is
+  $
+    a_η = N_η - P_η = (1,2).
+  $
+  The discrete interruption times are
+  $
+    k_η (1) = a_η (1) q_η (1) = 1 dot 4 = 4,
+    quad
+    k_η (2) = a_η (2) q_η (2) = 2 dot 1 = 2.
+  $
+  Thus the two coordinates are not synchronized. The first coordinate is at time $4 \/ 8$, while the second coordinate is at time $2 \/ 8$.
+  The interruption profile is therefore
+  $k_η = (4, 2)$.
+  // This already contains the full dynamic information. The two coordinates have advanced at different speeds: the first has covered half of its path, while the second has covered only a quarter.
+
+  // We can extract integer moments from this profile:
+  // $
+  //   H_η &= 2 + 8 = 10, \
+  //   S_η &= 2 dot 4 + 8 dot 2 = 8 + 16 = 24, \
+  //   R_η &= 2 dot 4^2 + 8 dot 2^2 = 32 + 32 = 64, \
+  //   K_η &= 4 + 2 = 6, \
+  //   Q_η &= 4^2 + 2^2 = 16 + 4 = 20.
+  // $
+  // All these quantities are integers. The weighted dispersion residual is
+  // $
+  //   H_η R_η - S_η^2
+  //   = 10 dot 64 - 24^2
+  //   = 640 - 576
+  //   = 64.
+  // $
+  // This is strictly positive, which confirms that the two $k_η(v)$ are not equal.
+
+  // Compare this with the synchronized choice
+  // $
+  //   N_η' = (5,6),
+  //   quad
+  //   a_η' = (1,4),
+  //   quad
+  //   k_η' = (4,4).
+  // $
+  // Then $K_η' = 8$, $Q_η' = 32$, $S_η' = 2 dot 4 + 8 dot 4 = 40$, $R_η' = 2 dot 16 + 8 dot 16 = 160$, and the weighted dispersion residual becomes
+  // $
+  //   H_η R_η' - S_η'^2
+  //   = 10 dot 160 - 40^2
+  //   = 1600 - 1600
+  //   = 0.
+  // $
+  // The zero value confirms that the synchronized profile has all $k_η(v)$ equal. The two profiles have the same scalar distances $d_η^- = 3$ and $d_η^+ = 7$, but their interruption profiles are different. This illustrates why the profile $k_η$ contains more information than the product $d_η^- d_η^+$.
+]
 
 == Dynamic completeness
 
@@ -218,7 +296,7 @@ rather than equality. The $<=$ allows multiple global sections to share a local 
 up to its observed count. Without it, any attempt to combine generators would either
 overcount or force a rigid assignment that may not exist.
 
-== The initial state of the art and the initial subjet
+== The initial state of the art and the initial subject <app:initial-state-of-art>
 
 #let mipstar = $"MIP"^*$
 #let mipstarzero = $"MIP"_0^*$
@@ -295,63 +373,6 @@ This paper was relevant to us because it gives a precise example of how local co
 === Conclusion
 
 For our internship, the initial motivation was not only complexity-theoretic. My tutor had developed a broader theoretical viewpoint which seemed to become more stable and coherent over time. After many discussions, I became interested in building a toy model that could justify or at least motivate this way of seeing information, structure, and quantum behaviour. In that context, the paper was useful less as a direct roadmap toward a new complexity class, and more as a proof that local compatibility rules, when organized correctly, can preserve deep global properties. The key ideas we retained were the construction of a derived graph from a game, the role of approximate-to-exact stability, and the importance of controlling how errors accumulate when local constraints are combined.
-
-== Some genaral definition
-
-We recall the standard definition of multi-prover interactive proof systems with entanglement. The parameters are the number of provers $r$, the number of rounds $p$, the completeness parameter $c$, and the soundness parameter $s$.
-
-*Definition 1* ($mipstar_0 (r, p)$). A language $cal(L)$ belongs to $mipstar (r, p)$ if there exists a polynomial-time verifier $V$ interacting with $r$ non-communicating provers $P_1, dots, P_r$ over $p$ rounds of communication, such that:
-
-+ *Shared entanglement.* Before the protocol begins, the provers share an arbitrary quantum state
-  $ |psi chevron.r in cal(H)_1 times.o cal(H)_2 times.o dots.c times.o cal(H)_r $
-  where each $cal(H)_i$ is a Hilbert space of _arbitrary finite dimension_. No restriction is placed on $|psi chevron.r$: it may be entangled in any way, in any dimension.
-
-+ *Strategy.* Upon receiving question $q_i$ from the verifier, prover $P_i$ performs a measurement $\{M^((i))_(a|q_i)\}_a$ on their local subsystem $cal(H)_i$ and returns the outcome $a$. The joint probability of outcomes $(a_1, dots, a_r)$ given questions $(q_1, dots, q_r)$ is
-  $
-    p(a_1, dots, a_r | q_1, dots, q_r) = chevron.l psi | M^((1))_(a_1|q_1) times.o dots.c times.o M^((r))_(a_r|q_r) | psi chevron.r.
-  $
-
-+ *Completeness.* If $x in cal(L)$, there exist a state $|psi chevron.r$ and measurements such that $Pr[V "accepts"] >= 1$ (we have $c=1$).
-
-+ *Soundness.* If $x in.not cal(L)$, for _every_ state $|psi chevron.r$ (of every dimension) and _every_ choice of measurements, $Pr[V "accepts"] <= 1/2$ (we have $s = 1/2$).
-
-The class $mipstarzero$ is defined as $union.big_(r,p) mipstarzero (r, p)$, allowing arbitrarily many provers and rounds with perfect completeness and bounded-error soundness.
-
-In the $mipstar$ class, instead of fixing the completeness and soundness parameters to $1$ and $1/2$, we take unions over all $c, s$ such that $c - s >= 1/"poly"(|x|)$, allowing for arbitrary completeness-soundness gaps.
-
-=== Two-prover, one-round characterization
-
-A fundamental simplification result shows that two provers and a single round suffice.
-
-*Theorem 1* (see @ji2022mipre). $mipstarzero = mipstarzero (2, 1)$.
-
-That is, every language recognizable by an entangled multi-prover interactive proof system is already recognizable by a _two-prover, one-round_ protocol with perfect completeness and soundness $1\/2$. In this simplified model, the protocol consists of a single exchange:
-
-#block(inset: (left: 1.5em))[
-  1. The verifier samples a pair of questions $(q_A, q_B)$ and sends $q_A$ to prover $A$, $q_B$ to prover $B$.
-
-  2. The provers, who share $|psi chevron.r in cal(H)_A times.o cal(H)_B$, each measure their subsystem and return answers $a, b$.
-
-  3. The verifier evaluates a predicate $V(q_A, q_B, a, b)$ and accepts or rejects.
-]
-
-This is precisely the framework of a _nonlocal game_, and the supremum of the acceptance probability over all quantum strategies is the _entangled value_ $omega^*$ of the game.
-
-=== The role of unbounded dimension in $mipstar = RE$
-
-The following is the landmark result that motivates our investigation.
-
-*Theorem 2* (Ji, Natarajan, Vidick, Wright, Yuen @ji2022mipre). $mipstar (2, 1, 1, s) = RE$ for some constant $s < 1$.
-
-The proof constructs, for each Turing machine $M$, a nonlocal game $cal(G)_M$ such that:
-- if $M$ halts, then $omega^*(cal(G)_M) = 1$ (a perfect strategy exists in finite dimension $d$, where $d$ depends on the halting time of $M$);
-- if $M$ does not halt, then $omega^*(cal(G)_M) < 1$ (no strategy in any dimension achieves value $1$).
-
-A crucial feature of this construction is that the entangled value is defined as
-$ omega^*(cal(G)) = sup_(d >= 1) sup_(|psi chevron.r in CC^d times.o CC^d) sup_({M_(a|q)}, {N_(b|q')}) Pr["win"], $
-and the supremum over $d$ is _essential_. For a halting machine with halting time $T$, the dimension $d$ of the optimal strategy may grow as a function of $T$, and no uniform bound on $d$ exists across all instances. In other words, the full power of $mipstar = RE$ relies on the provers' ability to use shared entanglement of _arbitrarily large dimension_.
-
-*Remark.* If the dimension is bounded by a fixed constant $d$, the resulting class $mipstar (2,1,s,d)$ is known _not_ to capture all of $RE$; indeed, for fixed $d$, the entangled value $omega^*_d (cal(G))$ is computable by semidefinite programming, so the class collapses to a decidable complexity class.
 
 == Detailed calculations for the gap formulas<part:details-calculations-1>
 

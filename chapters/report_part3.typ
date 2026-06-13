@@ -5,17 +5,17 @@
 
 The previous section described compatible counts as elements of an affine semigroup. This is a static description. It tells us which completed integer tables are possible at each level $t$. The level is important because it records the scale at which the observation has stabilized.
 
-In CHSH, a completed compatible count has total size $k = 4t$. Hence, completed objects appear only at sizes divisible by $4$. The dynamic question is therefore unavoidable: what can be said after only one, two, or three visible events have occurred ? Such a prefix is not a completed empirical model, but it may still be the beginning of a process that will later close into one.
+In CHSH, a completed compatible count has total size $k := |N|_1 = 4t$. Hence, completed objects appear only at sizes divisible by $4$. The dynamic question is therefore unavoidable: what can be said after only one, two, or three visible events have occurred? Such a prefix is not a completed empirical model, but it may still be the beginning of a process that will later close into one.
 
-The aim of dynamic contextual automata is to describe these intermediate states without reducing them to noise. A completed count is built from elementary generators. An interrupted count is built from completed generators and from generators that are still open. The open part contains information about the future: it records what must still be emitted in order to close the process. This makes the later definition of a dynamic state almost forced: it must contain closed copies, open copies, and the residual future of each open copy.
+The aim of dynamic contextual automata is to describe these intermediate states without reducing them to noise. A completed count is built from elementary generators. An interrupted count is built from completed generators and from generators that are still open. The open part contains information about the future: it records what must still be emitted in order to close the process. This makes the later definition of a dynamic state almost forced: it must contain closed copies and the residual future of each copy.
 
-The following sections present the result of our work, from the initial definitions and motivations to the final proposition. The first part introduces the foundations of our meta-theory of theories. The second part shows how this framework can account for simple examples of contextuality. We also emphasize the advantage of replacing probabilistic models with an integer-based dynamic model.
+The following sections present the result of our work, from the initial definitions and motivations to the final proposition. The first part introduces the foundations of our meta-theory of theories. The second part shows how this framework allows us to express a wide range of theories. We also emphasize the advantage of replacing probabilistic models with an integer-based dynamic model.
 
 == Basic of dynamic contextual automata
 
 === Generators as complete processes
 
-Let $V$ be the visible event space introduced above. A count is an element of $NN^V$. A generator is a finite counting vector $g in NN^V$ that is regarded as one elementary complete process.
+Let $V$ be the visible event space introduced above. A _count_ is an element of $NN^V$. A _generator_ is a finite counting vector $g in NN^V$ that is regarded as one *elementary complete process*.
 Generators are not introduced as arbitrary formal objects. They are meant to be elementary bricks of stabilization. A closed empirical table is not explained by a probability point alone, but by a finite production of such bricks.
 In $(2,2,2)$ bell scenarios, the previous semigroup computation gives the intended examples. The local deterministic generators are the minimal classical bricks. The lifted PR generators are the minimal non-local bricks of the compatible semigroup. A local deterministic generator has total size $4$. A lifted PR generator has total size $8$. The automata below do not change these bricks. They only describe their progressive production.
 
@@ -23,7 +23,7 @@ At this stage, we do not need to assume that these are the only possible generat
 
 #definition(name: "Generator family", id: "def:generator-family")[
   A *generator family* is a finite set
-  $cal(G) subset.eq NN^V$
+  $cal(G) subset.eq ℕ^V$
   whose elements are called generators. Each $g in cal(G)$ has a level $ell(g) in NN$ such that $(g,ell(g)) in 𝒮$.
   The family is *closed-complete* for $𝒮$ if every completed compatible model can be written as a finite sum of generators:
   $
@@ -59,13 +59,12 @@ The first term is already visible. The second term is the future required to clo
 
 #remark(name: "A four-event generator", id: "rem:four-event-generator")[
   Suppose that $g = epsilon_(v_1) + epsilon_(v_2) + epsilon_(v_3) + epsilon_(v_4)$. The automaton $cal(A)_g$ starts at residual state $g$. If the first three emitted events are $v_1,v_2,v_3$, then the residual state is $R = epsilon_(v_4)$ and the visible count is $g - R = epsilon_(v_1)+epsilon_(v_2)+epsilon_(v_3)$.
-
   This prefix has size $3$. It is not a closed generator. It is nevertheless meaningful, because it knows that the missing future is $epsilon_(v_4)$.
 ]
 
 === Global states and open generators
 
-An experiment can contain several copies of generators at the same time. Some copies are already closed. Other copies are open and have only been partially emitted. The correct hidden state must remember this distinction. To define this notion properly, we first introduce the concept of a multiset, that is, a set whose elements may appear with multiplicity. Traditionally, a multiset is represented by a set together with a multiplicity function. In our setting, instead of writing expressions such as $sum_(x in M) x dot m(x)$ where $m$ is the multiplicity function, we use the notation $sum_(x ins M) x$, which can be read as a sum over an array in the sense of a programming language. The $x ∈ M$ represents the condition that $x$ is an element of the multiset $M$.
+An experiment can contain several copies of generators at the same time. Some copies are already closed. Other copies are open and have only been partially emitted. The correct hidden state must remember this distinction. To define this notion properly, we first introduce the concept of a *multiset*, that is, a set whose elements may appear with multiplicity. Traditionally, a multiset is represented by a set together with a multiplicity function. In our setting, instead of writing expressions such as $sum_(x in M) x dot m(x)$ where $m$ is the multiplicity function, we use the notation $sum_(x ins M) x$, which can be read as a sum over an array in the sense of a programming language. The $x ∈ M$ represents the condition that $x$ is an element of the multiset $M$.
 
 #definition(name: "Dynamic state", id: "def:dynamic-state")[
   A *dynamic state* is a pair
@@ -85,20 +84,15 @@ An experiment can contain several copies of generators at the same time. Some co
   We will note $𝕞(g, R)$ the multiplicity of the open copy $(g,R)$ in $OO_eta$.
 ]
 The first sum is the contribution of closed copies. The second sum is the contribution of open copies: each open copy has already emitted $g-R$ and still owes the residual $R$.
-
-#lou[problem : R c'est la completions ici pas le residus !]
-
-The future residual of the state is
+The future _residual_ of the state is
 $R_eta := sum_((g,R) ins O_eta) R$.
 If no new generator is opened, then closing all current open copies would produce the completed count
 $
   K_eta := N_eta + R_eta
   =
-  sum_(g in cal(G)) c_eta (g) g
-  +
-  sum_((g,R) ins O_eta) g.
+  sum_((g,R) ins 𝕆_eta) g.
 $
-Thus the natural signature of an interrupted state is the pair
+Thus the natural _signature_ of an interrupted state is the pair
 $Phi(eta) := (N_eta, K_eta)$.
 It records both the stabilized visible count (the past) and the completed count (the futur) that would be obtained if all open generators were closed
 
@@ -110,8 +104,7 @@ In the following, we extend the notation $N_η$ to $c_η : 𝒢 -> ℕ$ that is 
 
 === Petri-net reading and concurrency
 
-The previous definitions can be read as a Petri net. A marking is a multi set of tokens. In our case, a token is either a closed copy of a generator or an open copy with a residual state. The marking is therefore the hidden interface of the experiment.
-
+The previous definitions can be read as a Petri net. A mark is a multi set of tokens. In our case, a token is either a closed copy of a generator or an open copy with a residual state. The marking is therefore the hidden interface of the experiment.
 There are three elementary kinds of transitions.
 
 - *Opening*: choose $g in cal(G)$ and create a new open copy $(g,g)$.
@@ -137,16 +130,16 @@ We now describe the full architecture of a dynamic contextual theory. The framew
 === Layer 1: The sequence of observations
 
 An experiment that can be interrupted produces not a single completed counting, but a sequence of partial observations. At each interruption time $i$, the experimenter records an integer counting $N_i in NN^V$. The full experimental record is the sequence
-$N_(1:k) = (N_1, dots, N_k)$.
+$bold(N_(1:k)) := (N_1, dots, N_k)$.
 Each $N_i$ is a snapshot of the process at time $i$. It records what has been seen so far, but not how it was produced. The sequence carries more information than the final count alone: it preserves the order of events, the intermediate states, and the possibility of interruption.
 
 === Layer 2: The dynamic states and their transitions
 
 For each observation $N_i$, the theory assigns a set of possible _hidden explanations_
-$cal(H)_cal(G) (N_i) = { eta_i = (c_i, O_i) | N_(eta_i) = N_i }$.
-Each $eta_i$ remembers which generators are closed (stabilized) and which are open (still in progress). The _transition condition_ $eta_i arrow.squiggly eta_(i+1)$ says that the explanation at time $i+1$ is compatible with the explanation at time $i$. No copy that already exists may disappear. Moreover, a copy cannot change its generator, and its residual future can only shrink. Thus the dynamics preserves the identity of the elementary process while allowing part of its remaining future to be emitted.
+$bold(cal(H)_cal(G) (N_i)) := { eta_i | N_(eta_i) = N_i }$.
+Each $eta_i$ remembers which generators are closed (stabilized) and which are open (still in progress). The _transition condition_ $eta_i arrow.squiggly eta_(i+1)$ says that the explanation at time $i+1$ is compatible with the explanation at time $i$. No copy that already exists may disappear. Moreover, a copy cannot change its generator, and its residual future can only shrink. Then the dynamics preserves the identity of the elementary process while allowing part of its remaining future to be emitted.
 
-To define this condition formally, we use the extended multiset $OO_eta$ rather than $O_eta$. Recall that $OO_eta$ also contains closed copies, represented as pairs $(g,0)$. Since $OO_eta$ is a multiset, a function between two multisets must distinguish individual occurrences. We therefore introduce the *occurrence set* of a multiset $OO$:
+To define this condition formally, we use the extended multiset $OO_eta$ rather than $O_eta$. Recall that $OO_eta$ also contains closed copies, represented as pairs $(g,0)$. Since $OO_eta$ is a multiset, a function between two multisets must distinguish individual occurrences. We therefore introduce the *occurrence set* of a multiset $OO$ as
 $
   hat(OO) := { (g, R, i) | (g,R) ins OO, quad 1 <= i <= 𝕞(g,R) }.
 $
@@ -158,26 +151,26 @@ Each triple $(g, R, i)$ represents one specific copy: $g$ is the generator, $R$ 
   such that:
 
   + $phi$ is injective: for all $x, y in hat(OO)_eta$, if $x != y$ then $phi(x) != phi(y)$;
-  + $phi$ preserves the generator and reduces the residual: for every $(g, R, i) in hat(OO)_eta$, if $phi(g, R, i) = (g', R', i')$, then $g' = g$ and $0 <= R' <= R$.
+  + $phi$ preserves the generator and reduces the residual: for every $(g, R, i) in hat(OO)_eta$ ; if $phi(g, R, i) = (g', R', i')$, then $g' = g$ and $0 <= R' <= R$.
 ]
 
 The injectivity of $phi$ means that two old copies cannot be identified with the same new copy. The second condition means that a copy of $g$ remains a copy of $g$, and its residual future has decreased. In particular, if $R = 0$, then $R' = 0$, so closed generators remain closed.
 
 The full fibre of _dynamic explanations_ for the sequence is
 $
-  cal(H)_cal(G) (N_(1:k)) = { (eta_1, dots, eta_k) | forall i, eta_i in cal(H)_cal(G) (N_i) " and " eta_i arrow.squiggly eta_(i+1) }.
+  bold(cal(H)_cal(G) (N_(1:k))) := { (eta_1, dots, eta_k) | forall i, eta_i in cal(H)_cal(G) (N_i) " and " eta_i arrow.squiggly eta_(i+1) }.
 $
 This fibre may contain many trajectories. Two different trajectories can explain the same observation sequence with different distributions of open and closed copies, different residual futures, and different intermediate costs.
 
 #proposition(name: "Monotonicity of visible counts", id: "prop:visible-counts-monotone")[
-  If $(eta_1, dots, eta_k) in cal(H)_cal(G) (N_(1:k))$, then the observed countings are monotone:
+  Let $𝒢$ a generator family, if $(eta_1, dots, eta_k) in cal(H)_cal(G) (N_(1:k))$, then the observed countings are monotone:
   $N_1 <= N_2 <= dots <= N_k$
   componentwise in $NN^V$.
 ]
 
 #proof[
   It is enough to prove the claim for one transition $eta arrow.squiggly eta'$. By definition, there exists an injective map $phi : hat(OO)_eta -> hat(OO)_eta'$ such that every $(g, R, i) in hat(OO)_eta$ is sent to some $(g, S, j)$ with $S <= R$.
-  For each $x = (g, R, i) in hat(OO)_eta$, write $phi(x) = (g, S_x, j_x)$ with $S_x <= R$. The visible contribution of $x$ in $eta$ is $g - R$, whereas the visible contribution of $phi(x)$ in $eta'$ is $g - S_x$. Since $S_x <= R$, we have $g - R <= g - S_x$ componentwise.
+  For each $x = (g, R, i) in hat(OO)_eta$ write $phi(x) =: (g, S_x, j_x)$ with $S_x <= R$. The visible contribution of $x$ in $eta$ is $g - R$, whereas the visible contribution of $phi(x)$ in $eta'$ is $g - S_x$. Since $S_x <= R$, we have $g - R <= g - S_x$ componentwise.
   We now sum over all occurrences. The total visible contribution of $OO_eta$ is $N_eta = sum_(x in hat(OO)_eta) (g_x - R_x)$. We claim that $N_eta <= N_(eta')$. The argument proceeds in three steps:
   $
     N_eta
@@ -213,11 +206,12 @@ This fibre may contain many trajectories. Two different trajectories can explain
 
 The fibre $cal(H)_cal(G) (N_(1:k))$ is typically too large to be useful by itself. The third layer introduces a constraint $xi$ that filters the fibre to select only those trajectories that satisfy a global stability condition.
 
-The dynamic fit under constraint $xi$ is
+The dynamic fit under constraint $xi$ (*predicate*) is
 $
-  cal(H)_(cal(G), xi) (N_(1:k)) = { (eta_1, dots, eta_k) in cal(H)_cal(G) (N_(1:k)) | (eta_1, dots, eta_k) models xi }.
+  bold(cal(H)_(cal(G), xi) (N_(1:k))) := { (eta_1, dots, eta_k) in cal(H)_cal(G) (N_(1:k)) | (eta_1, dots, eta_k) models xi }.
 $
 The observation sequence is *explained* by the theory $(cal(G), xi)$ if this set is non-empty.
+
 
 === The theory $TT = (cal(G), xi)$
 
@@ -240,7 +234,7 @@ For a state $eta$, write
 $o_eta (g) := sum_(0 < R <= g) 𝕞_eta (g,R)$
 for the number of open copies of $g$, and write $c_eta (g) := 𝕞_eta (g,0)$ for the number of closed copies of $g$. Fix a slope $lambda >= 0$ and a tolerance $B in NN$. The open-generator constraint is
 $
-  xi_B : quad o_(eta_i) (g) <= lambda c_(eta_i) (g) + B
+  xi_(λ,B) : quad o_(eta_i) (g) <= lambda c_(eta_i) (g) + B
   quad ∀i ∈ [k] , quad forall (η_1,dots,η_k) ∈ ℋ_𝒢 (N_(1:k)), quad forall g in cal(G).
 $
 This condition says that a trajectory is admissible only if, at each interruption time, each generator has a controlled number of open copies relative to its closed copies. The tolerance $B$ allows a bounded amount of unfinished work. The slope $lambda$ allows the system to carry more unfinished copies once it has already stabilized many closed copies of the same generator.
@@ -255,8 +249,8 @@ $
 If $omega_g (N) > B$, then every hidden explanation of $N$ violates $xi_B$. Hence no trajectory satisfying $xi_B$ can pass through this observation. If $omega_g (N)$ is close to $B$, then the trajectory is not yet impossible, but its future is strongly constrained: it cannot keep opening new copies of $g$ without also emitting residual events that help existing copies close.
 
 #remark(name: "Magnet analogy", id: "rem:magnet-analogy")[
-  The constraint $xi_B$ behaves like a magnet guiding a trajectory. It does not determine the path: the dynamics of opening, emitting, and closing generators is not fixed by $xi_B$ alone. But if the trajectory strays too far, meaning that the number of open copies grows too large relative to the closed ones, the constraint creates a wall that pushes the process back toward stabilization.
-  The magnet does not choose the destination. It prevents the trajectory from escaping into unbounded instability. More precisely, $xi_B$ does not select a unique trajectory $eta_1 arrow.squiggly eta_2 arrow.squiggly dots arrow.squiggly eta_k$. It filters the set of admissible trajectories by removing those that violate the stability bound at some step. The surviving trajectories are not deterministic, but their open/closed ratio stays inside the prescribed envelope.
+  The constraint $xi_(λ,B)$ behaves like a magnet guiding a trajectory. It does not determine the path: the dynamics of opening, emitting, and closing generators is not fixed by $xi_(λ,B)$ alone. But if the trajectory strays too far, meaning that the number of open copies grows too large relative to the closed ones, the constraint creates a wall that pushes the process back toward stabilization.
+  The magnet does not choose the destination. It prevents the trajectory from escaping into unbounded instability. More precisely, $xi_(λ,B)$ does not select a unique trajectory $eta_1 arrow.squiggly eta_2 arrow.squiggly dots arrow.squiggly eta_k$. It filters the set of admissible trajectories by removing those that violate the stability bound at some step. The surviving trajectories are not deterministic, but their open/closed ratio stays inside the prescribed envelope.
 ]
 
 *What $xi$ is not.* It is important to clarify the status of this constraint.
