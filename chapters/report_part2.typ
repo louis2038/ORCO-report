@@ -7,7 +7,7 @@ In this section we will introduce the technical concept from generic contextuali
 
 == What is contextuality ?
 
-Contextuality is the failure of a family of local observations to come from one global assignment. In a _measurement scenario_ $chevron.l X, cal(M), O chevron.r$, each context $C in cal(M)$ specifies a set of measurements that can be performed together, and a local outcome is a section $s : C arrow.r O$. A classical deterministic explanation would require a single global section $g : X arrow.r O$ whose restriction $g|_C$ explains the outcome seen in every context. Thus contextuality is not merely randomness: it is an obstruction to gluing compatible local descriptions into one global description.
+Contextuality is the failure of a family of local observations to come from one global assignment. In a _measurement scenario_ $chevron.l X, cal(M), O chevron.r$, each context $C in cal(M)$ specifies a set of measurements that can be performed together, and a local outcome is a _section_ $s : C arrow.r O$. A classical deterministic explanation would require a single global section $g : X arrow.r O$ whose restriction $g|_C$ explains the outcome seen in every context. Thus contextuality is not merely randomness: it is an obstruction to gluing compatible local descriptions into one global description.
 This report uses this standard idea in a discrete form
 
 === Classical sheaf theory
@@ -19,7 +19,7 @@ For example, in the classical $( 2 , 2 , 2 )$ Bell scenario, there
 are two parties, Alice and Bob, each with two possible measurements. We
 write
 $ X = { a_1 , a_2 , b_1 , b_2 } $
-where $a_1 , a_2$ are Alice's measurements and $b_1 \, b_2$ are Bob's
+where $a_1 , a_2$ are Alice's measurements and $b_1 , b_2$ are Bob's
 measurements. The jointly performable contexts are
 $ cal(M) = { { a_1 , b_1 } , { a_1 , b_2 } , { a_2 , b_1 } , { a_2 , b_2 } } , $
 and the outcome set is
@@ -28,8 +28,8 @@ This expresses the operational constraint that Alice and Bob can each
 choose one measurement per run, but Alice cannot perform both of her
 measurements simultaneously, so ${ a_1 , a_2 } in.not cal(M)$.
 Likewise, ${ b_1 , b_2 } in.not cal(M)$. In this sense, the scenario specifies not only which outcomes may be
-observed, but also which observations can coexist in a single
-experimental run.
+observed, but also *which observations can coexist in a single
+experimental run*.
 
 The technical point of this section is the following. A context table is only local data. A genuine empirical model is obtained only when all context tables can be compared on overlaps and when they have a common level. Therefore we must distinguish three objects: a local counting $N_C$, a family $N = (N_C)_(C ∈ ℳ)$, and the corresponding vector $N ∈ ℕ^V$ indexed by visible contextual events. The notation is intentionally the same, but the type of the object changes with the context.
 
@@ -48,7 +48,7 @@ The technical point of this section is the following. A context table is only lo
   Here $Y$ is only the set on which the distribution is defined; it is not a level. The support is $"supp"(d) = { y in Y | d(y) != 0 }$.
   The *total weight* of $d$ is $|d| := sum_(y in Y) d(y)$. For a fixed level $t in R$, we write
   $
-    𝒟_R^t (Y) := { d in 𝒟_R (Y) | |d| = t }.
+    𝒟_R^t (Y) := { d in 𝒟_R (Y) | |d| = t } " and " 𝒟_R^∙ := ∪_(t ∈ R) 𝒟_R^t
   $
   The argument $Y$ is the underlying set of outcomes. In the probabilistic case one usually fixes $R = RR_(>=0)$ and $t = 1$. In the discrete setting one takes $R = NN$ and keeps $t in NN$ as the number of counted trials.
 ]
@@ -61,7 +61,7 @@ The event presheaf $ℰ$ describes which local outcome assignments are available
 $
   (𝒟_R ∘ ℰ)(U) = 𝒟_R (ℰ(U)).
 $
-An element $d_U in 𝒟_R (ℰ(U))$ assigns a weight to each local section $s : U -> O$. In particular, a local counting over a context $C$ is an element $N_C in ∪_t 𝒟_NN^t (ℰ(C))$. This means only that $N_C$ has some integer level. If $N_C in 𝒟_NN^t (ℰ(C))$, then the context $C$ has exact level $t$.
+An element $d_U in 𝒟_R (ℰ(U))$ assigns a weight to each local section $s : U -> O$. In particular, a local counting over a context $C$ is an element $N_bold(C) in 𝒟_ℕ^∙ (ℰ(bold(C)))$. This means only that $N_C$ has some integer level. If $N_C in 𝒟_NN^t (ℰ(C))$, then the context $C$ has exact level $t$.
 In all the following we suppose that $cal(M)$ is a *measurement cover*, meaning $union_(C in cal(M)) C = X$, and that it is an antichain, meaning $C subset.eq D$ with $C,D in cal(M)$ implies $C = D$.
 
 === Compatibility
@@ -83,7 +83,7 @@ $
 $
 We sometimes denote this whole family of homogeneous linear equations by $delta N = 0$.
 
-In the standard probabilistic setting, where $R = RR_(>=0)$, one normalizes the integer counts to obtain probability distributions. To illustrate this passage, consider the following joint probability table $p(a,b|x,y)$ for a quantum strategy in the $(2,2,2)$ Bell scenario. The rows correspond to the measurement settings $(x,y)$ chosen by Alice and Bob, and the columns to the joint outcomes $(a,b)$:
+In the standard probabilistic setting, where $R = RR_(>=0)$, one normalizes the integer counts to obtain probability distributions. To illustrate this passage, consider the following joint probability table $p(a,b|x,y)$ for a quantum strategy in the $(2,2,2)$ Bell scenario (@tab:chsh-quantum-example). The rows correspond to the measurement settings $(x,y)$ chosen by Alice and Bob, and the columns to the joint outcomes $(a,b)$.
 
 #figure(
   table(
@@ -123,7 +123,7 @@ The sheaf-theoretic and the hypergraph formulation describe the same local-to-gl
 The hypergraph viewpoint keeps the same operational information but makes the linear constraints explicit. Its vertices are the visible events $(C,s)$. Its hyperedges encode the tests that a table must satisfy: context normalization and marginal compatibility. This is close in spirit to the combinatorial approach to contextuality scenarios developed by Acín, Fritz, Leverrier, and Sainz @Acin_Fritz_Leverrier_Sainz_2015. It is also related to the graph-theoretic exclusivity viewpoint of Cabello, Severini, and Winter @Cabello_Severini_Winter_2014, although here we keep the measurement-cover and marginal-compatibility structure visible.
 In this report, the sheaf language explains what must be glued, while the hypergraph and matrix language explains how the gluing constraints act on integer counts.
 
-To make this concrete, consider the CHSH scenario. The visible event space is $V = { (a,b|x,y) | a,b,x,y in {0,1} }$, which has $16$ elements. If we adopt the ordering $0 |-> 0, 0 |-> 1, 1 |-> 0, 1 |-> 1$ for the question-to-answer map, then a counting vector $N in NN^V$ can be represented as a $4 times 4$ matrix. The rows represent Alice's measurement-outcome pairs $(a|x)$, and the columns represent Bob's measurement-outcome pairs $(b|y)$. Each cell $(i,j)$ then corresponds to the joint event $(a,b|x,y)$, and records the count $N(a,b|x,y)$ for that combination. @fig:chsh-matrix illustrates this representation.
+To make this concrete, consider the CHSH scenario. The visible event space is $V = { (a,b|x,y) | a,b,x,y in {0,1} }$ ($(a|x) := ("outcome"|"measurement/input")$), which has $16$ elements. If we adopt the ordering $0 |-> 0, 0 |-> 1, 1 |-> 0, 1 |-> 1$ for the question-to-answer map, or $0|0, 1|0, 0|1 , 1|1$ for the answer-to-question map, then a counting vector $N in NN^V$ can be represented as a $4 times 4$ matrix. The rows represent Alice's outcome-measurement pairs $(a|x)$, and the columns represent Bob's outcome-measurement pairs $(b|y)$. Each cell $(i,j)$ then corresponds to the joint event $(a,b|x,y)$, and records the count $N(a,b|x,y)$ for that combination. @fig:chsh-matrix illustrates this representation.
 
 #figure(
   tool.draw-nonlocal-game(
@@ -138,7 +138,7 @@ To make this concrete, consider the CHSH scenario. The visible event space is $V
 
 #v(0.4em)
 
-In this matrix view, the context-normalization condition $A_cal(M) N = t 𝟙$ says that the sum over each context block equals $t$. The marginal-compatibility condition $delta N = 0$ says that the marginals are consistent across contexts that share a measurement. For instance, summing over Bob's outcomes in the rows corresponding to Alice's pair $(a|x)$ must give the same result whether Bob's measurement is $y=0$ or $y=1$, because Alice's marginal should not depend on Bob's choice.
+In this matrix view, the context-normalization condition $A_cal(M) N = t 𝟙$ says that the sum over each context block equals $t$. The marginal-compatibility condition $delta N = 0$ says that the marginals are consistent across contexts that share a measurement.
 
 Concretely, all these constraints can be summarized by the *contextual hypergraph* of the Bell $(2,2,2)$ scenario, shown in @fig:chsh-hypergraph. The $16$ visible events are the vertices. The hyperedges encode two types of constraints:
 
@@ -231,7 +231,7 @@ Each hyperedge constrains its vertices: in the probabilistic setting, the sum of
 
 === Global sections and contextuality
 
-A global section is an assignment of an outcome to every measurement at once. Formally, it is an element $g ∈ ℰ(X)$, or equivalently a function $g : X → O$. The intuitive meaning is simple: before any context is chosen, every measurement $x ∈ X$ already has a predetermined outcome value $g(x) ∈ O$.
+A global section is an assignment of an outcome to every measurement at once. Formally, it is an element $g ∈ ℰ(X)$, (can be views as a function $g : X → O$). The intuitive meaning is simple: before any context is chosen, every measurement $x ∈ X$ already has a predetermined outcome value $g(x) ∈ O$.#footnote[The formalism is intentionally simplified for pedagogical clarity.]
 Thus, a global section represents a deterministic *hidden-variable* assignment. If the experimenter later chooses a context $C ∈ ℳ$, the observed local outcome is not chosen anew; it is just the restriction $g|_C : C → O$ of the already fixed global assignment.
 In other words, determinism means that all counterfactual outcomes are jointly defined. Even if two measurements cannot be performed together, such as $a$ and $a'$ in the Bell scenario, a deterministic model still assigns values to both of them in advance.
 
@@ -262,7 +262,7 @@ Thus the level is not just an extra parameter added by hand. On a connected cove
 === Why the level matters
 
 It may look as if the integer model contains no new information, because one can divide a level-$t$ count by $t$ and obtain a probability table. This would miss the main point. The level $t$ is not only a denominator. It records the amount of observation that supports the table in each context.
-For instance, the count $(1,0)$ and the count $(1000,0)$ give the same normalized probability $(1,0)$. They do not have the same empirical status. The second table is supported by many more repetitions. In a standard statistical interpretation, this usually means that the sampling uncertainty decreases at the scale $1 / sqrt(t)$. We do not need to assume such a statistical model in this report, but the intuition is useful: $t$ is an experimental resolution scale. It is not a subjective probability of confidence. It is the amount of counted evidence that remains visible in the formal object.
+For instance, the count $(1,0)$ and the count $(1000,0)$ give the same normalized probability $(1,0)$. They do not have the same empirical status. The second table is supported by many more repetitions. In a standard statistical interpretation, this usually means that the sampling uncertainty decreases at the scale $1 / sqrt(t)$. We do not need to assume such a statistical model in this report, but the intuition is useful: $t$ is an *experimental resolution scale*. It is not a subjective probability of confidence. It is the amount of counted evidence that remains visible in the formal object.
 
 Thus a discrete empirical model is not only a point in a polytope. It is an integer point at a definite level. The same probability may appear at several levels, but these levels correspond to different amounts of evidence and to different possible intermediate histories.
 
@@ -276,7 +276,7 @@ Thus a discrete empirical model is not only a point in a polytope. It is an inte
   $3 + 1 + A + B = 6$,
   hence $A+B=2$. The continuum has been cut down to the finite arithmetic set $(A,B) in { (0,2), (1,1), (2,0) }$.
 
-  The point is not uniqueness. The point is that the level cuts the probabilistic continuum by an arithmetic lattice. This arithmetic rigidity disappears after normalization.
+  The point is not uniqueness. The point is that the level cuts the probabilistic continuum by an *arithmetic lattice*. This arithmetic rigidity disappears after normalization.
 ]
 
 This is the reason why the transition to automata is natural. If the level records how much of a process has stabilized, then it is also natural to ask what exists before stabilization. A count of size $3$ in CHSH is not a completed level-$t$ model. But it is not meaningless. It may be the visible past of a generator that has not closed yet.
@@ -295,9 +295,9 @@ $
 Giving a family $(N_C)_(C in cal(M))$ is the same thing as giving a vector $N in ℕ^V$, by the rule $N(C,s) := N_C (s).$
 The context hypergraph is $H_cal(M) = (V,E_cal(M))$, where $E_cal(M) = { e_C | C in cal(M) }$ and $e_C := { (C,s) | s in ℰ(C) }.$
 Let $A_cal(M)$ be its incidence matrix. Then $(A_cal(M)N)_C = sum_(s in ℰ(C)) N(C,s) = |N_C|.$
-Therefore the equation $A_cal(M)N = t 𝟙$ expresses the *common-level condition*. It does not express compatibility by itself.
+Therefore the equation $A_cal(M)N = t 𝟙$ expresses the *common-level condition* which is guaranteed to exist when the intersection graph is connected (@prop:compatibility-creates-level). It does not express compatibility by itself.
 
-The compatibility equations are homogeneous. If $D$ denotes their matrix, the vector form of a discrete empirical model of level $t$ is $A_cal(M) N = t 𝟙$ and $D N = 0.$
+The compatibility equations are homogeneous. If $D$ denotes their matrix, the vector form of a _discrete empirical model of level $t$_ is $A_cal(M) N = t 𝟙$ and $D N = 0.$
 Equivalently, using the notation $delta N = 0$ for the second family of equations, the _compatible counting semigroup_ is
 $
   𝒮 := { (N,t) in NN^V times NN | A_cal(M) N = t 𝟙 " and " delta N = 0 }.
@@ -306,7 +306,7 @@ For a fixed level $t$, we write
 $
   𝒮_t := { N in NN^V | (N,t) in 𝒮 }.
 $
-
+We have that $𝒮$ is a semigroup by linearity of the constraints: if $(N,t)$ and $(N',t')$ belong to $𝒮$, then $(N+N', t+t')$ also belongs to $𝒮$.
 We can write also $𝒮_"ns"$ for non-signaling discrete model.
 If the two families of constraints are assembled into one augmented matrix, then $A_("aug") N = (t 𝟙, 0).$
 The zero part is important: compatibility equations are homogeneous, while normalization equations carry the level $t$.
@@ -315,24 +315,49 @@ The zero part is important: compatibility equations are homogeneous, while norma
 
 This discrete framework differs from the standard probabilistic one. In the usual convex setting, if $e$ and $e'$ are empirical models, then every convex combination $r e + (1-r)e'$ with $r ∈ [0,1]$ is again an empirical model. The geometry is therefore convex.
 
-In our setting, this operation is not primitive. An arbitrary real coefficient $r$ does not preserve integer counts. Instead, the natural operation is addition: if $(N,t)$ and $(N',t')$ belong to $𝒮$, then $(N,t) + (N',t') = (N+N', t+t')$
-also belongs to $𝒮$. Hence the appropriate algebraic object is not first a convex set, but an *affine semigroup*.
-The analogue of a convex decomposition is therefore a _Hilbert-basis_ decomposition. The Hilbert basis $ℋ(𝒮)$ of $𝒮$ is the finite set of irreducible elements of the semigroup. Its elements are the elementary compatible counting models that cannot be decomposed into smaller compatible counting models. Thus, instead of asking whether a model is a convex mixture of deterministic models, we ask which Hilbert generators are required to build it as an integer sum.
+In our setting, this operation is not primitive. An arbitrary real coefficient $r$ does not preserve integer counts. Instead, the natural operation is addition. Hence the appropriate algebraic object is not first a convex set, but an *affine semigroup*.
+The analogue of a convex decomposition is therefore a _Hilbert basis_ decomposition. The Hilbert basis $𝐻(𝒮)$ of $𝒮$ is the finite set of irreducible elements of the semigroup. Its elements are the elementary compatible counting models that cannot be decomposed into smaller compatible counting models. Thus, instead of asking whether a model is a convex mixture of deterministic models, we ask which Hilbert generators are required to build it as an integer sum.
 
 === Discrete noncontextuality and strong contextuality
+
+#let coltg(it) = text(fill: green, it)
+#let coltr(it) = text(fill: red, it)
+#let coltb(it) = text(fill: blue, it)
+#let coltp(it) = text(fill: purple, it)
 
 Given a global section $g ∈ ℰ(X) = ℕ^V$ (or $g : X → O$), we define its deterministic counting vector $d_g ∈ ℕ^V$ by
 $d_g (C,s) :=
 cases(
   1 "if" s = g|_C,
   0 "otherwise"
-)$.
-Thus $d_g$ places one unit of mass on exactly one event in each context: the event selected by restricting the same global assignment $g$ to that context.
+)$. Using the matrix representation of @fig:chsh-matrix, $d_g$ places one unit per context block. For $ℳ = {coltr({a,b}), coltp({a',b}) , coltg({a,b'}) , coltb({a',b'})}$ (or ${coltr((0,0)), coltp((1,0)) , coltg((0,1)) , coltb((1,1))}$ in the hypergraph representation #footnote[We identify $a, b$ with question $0$ and $a', b'$ with question $1$.]) and $g = (a |-> 0, a' |-> 1, b |-> 0, b' |-> 0)$:
 
-Equivalently, $d_g$ is the empirical model produced by the deterministic hidden state $g$. It satisfies the compatibility constraints automatically, because all its local pieces come from one and the same global assignment. In incidence form, $A_cal(M) d_g = 𝟙$ and $delta d_g = 0$; with the augmented convention, this is $A_("aug") d_g = (𝟙,0)$.
+#import "@preview/pavemat:0.2.0": pavemat
+#let pavmat = pavemat(
+  pave: (
+    (path: "SSSS", from: (0, 2)),
+    (path: "DDDD", from: (2, 0)),
+  ),
+  fills: (
+    "2-0": purple.transparentize(80%),
+    "0-0": red.transparentize(80%),
+    "2-2": blue.transparentize(80%),
+    "0-2": green.transparentize(80%),
+  ),
+)[$mat(
+  1, 0, 1, 0;
+  0, 0, 0, 0;
+  0, 0, 0, 0;
+  1, 0, 1, 0
+)$]
+$
+  d_(g) = pavmat
+$
+The $1$'s are not placed independently in each block. Because $g$ assigns a fixed outcome to each measurement, the same outcome appears in every context that contains that measurement. This creates a characteristic "square" pattern: the $1$'s form a rectangle across the four context blocks. This pattern is typical of all global sections (@fig:local-generator) and reflects the compatibility condition: a global section automatically satisfies no-signaling.
+In incidence form, $A_cal(M) d_g = 𝟙$ and $delta d_g = 0$; with the augmented convention, this is $A_("aug") d_g = (𝟙,0)$.
 
 More generally, an arbitrary _integer counting of global hidden assignments_ is an element
-$c in ∪_t 𝒟_NN^t ℰ(X)$ (not to be confused with $N_C ∈ 𝒟_ℕ^t ℰ (C)$).
+$c in 𝒟_NN^∙ ℰ(bold(X))$ (not to be confused with $N_C ∈ 𝒟_ℕ^t ℰ (C)$).
 Here $c(g)$ counts how many times the global assignment $g : X -> O$ is used. Such a global counting produces a contextual-event counting by the linear map
 $Phi(c) := sum_(g in ℰ(X)) c(g) d_g in NN^V$.
 If $|c| = t$, then $Phi(c)$ has common level $t$ and is compatible. Thus $Phi$ maps global hidden countings into the empirical semigroup $𝒮$.
@@ -352,17 +377,15 @@ $
 $
 Both sides count exactly the same global assignments: those whose restriction to the overlap $C inter D$ is $u$. Hence $delta Phi(c)=0$.
 
-A discrete empirical model $N ∈ ℕ^V$ is _noncontextual_ if it can be written as an integer sum of deterministic global sections. That is, there exist coefficients ${c_g}_(g ∈ ℰ(X)) ∈ ℕ$ such that
-$N = ∑_(g ∈ ℰ(X)) c_g d_g$.
+A discrete empirical model $N ∈ ℕ^V$ is _noncontextual_ if it can be written as an integer sum of deterministic global sections. That is, there exist coefficients ${c_g}_(g ∈ ℰ(X)) ∈ ℕ$ (or $c ∈ 𝒟_ℕ^∙ ℰ (X)$) such that
+$N = ∑_(g ∈ ℰ(X)) c_g d_g$ (or $N = Phi(c)$).
 The coefficient $c_g$ counts how many times the deterministic assignment $g$ is used in the construction of $N$.
 If such a decomposition exists, then the apparent contextual data can be explained by a classical hidden-variable mechanism: each run secretly chooses a global assignment $g$, and the context merely reveals the part $g|_C$ corresponding to the measurements actually performed.
 
 If no such decomposition exists, the model is _contextual_ in the discrete sense. It is compatible as a counting model, because it satisfies the common-level constraints, but it cannot be reconstructed as a sum of predetermined global assignments.
 
 In the notation above, this says simply that the noncontextual integer models are the image
-$
-  𝒮_("nc") := Phi(∪_t 𝒟_NN^t ℰ(X)) subset.eq 𝒮_("ns").
-$
+$bold(𝒮_("nc")) := Phi(𝒟_NN^∙ ℰ(X)) subset.eq 𝒮_("ns")$.
 This notation is useful because it separates two questions. The semigroup $𝒮_("ns")$ contains all compatible integer empirical models. The subsemigroup $𝒮_("nc")$ contains only those compatible models that can be generated from global deterministic assignments. Thus $𝒮_("nc")$ is the integer analogue of the classical or local polytope (in this sense, we can also write $𝒮_"loc"$ instead of $𝒮_"nc"$), while $𝒮_("ns")$ is the integer analogue of the compatible, or no-signaling, object.
 
 #proposition[
@@ -370,14 +393,14 @@ This notation is useful because it separates two questions. The semigroup $𝒮_
 ]
 
 #proof[
-  By definition, every element of $∪_t 𝒟_NN^t (ℰ(X))$ is a finite counting $c : ℰ(X) -> NN$. Hence
+  By definition, every element of $𝒟_NN^∙ (ℰ(X))$ is a finite counting $c : ℰ(X) -> NN$. Hence
   $Phi(c) = sum_(g in ℰ(X)) c(g) d_g$.
   Therefore every element of $𝒮_("nc")$ is an integer sum of deterministic vectors. Conversely, every integer sum of deterministic vectors is obtained by taking $c(g)$ equal to the multiplicity of $d_g$ in the sum. Thus these vectors generate $𝒮_("nc")$.
 ]
 
 In the generic case, the Hilbert basis of $𝒮_("nc")$ is obtained from these deterministic generators after removing duplicates, because two distinct global assignments may induce the same contextual vector if the measurement cover does not separate them. In the usual separated scenarios, and in particular in CHSH, the deterministic vectors are distinct and irreducible; then the Hilbert basis of $𝒮_("nc")$ is exactly $ℋ_("nc") = { (d_g,1) | g in ℰ(X) }$.
 
-Therefore contextuality is a property of a compatible counting $N in 𝒮_("ns")$: it means $N in.not 𝒮_("nc")$. The condition $N in 𝒮_("ns")$ alone is not contextuality; it is only compatibility, or no-signaling in Bell scenarios.
+Therefore contextuality is a property of a compatible counting $N in 𝒮_("ns")$: it holds when $N$ cannot be written as an integer sum of deterministic global sections, that is, when $N in.not 𝒮_("nc")$.
 
 We shall only use the support version briefly. For each context $C$, define
 $"supp"(N_C) := { s ∈ ℰ(C) ∣ N_C (s) > 0 }$.
@@ -392,7 +415,7 @@ In this report, this notion is mainly used as orientation. The main construction
 We therefore keep three levels distinct:
 
 - *compatibility* or *non-signaling*: the local count tables have a common level and agree on overlaps, equivalently $A_cal(M) N = t 𝟙$ and $delta N = 0$;
-- *noncontextuality*: the compatible model decomposes as an integer sum of deterministic global sections;
+- *noncontextuality* or *classical*: the compatible model decomposes as an integer sum of deterministic global sections;
 - *strong contextuality*: not even one deterministic global section is compatible with the support of the model.
 
 == First results: Contextuality viewed with integer polynomials
@@ -421,9 +444,9 @@ $
 The polytope $G_("NS")$ is the normalized slice $t=1$ of this cone, while the discrete models at level $t$ are the integer points in the dilated slice $t G_("NS")$.
 The local part is obtained by replacing $G_("NS")$ by the local polytope
 $L_("loc") := "conv" { d_lambda | lambda " deterministic" }.$
-The first admissible nonzero level is therefore $t=1$, thus $|N|_1 = 4$. At this level, $A_("aug") N = 𝟙$ forces $N$ to select exactly one event on every hyperedge. These exact transversals are precisely the local deterministic strategies, i.e. assignments $a = f(x)$ and $b = g(y)$. Thus the first level contains only classical generators.
+The first admissible nonzero level is therefore $t=1$, thus $|N|_1 = 4$. At this level, $A_("aug") N = 𝟙$ forces $N$ to select exactly one event on every hyperedge. These exact *transversals* (of the hypergraph $H_ℳ$) are precisely the local deterministic strategies, i.e. assignments $a = f(x)$ and $b = g(y)$. Thus the first level contains only classical generators.
 The first intrinsically non-local (or contextual) CHSH generators occur at $t=2$, thus $|N|_1 = 8$. Because a PR box has probabilities in ${0,1/2}$ and therefore is not an integer point at level $t=1$. Multiplying it by $2$ gives an integer vector $r in {0,1}^16$ with $A_("aug") r = 2 𝟙$. Hence its first discrete lift is at level $t=2$.
-Let $d_lambda in {0,1}^16$ denote the $16$ local deterministic generators, with $A_("aug") d_lambda = 𝟙$, and let $r_mu = 2 p_mu^"PR" in {0,1}^16$ denote the $8$ lifted PR generators, with $A_("aug") r_mu = 2 𝟙$. The natural candidate Hilbert basis, i.e. the set of points that generate any other points in $𝒮_"ns"$ is
+Let $d_lambda in {0,1}^16$ denote the $16$ local deterministic generators, with $A_("aug") d_lambda = 𝟙$, and let $r_mu = 2 p_mu^"PR" in {0,1}^16$ denote the $8$ lifted PR generators, with $A_("aug") r_mu = 2 𝟙$. The natural candidate Hilbert basis, i.e.~the set of points that generate any other points in $𝒮_"ns"$ is
 $
   ℋ_("ns") := { (d_lambda,1) }_(lambda=1)^16 union { (r_mu,2) }_(mu=1)^8.
 $
@@ -508,15 +531,16 @@ and
 $
   Q_("NS")(t) = 17/10080 t^8 + 17/630 t^7 + 7/36 t^6 + 37/45 t^5 + 1607/720 t^4 + 359/90 t^3 + 290/63 t^2 + 332/105 t + 63/64 + (-1)^t / 64.
 $
-Thus the number of discrete CHSH models with size $k := |N|_1$ is $0$ if $4$ does not divide $k$, and is $Q_("NS")(k/4)$ if $k = 4t$. The local polynomial has normalized volume $8! dot 1/630 = 64$, whereas the non-signaling quasi-polynomial has normalized volume $8! dot 17/10080 = 68$. Consequently, the asymptotic non-local part $Q_("NS")(t) - Q_("loc")(t)$ has leading term $1/10080 t^8$, and the asymptotic proportion of non-local integer models inside the non-signaling ones is $1\/17$.
+Thus the number of discrete CHSH models with size $k := |N|_1$ is $0$ if $4$ does not divide $k$, and is $Q_("NS")(k/4)$ if $k = 4t$. The local polynomial has normalized volume $8! dot 1/630 = 64$, whereas the non-signaling quasi-polynomial has normalized volume #footnote[The normalized volume gives a geometric measure of the polytope. It estimates the number of integer points at each level $t$, helps evaluate the difficulty of integer programming problems over the polytope, and reveals structural properties such as the presence of non-integer vertices.] $8! dot 17/10080 = 68$. Consequently, the asymptotic non-local part $Q_("NS")(t) - Q_("loc")(t)$ has leading term $1/10080 t^8$, and the asymptotic proportion of non-local integer models inside the non-signaling ones is $1\/17$.
 
 #figure(
+  //placement: top,
   {
     let data = json("../cone_data.json")
 
     cetz.canvas({
       import cetz.draw: *
-
+      scale(2)
       ortho(y: 0deg, x: -75deg, z: -45deg, {
         // Scale factors: compress x,y, keep z
         let sx = 0.2
@@ -545,7 +569,7 @@ Thus the number of discrete CHSH models with size $k := |N|_1$ is $0$ if $4$ doe
         // Z ticks (t) — no scaling
         for v in (1, 2, 3) {
           line((-0.15, 0, v), (0.15, 0, v), stroke: 0.7pt)
-          content((-1.3, 0, v), text(7pt)[$#v$])
+          content((-0.4, 0, v), text(7pt)[$#v$])
         }
 
         // Axis labels
@@ -553,7 +577,7 @@ Thus the number of discrete CHSH models with size $k := |N|_1$ is $0$ if $4$ doe
         content((lx, ly, lz), text(8pt)[$S$])
         let (lx2, ly2, lz2) = p(0, 13, 0)
         content((lx2, ly2, lz2), text(8pt)[$S'$])
-        content((0, 0, 3.5), text(8pt)[$t$])
+        content((0, 0, 3.2), text(8pt)[$t$])
 
         // Local rays (blue)
         for pt in data.local_rays {

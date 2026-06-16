@@ -1,13 +1,15 @@
 #import "../template.typ": book, corollary, definition, example, lemma, proof, proposition, remark
 #import "../prelude.typ": *
 
-= fractionnal contextuality is equivalent to half distance <chap:contextual-fraction>
+= Fractional contextuality is equivalent to half distance <chap:contextual-fraction>
 
 #v(4em)
 
-The previous sections introduced the past/future product $d^- d^+$ as a dynamic measure of tension between what has been emitted and what remains to be closed. We now show that this construction recovers, as a first coordinate, the contextual fraction of Abramsky, Barbosa, and Mansfield @Abramsky_Barbosa_Mansfield_2016. The goal is to translate their entire argument into the integer counting setting and to show that the two frameworks coincide at the level of the non-contextual part.
+The previous chapters introduced the integer counting framework and its dynamic extension. We now show that this construction recovers the contextual fraction of Abramsky, Barbosa, and Mansfield @Abramsky_Barbosa_Mansfield_2016. The goal is to translate their argument into the integer counting setting and to show that the two frameworks coincide at the level of the non-contextual part.
 
-In first part we will consider classical sheaf-theory setting with $R = ℝ_(>=0)$.
+This result was not expected. The framework was built independently, guided by the idea that integer counts preserve information lost by normalization. The fact that it recovers an existing measure of contextuality gives it additional value: it can be compared directly with the literature. Moreover, the dynamic framework adds a second layer: the completion deficit, which measures how far the non-classical residue is from being closed (it can be views as the dual of contextual fraction).
+
+In the first part, we recall the classical sheaf-theoretic setting with $R = ℝ_(>=0)$.
 
 == Overview of @Abramsky_Barbosa_Mansfield_2016
 
@@ -35,7 +37,7 @@ The key observation is that a global section in $S_e^(>= r)(X)$ can explain away
 #proposition(name: [See @Abramsky_Barbosa_Mansfield_2016[Proposition 3.2]], id: "prop:decomposition-fraction")[
   If $g in S_e^(>= r)(X)$, then $e$ admits a convex decomposition
   $e = r delta_g + (1-r) e'$
-  where $delta_g ∈ 𝒟_(ℝ_(>=0)) ℰ (X)$ is the deterministic model at $g$, i.e. $δ_g (g') = cases(1 "if" g = g', 0 "otherwise")$ and $e'$ is another empirical model.
+  where $delta_g ∈ 𝒟_(ℝ_(>=0)) ℰ (X)$ is the deterministic model at $g$, i.e.~$δ_g (g') = cases(1 "if" g = g', 0 "otherwise")$ and $e'$ is another empirical model.
 ]
 
 // #proof[
@@ -110,7 +112,7 @@ The weight $omega(c)$ is the fraction of the model explained by $c$.
 The subdistribution framework allows multiple global sections to be combined without exceeding the probability of any local event.
 The set of _consistent subdistributions_ is
 $
-  C_e (X) = { c in cal(S)cal(D)_(RR_(>=0)) (cal(E)(X)) | forall C in cal(M), forall s in cal(E)(C), e_C (s) >= c|_C (s) }.
+  C_e (X) := { c in cal(S)cal(D)_(RR_(>=0)) (cal(E)(X)) | forall C in cal(M), forall s in cal(E)(C), e_C (s) >= c|_C (s) }.
 $
 where $𝒮 𝒟_(RR_(>=0)) : sans("Set") -> sans("Set")$ is the _subdistributions functor_ #footnote[This is categorial theory notation, see @Abramsky_Barbosa_Mansfield_2016 to more details].
 The condition $e_C (s) >= c|_C (s)$ means: the mass that $c$ places on global assignments restricting to $s$ must not exceed the probability that $e$ gives to $s$.
@@ -175,7 +177,7 @@ The weight of a subcounting $z$ is $omega(z) = sum_g z(g) = bold(1)^tack.t z$.
   local event $(C, s)$, says exactly that the closed generators must #emph[fit inside] $N$:
   no local event receives more mass from the deterministic explanation than was actually observed.
   In the notation of the dynamic framework, if $eta$ is a dynamic state with closed part
-  $P_eta = M z$, then $z(g) = c_eta (g)$ counts how many times $g$ appears as a closed generator.
+  $P_eta = M z$ (the closed part is $sum_(g ∈ 𝒢) c_η (g) · g$), then $z(g) = c_eta (g)$ counts how many times $g$ appears as a closed generator.
   The condition $z in C_N (X)$ is then simply $P_eta <= N$, i.e. the closed part does not exceed
   the observation.
 ]
@@ -190,14 +192,14 @@ The weight of a subcounting $z$ is $omega(z) = sum_g z(g) = bold(1)^tack.t z$.
   By definition, $M z <= N$ componentwise, so $R = N - M z >= 0$. The matrix $M z$ is compatible because each column of $M$ is a deterministic model, and compatibility is preserved under non-negative integer combinations.
 ]
 
-This decomposition is the integer analogue of Proposition~@prop:decomposition-subdistribution. It says exactly what the dynamic framework says: an observation $N$ splits into a closed part $M z$ (stabilized, non-contextual) and an open part $R$ (still in progress, potentially contextual).
+This decomposition is the integer analogue of @prop:decomposition-subdistribution. It says exactly what the dynamic framework says: an observation $N$ splits into a closed part $M z$ (stabilized, non-contextual) and an open part $R$ (still in progress, potentially contextual).
 
-== The first coordinate recovers the contextual fraction
+== The past distance recovers the contextual fraction
 
 We now state the main theorem linking the two frameworks.
 
 #proposition(name: [The closed deficit equals the contextual fraction], id: "thm:closed-deficit-equals-CF")[
-  Let $N in NN^V$ be a compatible integer counting of level $t$, and let $e_N = N \/ t$. Define the _closed deficit_ as the minimal mass not explained by deterministic global sections:
+  Let $N in NN^V$ be a compatible integer counting of level $t$, and let $e_N = N \/ t$. Define the _closed deficit_ as the minimal mass not explained by deterministic global sections (or maximal mass explained by global section):
   $
     D^-(N) := min_(z in C_N (X)) |N - M z|_1.
   $
@@ -228,8 +230,9 @@ This theorem says: the minimal mass of a compatible counting that cannot be expl
 
 == The dynamic enrichment<subchap:dynamic-enrichemnt>
 
-The sheaf-theoretic framework stops at the contextual fraction: it measures *how much* of the model is non-classical. The dynamic framework adds a second layer: it measures *how far* the non-classical residue is from being closed. For this reason, the distances should first be defined for a dynamic state itself, and only then minimized over the dynamic explanations of a fixed observation.
+The sheaf-theoretic framework stops at the contextual fraction: it measures *how much* of the model is non-classical. The dynamic framework adds a second layer: it measures *how far* the non-classical residue is from being closed. For this reason, the distances are first defined for a dynamic state itself, and only then minimized over the dynamic explanations of a fixed observation.
 
+This also provides a natural visualization: each dynamic state lies on a trajectory between its closed past and its completed future, and the distances measure how far the state has progressed along this trajectory.
 #definition(name: [Past and future distances], id: "def:past-future-distances")[
   Let $cal(G)$ be a family of generators, and let $eta = (c_eta,O_eta)$ be a dynamic state. Its closed part is
   $P_eta := sum_(g in cal(G)) c_eta (g) g$.
@@ -247,6 +250,39 @@ The sheaf-theoretic framework stops at the contextual fraction: it measures *how
   Thus $d^-_eta$ is the emitted mass carried by open generators, while $d^+_eta$ is the residual mass still needed to close them.
 ]
 
+#import "@preview/cetz:0.5.2"
+
+#figure(
+  cetz.canvas({
+    import cetz.draw: *
+    let cblue(it) = text(fill: blue, it)
+    let cred(it) = text(fill: red, it)
+
+    content((3, 0), $N_η$, name: "N")
+    polygon((0, -3), 9, name: "past", stroke: (blue))
+    circle((0, -3), radius: 0.1, fill: black, name: "P")
+    circle((6.5, -3.2), radius: 0.1, fill: black, name: "F")
+    content("P.north", $P_η$, anchor: "south")
+    content("F.north", $F_η$, anchor: "south")
+
+    set-style(polygon: (radius: 2))
+    polygon((6, -3), 12, name: "futur", stroke: red)
+    content("past.north", $cblue({P_η}_η)$, anchor: "south")
+    content("futur.north", $cred({F_η}_η)$, anchor: "south")
+
+    line("N", "P", name: "line1")
+    line("N", "F", name: "line2")
+    content("line1", angle: "line1.start", anchor: "south", [$d_η^-$])
+    content("line2", angle: "line2.end", anchor: "south", [$d_η^+$])
+  }),
+  //placement: top,
+  caption: [This represent the past and future distance for a fixed dynamic states $η$.],
+)<fig:trajectory>
+
+#v(1em)
+
+We can see in @fig:trajectory that we have one past and future distance by dynamic states $η ∈ ℋ_𝒢 (N)$.
+
 If $eta$ explains the observed counting $N$, this means $N_eta = N$. In that case the same quantities may be written as $d^-_eta = |N - P_eta|_1$ and $d^+_eta = |F_eta - N|_1$, but $N$ is not part of the intrinsic definition of the distances.
 
 For a fixed observed counting $N$, let $cal(H)_cal(G)(N) := {eta | N_eta = N}$ be the set of dynamic explanations of $N$ over $cal(G)$. We define
@@ -257,7 +293,7 @@ $min_(z in C_N (X)) |N - M z|_1$.
 For the future distance we have two possible choice, either we fixed $η$ to me the one realize the minimum for $D^-(N)$ and we define the $D^+ (N) := d_η^+$, or we minimize overall explanations of $N$ without constraint. The second choice would be more natural if we were only interested in the future distance as a measure of how far $N$ is from being closed. But our goal is to enrich the contextual fraction, which is already captured by the past distance. We want to measure how far the *residue* left by the optimal past choice is from being closed.
 The reason is that $D^-(N)$ already selects the largest closed, non-contextual part of $N$. The relevant future cost is therefore the cost of completing the residue left by such an optimal past choice. We define the residual distance
 $
-  D^(arrow.loop)(N) := min { d^+_eta | eta in cal(H)_cal(G)(N) and d^-_eta = D^-(N) }.
+  bold(D^(arrow.loop)(N)) := min { d^+_eta | eta in cal(H)_cal(G)(N) and d^-_eta = D^-(N) }.
 $
 
 #definition(name: "Tight distances", id: "def:tight-distances")[
@@ -295,8 +331,9 @@ $
   $
 ]
 
-#import "@preview/cetz:0.5.2"
+The contextual completion deficit can be visualized as shown in @fig:trajectory-completion.
 
+#import "@preview/cetz:0.5.2"
 #figure(
   cetz.canvas({
     import cetz.draw: *
@@ -305,8 +342,12 @@ $
 
     content((3, 0), $N$, name: "N")
     polygon((0, -3), 9, name: "past", stroke: (blue))
-    circle((6, -3), radius: 2, name: "futur", stroke: red)
-    polygon((6, -3), 4, name: "subfutur")
+
+    set-style(polygon: (radius: 2))
+    polygon((6, -3), 12, name: "futur", stroke: red)
+
+    circle((6, -3), radius: (1.2, 0.7), name: "subfutur")
+
     content("past.north", $cblue({P_η}_η)$, anchor: "south")
     content("futur.north", $cred({F_η}_η)$, anchor: "south")
 
@@ -317,8 +358,8 @@ $
     content("subfutur", $D^(arrow.loop) (N)$)
   }),
   //placement: top,
-  caption: [Representation of the integer contextual deficit and the contextual completion deficit. The polygon ${P_η}$ and the circle ${F_η}$ represent the set of all possible past $P_η$ and completion $F_η$ such that $η ∈ ℋ_𝒢 (N)$.],
-)<fig:repres>
+  caption: [Representation of the integer contextual deficit and the contextual completion deficit. The polygon ${P_η}$ and ${F_η}$ represent the set of all possible past $P_η$ and completion $F_η$ such that $η ∈ ℋ_𝒢 (N)$.],
+)<fig:trajectory-completion>
 
 == Summary of the correspondence
 

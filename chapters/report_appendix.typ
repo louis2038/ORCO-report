@@ -10,8 +10,7 @@ This internship was unusual because the object studied in this report was not th
 
 === The initial subject and the state of the art <app:initial-state-of-art>
 
-#emph[This section is technical and can be skipped (go to @chap:reading-brought) on a first reading. It describes the initial direction of the internship, which was later abandoned in favour of the dynamic framework.]
-
+#emph[This section is technical and can be skipped (go to @chap:reading-brought) on a first reading. It describes the initial investigations done during  the internship]
 #let mipstar = $"MIP"^*$
 #let mipstarzero = $"MIP"_0^*$
 #let RE = $"RE"$
@@ -70,7 +69,7 @@ The first month was mainly devoted to the state of the art described above. The 
   $(a_(i-1) + a_i + a_(i+1))(a_(j-1) + a_j + a_(j+1)) = 1$
   whenever $(x_(i-1), x_i, x_(i+1)) = (0,1,0)$, $(x_(j-1), x_j, x_(j+1)) = (0,1,0)$, and $|i - j mod 5| >= 2$. If $x_i = 1$ for all $i$, then the condition is
   $sum_i a_i = 1.$].
-I also read about tensor networks, graph-state methods, the zero-gap problem, nonlocal games, and graph-theoretic encodings of quantum constraints. At the same time, I had to think about the philosophical part of the project: what it means for an observation to be only a trace of a hidden process, and how a process can be constrained without being deterministic.
+I also read about tensor networks, graph-state methods, the zero-gap problem, nonlocal games, and graph-theoretic encodings of quantum constraints. At the same time, I was thinking about the philosophical part of the project: what it means for an observation to be only a trace of a hidden process, and how a process can be constrained without being deterministic.
 
 The turning point was the decision to describe observations as events emitted by elementary generators. A generator can be closed, open, or partially emitted. This led to the language of traces, count, automata, Petri nets, and dynamic states. From this point on, the project became more stable. The first concrete results were the integer and Ehrhart-type viewpoint on contextuality in @chap:technical-preliminaries, followed by the construction of dynamic contextual automata in @chap:dynamic-contextual-automata.
 
@@ -354,7 +353,7 @@ $
 where $r_t := (4 w^*(t) - 2t) \/ t$ is the rational approximation to $sqrt(2)$ at level $t$.
 
 First, verify that $r_t$ approximates $sqrt(2)$.
-From the definition of $T_"iso"(t)$:
+From the definition of $T_"iso" (t)$:
 $
   T_"iso" (t) = (8 w^*(t) - 4t) / t = (4(2 w^*(t) - t)) / t.
 $

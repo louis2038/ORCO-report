@@ -3,7 +3,7 @@
 
 = Exploring dynamic constraints for quantum non-locality <chap:dynamic-condition-nonlocality>
 
-This chapter explores how the dynamic framework developed in the previous chapters can be used to investigate quantum correlations. We then explain how this objective can be approached through the guiding ideas of interruption, discrete reconstruction, and dynamic explanation. The investigation starts from simple scalar constraints, tests them on concrete examples, and shows how their limitations lead to finer objects like the interruption profile.
+This chapter explores how the dynamic framework developed in the previous chapters can be used to investigate quantum correlations. We then explain how this objective can be approached through the guiding ideas of interruption, discrete reconstruction, and dynamic explanation. The investigation starts from simple scalar constraints, tests them on concrete examples, and shows how their limitations lead to finer objects like the interruption profile. The results of this section are still a work in progress.
 
 == Objective: a dynamic theory for the finite quantum set
 
@@ -58,15 +58,14 @@ In curve fitting, one usually optimizes a fixed criterion on the data collected 
 
 To formalize this, let $alpha >= 1$ be a parameter that measures how often the observer expects to be wrong. We interpret $alpha$ as the frequency of revision, or equivalently as the rate at which the observer is ready to mistrust the current extraction of the past. The natural relaxed set is then
 $
-  cal(D)^(arrow.loop)_alpha (N)
+  bold(cal(D)^(arrow.loop)_alpha (N))
   :=
   min { d^+_eta | eta in cal(H)_cal(G)(N) " and " d^-_eta <= D^-(N) + ceil((|N|_1)/alpha) }.
 $
 
-The case $alpha = 1$ corresponds to the tight setting: only the explanations whose past deficit realizes the contextual fraction are kept. As $alpha$ increases, the admissible past deficit grows, but only by a controlled amount compared with the total size of the observation. This is a way to make the theory explore alternative explanations without abandoning the static analysis entirely.
+The case $alpha = 1$ corresponds to the tight setting: only the explanations whose past deficit realizes the contextual fraction are kept. As $alpha$ increases, the admissible past deficit grows, but only by a controlled amount compared with the total size of the observation. This is a way to make the theory explore alternative explanations without abandoning the static analysis entirely like we can see in @fig:trajectory-relaxed.
 
 #import "@preview/cetz:0.5.2"
-
 #figure(
   cetz.canvas({
     import cetz.draw: *
@@ -75,25 +74,34 @@ The case $alpha = 1$ corresponds to the tight setting: only the explanations who
 
     content((3, 0), $N$, name: "N")
     polygon((0, -3), 9, name: "past", stroke: (blue))
-    circle((6, -3), radius: 2, name: "futur", stroke: red)
-    set-style(polygon: (radius: 1.70))
-    polygon((6, -3), 4, name: "subfutur")
+
+    set-style(polygon: (radius: 2))
+    polygon((6, -3), 12, name: "futur", stroke: red)
+
+    {
+      rotate(-45deg)
+      circle("past.north-east", radius: (0.2, 0.5), anchor: 0, name: "subpast")
+      rotate(45deg)
+    }
+
+    circle((6, -3), radius: (0.9, 1.6), name: "subfutur")
+
     content("past.north", $cblue({P_η}_η)$, anchor: "south")
     content("futur.north", $cred({F_η}_η)$, anchor: "south")
 
-    line("N", "past.center", name: "line1", mark: (end: ">>"))
-    line("past.center", "subfutur", name: "line2", mark: (end: ">>"))
-    // content("line1", angle: "line1.start", anchor: "south", [$$])
+    line("N", "past", name: "line1", mark: (end: ">>"))
+    line("past.north-east", "subfutur.north", name: "line2")
+    line("subpast.south", "subfutur.south", name: "line3")
 
-    content("subfutur", $D^(arrow.loop)_α (N)$)
+    content("subfutur", $D_α^(arrow.loop) (N)$)
   }),
   //placement: top,
-  caption: [Same as @fig:repres, but with a relaxed past distance. The set of possible completions is larger.],
-)
+  caption: [Same as @fig:trajectory-completion, but with a relaxed past distance. The set of possible completions is larger.],
+)<fig:trajectory-relaxed>
 
 == Testing variations of the product constraint
 
-The first idea was to control the product between a past distance and a future distance. Several variations were tried, and this section reports what they revealed.
+Several variations were tried, and this section reports what they revealed.
 
 For a single observation $N$, a direct idea is to control the product between a past distance and a future distance. This gives several possible constraints. The strongest version asks every explanation to satisfy the bound
 $d_η^- d_η^+ <= A
@@ -102,13 +110,12 @@ A weaker version only asks that at least one explanation realizes a small produc
 $min_(η in cal(H)_𝒢 (N)) d_η^- d_η^+ <= A$.
 Finally, one can use the global distances extracted from the observation:
 $D^-(N) D^(arrow.loop)(N) <= A$.
-The relaxed variants replace $D^(arrow.loop) (N)$ by $D^(arrow.loop)_α (N)$. The parameter $α$ controls how much the observer is allowed to mistrust the tight past extraction. The dual variants exchange the roles of past and future.
-
-The preliminary computations show that the simple product evolves in a way that is close to fractional contextuality. This is an informative result: the product detects non-classicality, but it does not isolate the quantum region. This observation points toward finer objects, such as the interruption profile, that can capture more structure than a single scalar distance.
-
+The relaxed variants replace $D^(arrow.loop) (N)$ by $D^(arrow.loop)_α (N)$. The dual variants exchange the roles of past and future.
 For a sequence of observations $N_(1:k)$, the same idea can be lifted to the dynamic setting. Instead of testing one counting, we test the worst step of the trajectory. A typical dynamic constraint has the form
 $max_i D^-(N_i) D^(arrow.loop)_α (N_i) <= A$.
 This condition says that the trajectory is accepted only if no observed step accumulates too much past/future tension. More refined versions can optimize over the whole sequence of explanations $(η_1,dots,η_k)$, but the principle is the same: the dynamic constraint controls the evolution of the explanatory debt along the experiment.
+
+Preliminary computations suggest that all these constraints are equivalent and behave like fractional contextuality: they detect non-classicality, but do not isolate the quantum region. This motivates the search for finer objects, such as the interruption profile, that can capture more structure than a single scalar distance.
 
 == Interruption profiles: from scalar distances to trajectory
 
@@ -154,7 +161,10 @@ A small two-coordinate calculation is given in @ex:interruption-profile-two-coor
 
 The interruption profile $k_η$ is the raw per-coordinate information. It tells us, for each active coordinate, at which discrete time the interruption has occurred. Crucially, it does not compress this information into a scalar. Two explanations $η$ and $η'$ can have the same values of $d_η^-$ and $d_η^+$ while having very different profiles $k_η$ and $k_η'$. The profile is therefore a genuinely dynamic object: it records #emph[how] the interruption has occurred, not only #emph[how much] has been emitted and how much remains.
 
-We can views the _interruption profile_ with a histogram $"Hist"(k)= \#{v ∈ V_η^"act"| k_η (v) = k }$ (see @fig:histo) that views the repartition of the profile. This tells us how the interruption $N$ is interpreted in the past/future trajectory.
+A first way to visualize this information is to count how many coordinates have the same interruption time. We define the histogram
+$"Hist"_η (k) := \#{v ∈ V_η^"act" | k_η (v) = k}$.
+It gives a coarse picture of the profile: instead of remembering which coordinate has which time, it records how the active coordinates are distributed along the internal trajectory from the closed past $P_η$ to the completed future $F_η$.
+
 
 #import "@preview/lilaq:0.6.0" as lq
 #figure(
@@ -198,7 +208,15 @@ We can views the _interruption profile_ with a histogram $"Hist"(k)= \#{v ∈ V_
 )<fig:histo>
 
 #v(1em)
-The profile $k_η$ also carries geometric information: two coordinates $v$ and $v'$ can be constrained independently by the theory. For example, a constraint can require that two coupled CHSH coordinates have the same interruption time, or that one coordinate is always emitted before another. Such local synchronization conditions cannot be expressed by a single scalar.
+
+The histogram suggests an analogy with the way a statistical profile appears in quantum mechanics. In a quantum experiment, one detection is point-like. Only after many repeated detections does a spatial distribution appear, usually described by $|ψ(x,t)|^2$. Here, each active coordinate gives one discrete interruption time $k_η (v)$, and the histogram reveals the global distribution of these times.
+
+The analogy is only partial. The histogram $"Hist"_η (k)$ is not a wave function: it has no phase, no complex amplitude, and no interference structure. It is closer to a discrete density of interruption times. The difference is also important: in ordinary wave mechanics, the horizontal axis is physical space, while here the horizontal axis is the internal time between $P_η$ and $F_η$. In this sense, $"Hist"_η$ gives a density-like view of the interruption, but in the temporal direction of the dynamic explanation rather than in physical space.
+
+The full profile $k_η$ still contains more information than the histogram. The histogram only counts how many coordinates occur at each interruption time, whereas the profile remembers #emph[which] coordinate has #emph[which] time. This coordinate-wise information can be used to impose constraints with a physical interpretation. For example, one may require two coupled CHSH coordinates to be synchronized, require one coordinate to be emitted before another, or bound the delay between two coordinates by a condition such as $|k_η (v)-k_η (v')| <= B$. More generally, a causal relation $v -> v'$ could be represented by an ordering constraint $k_η (v) <= k_η (v')$.
+
+These constraints do not only measure how much mass has been emitted or remains to be completed. They constrain the internal organization of the process. This is why they cannot be expressed by a single scalar such as $d_η^-$, $d_η^+$, or their product. At this exploratory stage, the interruption profile therefore appears as a more expressive object: it provides a place where synchronization, ordering, bounded delay, and causal-type constraints can be tested directly.
+
 // === Discrete moments of the profile
 
 // When a single integer summary is needed, one can extract integer moments from the profile without normalizing or dividing. Define the following quantities:
@@ -223,27 +241,27 @@ The profile $k_η$ also carries geometric information: two coordinates $v$ and $
 // - $K_η$ is the #emph[raw temporal sum], which ignores the weights $h_η (v)$;
 // - $Q_η$ is the #emph[raw second moment], which measures how spread out the interruption times are without weighting.
 
-=== Constraints on the interruption profile
+// === Constraints on the interruption profile
 
-The profile $k_η$ can be used directly in the admissibility constraint $ξ$. Here are some examples of what it can express.
+// The profile $k_η$ can be used directly in the admissibility constraint $ξ$. Here are some examples of what it can express.
 
-*Full synchronization.* All active coordinates have the same interruption time:
-$
-  k_η (v) = k_η (v') quad forall v,v' in V_η^"act".
-$
-In that case, $N_η$ is genuinely on the straight line from $P_η$ to $F_η$: on the active coordinates, $N_η = A_η (k_0 \/ Δ_η)$ for a common $k_0$.
+// *Full synchronization.* All active coordinates have the same interruption time:
+// $
+//   k_η (v) = k_η (v') quad forall v,v' in V_η^"act".
+// $
+// In that case, $N_η$ is genuinely on the straight line from $P_η$ to $F_η$: on the active coordinates, $N_η = A_η (k_0 \/ Δ_η)$ for a common $k_0$.
 
-*Local ordering.* Some pairs of coordinates must be emitted in a fixed order:
-$
-  k_η (v) <= k_η (v') quad forall (v,v') in E,
-$
-where $E subset.eq V_η^"act" times V_η^"act"$ is a set of ordered pairs. This captures the idea that certain events must occur before others.
+// *Local ordering.* Some pairs of coordinates must be emitted in a fixed order:
+// $
+//   k_η (v) <= k_η (v') quad forall (v,v') in E,
+// $
+// where $E subset.eq V_η^"act" times V_η^"act"$ is a set of ordered pairs. This captures the idea that certain events must occur before others.
 
-*Maximal spread.* The interruption times are bounded:
-$
-  max_(v in V_η^"act") k_η (v) - min_(v in V_η^"act") k_η (v) <= B,
-$
-for a given integer $B$. This prevents the interruption from being too chaotic.
+// *Maximal spread.* The interruption times are bounded:
+// $
+//   max_(v in V_η^"act") k_η (v) - min_(v in V_η^"act") k_η (v) <= B,
+// $
+// for a given integer $B$. This prevents the interruption from being too chaotic.
 
 // *Moment bounds.* One can bound the integer moments directly:
 // $
@@ -255,11 +273,11 @@ for a given integer $B$. This prevents the interruption from being too chaotic.
 // $
 // for given integer thresholds. The last expression is the #emph[weighted dispersion residual]: by the Cauchy--Schwarz inequality, $H_η R_η - S_η^2 >= 0$ always holds. It equals zero if and only if all $k_η (v)$ with $h_η (v) > 0$ are equal, and it grows when the interruption times become more heterogeneous.
 
-=== Why the profile is not just fractional contextuality
+// === The profile captures more than fractional contextuality
 
-In the sheaf-theoretic framework, the contextual fraction compresses the whole empirical model into a single number between $0$ and $1$. The scalar distances $d_η^-$ and $d_η^+$ do the same for the dynamic state: they record the total emitted and residual mass, but forget where these masses are located and in what order they were emitted.
+// In the sheaf-theoretic framework, the contextual fraction compresses the whole empirical model into a single number between $0$ and $1$. The scalar distances $d_η^-$ and $d_η^+$ do the same for the dynamic state: they record the total emitted and residual mass, but forget where these masses are located and in what order they were emitted.
 
-The interruption profile $k_η$ breaks this compression. It remembers, for each coordinate, its temporal position in the process. The constraints above can therefore express synchronization conditions, emission orderings, and dispersion bounds that are invisible to any scalar measure. The profile is still an abstraction: it does not remember which open copy of which generator produced each coordinate. But it keeps the coordinate-wise temporal structure that the product $d_η^- d_η^+$ erases. This is the extra information that makes the theory genuinely dynamic.
+// The interruption profile $k_η$ breaks this compression. It remembers, for each coordinate, its temporal position in the process. The constraints above can therefore express synchronization conditions, emission orderings, and dispersion bounds that are invisible to any scalar measure. The profile is still an abstraction: it does not remember which open copy of which generator produced each coordinate. But it keeps the coordinate-wise temporal structure that the product $d_η^- d_η^+$ erases. This is the extra information that makes the theory genuinely dynamic.
 
 == Experimental observations
 
@@ -294,5 +312,5 @@ The variable $m_(g,R)^i$ counts how many copies of the generator $g$ are used at
 The choice of CP is also justified by the nature of the constraints collected in $ξ$. These include product constraints of the form $D^-(N) · D^+(N)$. Such bilinear constraints are naturally expressed in a CP framework, whereas a pure integer linear solver would require additional reformulation.
 
 #remark[
-  This problem is equivalent to a *multi-commodity flow* problem. The commodities are the $k$ counting vectors $N_1 , … , N_k$ to be decomposed. Each commodity $i$ must be transported through the network of generators: the source is the target vector $N_i$, and the admissible paths are sequences of generators $g ∈ 𝒢$ selected with residual $R$ at each step. The variables $m_(g,R)^i$ record how many units of commodity $i$ are routed through the node $(g,R)$, while the flow variables $f_(R -> S)^(g,i)$ track how residual capacity evolves from $R$ to $S$ between consecutive levels. The conservation constraints ensure that the total inflow into each node matches the outflow, and the coupling constraint $sum_(S : S >= R) f_(R -> S)^(g,i) ≤ m_(g,R)^(i+1)$ prevents a commodity from consuming more residual capacity than is available at the next level.
+  This formulation can be seen as a *multi-commodity flow* problem. The commodities are the $k$ counting vectors $N_1 , … , N_k$ to be decomposed. Each commodity $i$ must be transported through the network of generators: the source is the target vector $N_i$, and the admissible paths are sequences of generators $g ∈ 𝒢$ selected with residual $R$ at each step. The variables $m_(g,R)^i$ record how many units of commodity $i$ are routed through the node $(g,R)$, while the flow variables $f_(R -> S)^(g,i)$ track how residual capacity evolves from $R$ to $S$ between consecutive levels. The conservation constraints ensure that the total inflow into each node matches the outflow, and the coupling constraint $sum_(S : S >= R) f_(R -> S)^(g,i) ≤ m_(g,R)^(i+1)$ prevents a commodity from consuming more residual capacity than is available at the next level.
 ]

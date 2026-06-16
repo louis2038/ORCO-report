@@ -5,18 +5,17 @@
 = Quantum viewed by dynamic contextual automata <chap:quantum-dynamic-automata>
 
 
-The previous sections established the static and dynamic tools: generators, dynamic explanations, and the admissibility constraint $ξ$. This chapter applies the framework to the $(2,2,2)$ Bell scenario. The goal is to define a finite-level Tsirelson bound $T(t)$: the best quantum-realizable integer CHSH score at level $t$. This makes explicit an arithmetic point that is invisible in the probabilistic setting: every finite level gives a rational score, and the Tsirelson value $2 sqrt(2)$ appears only as an asymptotic limit. Crucially, this operational bound can be approximated using the same tools as the standard approach, in particular the NPA hierarchy. The integer framework therefore does not replace the standard quantum relaxations; it reuses them while keeping the finite-level structure that normalization erases.
-
+The previous sections established the static and dynamic tools: generators, dynamic explanations, and the admissibility constraint $ξ$. This chapter applies the framework to the $(2,2,2)$ Bell scenario. The goal is to define a finite-level Tsirelson bound $T(t)$: the best quantum-realizable integer CHSH score at level $t$. This makes explicit an arithmetic point that is invisible in the probabilistic setting: every finite level gives a rational score, and the Tsirelson value $2 sqrt(2)$ appears only as an asymptotic limit. Crucially, this operational bound can be approximated using the same tools as the standard approach, in particular the NPA hierarchy. The integer framework therefore does not replace the standard quantum relaxations; it reuses them while keeping the finite-level structure that normalization erases. This chapter does not aim to prove new theoretical results. It illustrates how known techniques from quantum information theory, in particular the NPA hierarchy, can be applied to the specific setting required by our formalization: recovering finite-level integer bounds from an irrational asymptotic value.
 == The Tsirelson bound at level $t$
 
 We have seen that a discrete empirical model of level $t$ is a compatible integer counting $N in NN^V$ with $A_cal(M) N = t 𝟙$ and $delta N = 0$.
 In the CHSH scenario, the _integer correlator_ for context $(x,y)$ is
 $E(x,y) := N(0,0|x,y) + N(1,1|x,y) - N(0,1|x,y) - N(1,0|x,y)$.
-The _CHSH score_ of a counting $N$ is
+The _CHSH score_ of a counts $N$ is
 $ S(N) := E(0,0) + E(0,1) + E(1,0) - E(1,1). $
 Each correlator $E(x,y)$ is an integer bounded by $t$, so $S(N)$ is an integer bounded by $4t$. The normalized score $S(N)\/t$ recovers the usual probabilistic CHSH expression.
 
-A counting $N$ lies on the _isotropic line_#footnote[One could also say "uniform", since the winning count is the same across all contexts. We prefer "isotropic" to emphasize that the construction is not tied to a specific number of contexts or to the CHSH scenario, and can be extended to more general settings.] if all four contexts share the same winning count: there exists $w in NN$ such that $N(0,0|x,y) + N(1,1|x,y) = w$ for $(x,y) in {(0,0),(0,1),(1,0)}$, and $N(0,1|1,1) + N(1,0|1,1) = w$. Equivalently, the correlators satisfy $E(0,0) = E(0,1) = E(1,0) = -E(1,1) =: c$. The CHSH score is then $S(N)\/t = (4c)/t$. At the quantum optimum, $w = floor(t p^*)$ with $p^* = (2+sqrt(2))/4$, giving
+A counts $N$ lies on the _isotropic line_#footnote[One could also say "uniform", since the winning count is the same across all contexts. We prefer "isotropic" to emphasize that the construction is not tied to a specific number of contexts or to the CHSH scenario, and can be extended to more general settings.] if all four contexts share the same winning count: there exists $w in NN$ such that $N(0,0|x,y) + N(1,1|x,y) = w$ for $(x,y) in {(0,0),(0,1),(1,0)}$, and $N(0,1|1,1) + N(1,0|1,1) = w$. Equivalently, the correlators satisfy $E(0,0) = E(0,1) = E(1,0) = -E(1,1) =: c$. The CHSH score is then $S(N)\/t = (4c)/t$. At the quantum optimum, $w = floor(t p^*)$ with $p^* = (2+sqrt(2))/4$, giving
 
 $
   T_"iso" (t) := (4(2 floor(t p^*) - t)) / t.
@@ -76,7 +75,7 @@ This theorem has a striking interpretation: the $sqrt(2)$ of Tsirelson is not a 
 
 == Approximation via the NPA hierarchy
 
-Computing $T(t)$ exactly is a hard combinatorial problem. One would need to check, for each integer counting $N$, whether its normalization $N/t$ can be realized by a genuine quantum strategy. This requires finding a Hilbert space, a quantum state, and measurement operators satisfying all the rules of quantum mechanics, which is not directly tractable.
+Computing $T(t)$ exactly is a hard combinatorial problem. One would need to check, for each integer counting $N$, whether its normalization $N\/t$ can be realized by a genuine quantum strategy. This requires finding a Hilbert space, a quantum state, and measurement operators satisfying all the rules of quantum mechanics, which is not directly tractable.
 
 The NPA hierarchy @Navascues_Pironio_Acin_2008 provides a systematic way to approximate the quantum set from the outside. The idea is as follows. Instead of searching explicitly for the quantum state and operators, one constructs a matrix $Gamma$ whose entries represent correlations between operators. This matrix must satisfy a key constraint: it must be positive semidefinite, $Gamma succ.eq 0$. This condition forces the correlations to be consistent with a genuine quantum system. The matrix $Gamma$ must also satisfy linear constraints that encode the algebraic rules of quantum measurements: projectors, exclusivity of outcomes, normalization, and commutativity between distant parties.
 
@@ -123,7 +122,7 @@ The both direct and NPA approch squeeze the Tsirelson bound: $T(t) <= T_k (t)$, 
 
 The NPA hierarchy approximates the quantum set $cal(Q)$ from the outside. It therefore gives upper bounds on $T(t)$. Lower bounds require explicit quantum strategies whose normalized countings have high CHSH scores at level $t$. Since such strategies are hard to find by direct enumeration, one can use the #emph[see-saw method], also called alternating optimization @Abbott_Mhalla_Pocreau_2024.
 
-The idea is to relax the optimization over quantum strategies as a sequence of semidefinite programs. Fix a dimension $d$ for the Hilbert space. Starting from a randomly chosen quantum state $rho in cal(H)_A times.circle cal(H)_B$ and measurement operators ${A_x^a}, {B_y^b}$, the algorithm alternates between three steps:
+The idea is to relax the optimization over quantum strategies as a sequence of semidefinite programs. Fix a dimension $d$ for the Hilbert space. Starting from a randomly chosen quantum state $rho in cal(H)_A times.o cal(H)_B$ and measurement operators ${A_x^a}, {B_y^b}$, the algorithm alternates between three steps:
 
 + *Fix the state, optimize the measurements.* For each party separately, solve an SDP to find the measurement operators that maximize the CHSH score while keeping $rho$ and the other party's measurements fixed.
 + *Fix the measurements, optimize the state.* Solve an SDP to find the state $rho$ that maximizes the CHSH score given the current measurements.

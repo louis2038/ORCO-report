@@ -20,8 +20,6 @@
 
 #include "abstract.typ"
 
-#outline(title: "Review", target: figure.where(kind: "todo"))
-
 #outline(depth: 2)
 
 // = Context and Motivation
@@ -44,6 +42,6 @@
 
 #include "chapters/report_conclusion.typ"
 
-#include "chapters/report_appendix.typ"
-
 #bibliography("refs.bib")
+
+#include "chapters/report_appendix.typ"
