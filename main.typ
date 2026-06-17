@@ -18,6 +18,16 @@
 // ====================================== //
 
 
+#align(center, text(size: 1.8em, weight: "bold", smallcaps[Acknowledgements]))
+
+#v(3em)
+
+#align(center, text(size: 1.2em)[
+  _I would like to thank Mehdi Mhalla for his constant presence, his trust, and the many discussions that shaped this work. This internship was an intense and deeply enriching experience. It allowed me to discover research in a very direct way: starting almost from a blank page, trying to understand an intuition, struggling with it, and slowly seeing a direction, a language, and a form of understanding emerge._
+])
+
+#pagebreak()
+
 #include "abstract.typ"
 
 #outline(depth: 2)
